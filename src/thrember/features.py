@@ -25,7 +25,7 @@ import numpy as np
 import pefile
 from sklearn.feature_extraction import FeatureHasher
 import signify
-from signify.authenticode import SignedPEFile
+from signify.authenticode.signed_file import SignedPEFile
 from datetime import datetime
 
 
@@ -932,7 +932,7 @@ class AuthenticodeSignature(FeatureType):
         }
         try:
             signed_pe = SignedPEFile(io.BytesIO(bytez))
-            for signed_data in signed_pe.iter_signed_datas():
+            for signed_data in signed_pe.iter_embedded_signatures():
                 raw_obj["num_certs"] += 1
                 if signed_data.signer_info.program_name is None:
                     raw_obj["empty_program_name"] = 1

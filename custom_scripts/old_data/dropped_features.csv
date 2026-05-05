@@ -1,0 +1,258 @@
+rank,index,block,field,hashed,mi_score
+1,2560,pefilewarnings,"pewarn:...PointerToRawData should normally be a multiple of FileAlignment, this might imply the file is trying to confuse tools which parse this incorrectly.",False,0.0
+2,3,general,start_bytes[0],False,0.0
+3,4,general,start_bytes[1],False,0.0
+4,2536,pefilewarnings,pewarn:No parsing available for IMAGE_DYNAMIC_RELOCATION_TABLE...,False,0.0
+5,2540,pefilewarnings,pewarn:Resource size...,False,0.0
+6,2539,pefilewarnings,pewarn:Relocating image but PE does not have (or pefile cannot parse) a DIRECTORY_ENTRY_BASERELOC...,False,0.0
+7,2542,pefilewarnings,"pewarn:Rich Header is not in Microsoft format, possibly malformed...",False,0.0
+8,2515,pefilewarnings,"pewarn:Failed rendering unicode string, attempting to read from RVA 0x...",False,0.0
+9,2545,pefilewarnings,pewarn:RVA of IMAGE_BOUND_IMPORT_DESCRIPTOR points...,False,0.0
+10,2485,pefilewarnings,pewarn:Don't know how to parse LOAD_CONFIG information for non-PE32...,False,0.0
+11,1101,imports,imports.libraries_hashed[105],True,0.0
+12,1088,imports,imports.libraries_hashed[92],True,0.0
+13,2517,pefilewarnings,pewarn:FunctionEntry of UNWIND_INFO at...,False,0.0
+14,2548,pefilewarnings,pewarn:Suspicious NumberOfRvaAndSizes in the Optional Header...,False,0.0
+15,2519,pefilewarnings,pewarn:If FileAlignment > 0x200 it should be a power of 2. Value...,False,0.0
+16,2518,pefilewarnings,pewarn:If SectionAlignment...,False,0.0
+17,2491,pefilewarnings,pewarn:Error parsing the Delay import directory...,False,0.0
+18,2496,pefilewarnings,pewarn:Error parsing the import table. AddressOfData overlaps with THUNK_DATA for THUNK at RVA...,False,0.0
+19,2521,pefilewarnings,pewarn:Invalid bdd dynamic relocation...,False,0.0
+20,2522,pefilewarnings,pewarn:Invalid bdd info...,False,0.0
+21,2523,pefilewarnings,pewarn:Invalid debug information...,False,0.0
+22,2487,pefilewarnings,pewarn:Error parsing a resource directory data entry...,False,0.0
+23,2489,pefilewarnings,pewarn:Error parsing resource of type RT_STRING at...,False,0.0
+24,2490,pefilewarnings,pewarn:Error parsing StringFileInfo/VarFileInfo struct...,False,0.0
+25,1074,imports,imports.libraries_hashed[78],True,0.0
+26,1073,imports,imports.libraries_hashed[77],True,0.0
+27,2475,authenticode,auth.no_countersigner,False,0.0
+28,2481,pefilewarnings,pewarn:Bad RVA in relocation data...,False,0.0
+29,2422,datadirectories,datadir.GLOBALPTR.virtual_address,False,0.0
+30,2421,datadirectories,datadir.GLOBALPTR.size,False,0.0
+31,1097,imports,imports.libraries_hashed[101],True,0.0
+32,1077,imports,imports.libraries_hashed[81],True,0.0
+33,1154,imports,imports.libraries_hashed[158],True,0.0
+34,1158,imports,imports.libraries_hashed[162],True,0.0
+35,1142,imports,imports.libraries_hashed[146],True,0.0
+36,1058,imports,imports.libraries_hashed[62],True,0.0
+37,2436,datadirectories,datadir.RESERVED.virtual_address,False,0.0
+38,1121,imports,imports.libraries_hashed[125],True,0.0
+39,1120,imports,imports.libraries_hashed[124],True,0.0
+40,1087,imports,imports.libraries_hashed[91],True,0.0
+41,1126,imports,imports.libraries_hashed[130],True,0.0
+42,1107,imports,imports.libraries_hashed[111],True,0.0
+43,1111,imports,imports.libraries_hashed[115],True,0.0
+44,1124,imports,imports.libraries_hashed[128],True,0.0
+45,880,section,section.vsize_hashed[49],True,0.0
+46,1081,imports,imports.libraries_hashed[85],True,0.0
+47,1118,imports,imports.libraries_hashed[122],True,0.0
+48,1117,imports,imports.libraries_hashed[121],True,0.0
+49,1159,imports,imports.libraries_hashed[163],True,0.0
+50,1131,imports,imports.libraries_hashed[135],True,0.0
+51,1136,imports,imports.libraries_hashed[140],True,0.0
+52,1761,imports,imports.lib_func_hashed[509],True,0.0
+53,1068,imports,imports.libraries_hashed[72],True,0.0
+54,901,section,section.entropy_hashed[20],True,0.0
+55,1149,imports,imports.libraries_hashed[153],True,0.0
+56,1173,imports,imports.libraries_hashed[177],True,0.0
+57,1147,imports,imports.libraries_hashed[151],True,0.0
+58,1144,imports,imports.libraries_hashed[148],True,0.0
+59,803,section,section.sizes_hashed[22],True,0.0
+60,1050,imports,imports.libraries_hashed[54],True,0.0
+61,825,section,section.sizes_hashed[44],True,0.0
+62,2213,imports,imports.lib_func_hashed[961],True,0.0
+63,1065,imports,imports.libraries_hashed[69],True,0.0
+64,1132,imports,imports.libraries_hashed[136],True,0.0
+65,1238,imports,imports.libraries_hashed[242],True,0.0
+66,629,strings,string_count_Invoke-Command,False,0.0
+67,630,strings,string_count_Invoke-Expression,False,0.0
+68,658,strings,string_count_ftp,False,0.0
+69,621,strings,string_count_/FlateDecode,False,0.0
+70,1199,imports,imports.libraries_hashed[203],True,0.0
+71,623,strings,string_count_/bin/,False,0.0
+72,622,strings,string_count_/URI,False,0.0
+73,1195,imports,imports.libraries_hashed[199],True,0.0
+74,1214,imports,imports.libraries_hashed[218],True,0.0
+75,1028,imports,imports.libraries_hashed[32],True,0.0
+76,1029,imports,imports.libraries_hashed[33],True,0.0
+77,1191,imports,imports.libraries_hashed[195],True,0.0
+78,1168,imports,imports.libraries_hashed[172],True,0.0
+79,1164,imports,imports.libraries_hashed[168],True,0.0
+80,1163,imports,imports.libraries_hashed[167],True,0.0
+81,1038,imports,imports.libraries_hashed[42],True,0.0
+82,1182,imports,imports.libraries_hashed[186],True,0.0
+83,1054,imports,imports.libraries_hashed[58],True,0.0
+84,1024,imports,imports.libraries_hashed[28],True,0.0
+85,1025,imports,imports.libraries_hashed[29],True,0.0
+86,776,section,section.entropy_min,False,0.0
+87,778,section,section.size_ratio_min,False,0.0
+88,1034,imports,imports.libraries_hashed[38],True,0.0
+89,1207,imports,imports.libraries_hashed[211],True,0.0
+90,1206,imports,imports.libraries_hashed[210],True,0.0
+91,1183,imports,imports.libraries_hashed[187],True,0.0
+92,1188,imports,imports.libraries_hashed[192],True,0.0
+93,914,section,section.entropy_hashed[33],True,0.0
+94,620,strings,string_count_/EmbeddedFile,False,0.0
+95,1030,imports,imports.libraries_hashed[34],True,0.0
+96,1011,imports,imports.libraries_hashed[15],True,0.0
+97,925,section,section.entropy_hashed[44],True,0.0
+98,1239,imports,imports.libraries_hashed[243],True,0.0
+99,710,header,optional.minor_subsystem_version,False,0.0
+100,627,strings,string_count_/usr/,False,0.0
+101,741,header,coff.characteristics:BYTES_REVERSED_HI,False,0.0
+102,903,section,section.entropy_hashed[22],True,0.0
+103,1019,imports,imports.libraries_hashed[23],True,0.0
+104,1016,imports,imports.libraries_hashed[20],True,0.0
+105,744,header,optional.dll_characteristics:FORCE_INTEGRITY,False,0.0
+106,1210,imports,imports.libraries_hashed[214],True,0.0
+107,2510,pefilewarnings,"pewarn:Error parsing the version information, to read StringTable Value string...",False,0.0
+108,2509,pefilewarnings,"pewarn:Error parsing the version information, attempting to read StringTable Key string...",False,0.0
+109,2507,pefilewarnings,"pewarn:Error parsing the version information, attempting to read StringFileInfo string...",False,0.0
+110,2506,pefilewarnings,"pewarn:Error parsing the version information, attempting to read VarFileInfo Var string...",False,0.0
+111,2552,pefilewarnings,pewarn:Too many errors parsing the Delay import directory...,False,0.0
+112,2556,pefilewarnings,pewarn:Unsupported version of UNWIND_INFO...,False,0.0
+113,2550,pefilewarnings,pewarn:The Bound Imports directory exists but can't be parsed...,False,0.0
+114,2530,pefilewarnings,pewarn:Invalid relocation information. VirtualAddress outside...,False,0.0
+115,2529,pefilewarnings,pewarn:Invalid relocation information. SizeOfBlock too large...,False,0.0
+116,2528,pefilewarnings,pewarn:Invalid relocation information. Can't read...,False,0.0
+117,2526,pefilewarnings,pewarn:Invalid IMAGE_DYNAMIC_RELOCATION_TABLE information...,False,0.0
+118,2525,pefilewarnings,pewarn:Invalid function override info...,False,0.0
+119,2524,pefilewarnings,pewarn:Invalid function override header...,False,0.0
+120,2565,pefilewarnings,pewarn:...ordinal entries. Assuming corrupt.,False,0.0
+121,2566,pefilewarnings,pewarn:...Assuming corrupt.,False,0.0
+122,2514,pefilewarnings,"pewarn:Failed rendering pascal string, attempting to read from RVA 0x...",False,0.0
+123,2503,pefilewarnings,"pewarn:Error parsing the resources directory, attempting to read entry name. Can't read unicode string at offset...",False,0.0
+124,2502,pefilewarnings,"pewarn:Error parsing the resources directory, attempting to read entry name. Entry names overlap...",False,0.0
+125,1240,imports,imports.libraries_hashed[244],True,4.682592728899593e-06
+126,2555,pefilewarnings,pewarn:Unknown UNWIND_CODE at...,False,8.039126366377047e-06
+127,2,general,is_pe,False,1.1887262828549211e-05
+128,1134,imports,imports.libraries_hashed[138],True,1.9655338573620895e-05
+129,1192,imports,imports.libraries_hashed[196],True,2.4080934335479753e-05
+130,1084,imports,imports.libraries_hashed[88],True,4.4651710873422346e-05
+131,1014,imports,imports.libraries_hashed[18],True,7.813263675782167e-05
+132,1072,imports,imports.libraries_hashed[76],True,8.376406728172192e-05
+133,1219,imports,imports.libraries_hashed[223],True,8.8608493213016e-05
+134,2544,pefilewarnings,pewarn:RVA AddressOfNames in the export directory points to an invalid...,False,9.077647986077686e-05
+135,1067,imports,imports.libraries_hashed[71],True,9.993640405636661e-05
+136,1204,imports,imports.libraries_hashed[208],True,0.00013165033084705513
+137,1146,imports,imports.libraries_hashed[150],True,0.0001367364581710273
+138,1064,imports,imports.libraries_hashed[68],True,0.00015816475510610495
+139,748,header,optional.dll_characteristics:NO_BIND,False,0.00020276170270938643
+140,1013,imports,imports.libraries_hashed[17],True,0.00021318355652111265
+141,1179,imports,imports.libraries_hashed[183],True,0.0002347228142276503
+142,1202,imports,imports.libraries_hashed[206],True,0.0002485956192692651
+143,1184,imports,imports.libraries_hashed[188],True,0.000249370568876639
+144,2498,pefilewarnings,pewarn:Error parsing the resources directory. Excessively nested table depth...,False,0.00025115115998963766
+145,1085,imports,imports.libraries_hashed[89],True,0.0002621504007755959
+146,1080,imports,imports.libraries_hashed[84],True,0.00031354655777660057
+147,1094,imports,imports.libraries_hashed[98],True,0.00031521061860839694
+148,2557,pefilewarnings,pewarn:...Contents are null-bytes.,False,0.0003202394803980546
+149,2527,pefilewarnings,pewarn:Invalid LOAD_CONFIG information...,False,0.00033293254941524353
+150,784,section,section.sizes_hashed[3],True,0.0003376262531129548
+151,907,section,section.entropy_hashed[26],True,0.00034410246019023205
+152,633,strings,string_count_base64string,False,0.0003695371662861824
+153,1213,imports,imports.libraries_hashed[217],True,0.0003740488250560947
+154,987,section,section.entry_name_hashed[6],True,0.0003830378383105071
+155,997,imports,imports.libraries_hashed[1],True,0.0003897152368044221
+156,884,section,section.entropy_hashed[3],True,0.0004002576087887011
+157,1234,imports,imports.libraries_hashed[238],True,0.0004314637640476793
+158,1020,imports,imports.libraries_hashed[24],True,0.00046637811415717323
+159,856,section,section.vsize_hashed[25],True,0.0004757032107836068
+160,1083,imports,imports.libraries_hashed[87],True,0.0004962993931065807
+161,926,section,section.entropy_hashed[45],True,0.000507458443065989
+162,1189,imports,imports.libraries_hashed[193],True,0.0005179658112048902
+163,1133,imports,imports.libraries_hashed[137],True,0.0005298052642033202
+164,2562,pefilewarnings,pewarn:...VirtualSize is extremely large > 256MiB,False,0.0005355612408177723
+165,1116,imports,imports.libraries_hashed[120],True,0.0005360903199314038
+166,1140,imports,imports.libraries_hashed[144],True,0.0005386925296368972
+167,2531,pefilewarnings,pewarn:Invalid resources directory. Can't read...,False,0.0005402051155107834
+168,2482,pefilewarnings,pewarn:Byte 0x...,False,0.0005475992875587643
+169,1166,imports,imports.libraries_hashed[170],True,0.0005826916533242521
+170,626,strings,string_count_/tmp/,False,0.000605419095344395
+171,1129,imports,imports.libraries_hashed[133],True,0.0006058193821094626
+172,1098,imports,imports.libraries_hashed[102],True,0.0006326271608947387
+173,659,strings,string_count_get,False,0.0006362437823008715
+174,801,section,section.sizes_hashed[20],True,0.0006744558093720876
+175,1153,imports,imports.libraries_hashed[157],True,0.0006794455610932282
+176,1232,imports,imports.libraries_hashed[236],True,0.0006853065687726367
+177,1181,imports,imports.libraries_hashed[185],True,0.0006994950945844458
+178,661,strings,string_count_hostname,False,0.0007146827573196735
+179,1172,imports,imports.libraries_hashed[176],True,0.0007213102490584156
+180,1012,imports,imports.libraries_hashed[16],True,0.0007226803627169431
+181,1092,imports,imports.libraries_hashed[96],True,0.0007452969158796563
+182,2533,pefilewarnings,pewarn:Invalid TLS information. Can't read...,False,0.0007458428837709974
+183,693,strings,string_count_useragent,False,0.0007733745880749154
+184,1222,imports,imports.libraries_hashed[226],True,0.0007821859369783191
+185,628,strings,string_count_<script,False,0.0007880902265036127
+186,631,strings,string_count_Start-process,False,0.0007930575010257623
+187,2504,pefilewarnings,"pewarn:Error parsing the version information, attempting to read OffsetToData with RVA...",False,0.0008096457808526303
+188,998,imports,imports.libraries_hashed[2],True,0.0008105847652752907
+189,2563,pefilewarnings,pewarn:...VirtualAddress is beyond 0x10000000,False,0.0008285266207153086
+190,809,section,section.sizes_hashed[28],True,0.0008340737817507105
+191,2433,datadirectories,datadir.COM_DESCRIPTOR.size,False,0.0008553818316379136
+192,864,section,section.vsize_hashed[33],True,0.0008669261660154692
+193,853,section,section.vsize_hashed[22],True,0.0008721572734899929
+194,2534,pefilewarnings,pewarn:Invalid type 0x...,False,0.0008802575027944126
+195,2512,pefilewarnings,pewarn:Export directory contains more than 10 repeated entries...,False,0.0008848491185911023
+196,1152,imports,imports.libraries_hashed[156],True,0.0009001245013979808
+197,678,strings,string_count_post,False,0.0009282564530703752
+198,1041,imports,imports.libraries_hashed[45],True,0.0009411972107160604
+199,1046,imports,imports.libraries_hashed[50],True,0.0009413568556573271
+200,2549,pefilewarnings,pewarn:Suspicious value found parsing section...,False,0.0009425326634786568
+201,2554,pefilewarnings,pewarn:Too many sections...,False,0.0009463303329109163
+202,2492,pefilewarnings,pewarn:Error parsing the Delay import directory at RVA...,False,0.0009491746799166201
+203,750,header,optional.dll_characteristics:WDM_DRIVER,False,0.0009524951303734319
+204,670,strings,string_count_javascript,False,0.0009585137306380442
+205,2538,pefilewarnings,pewarn:Possibly corrupt file. AddressOfEntryPoint lies outside the file...,False,0.0009838143475773276
+206,2564,pefilewarnings,pewarn:...symbol entries. Assuming corrupt.,False,0.000993457153002364
+207,1228,imports,imports.libraries_hashed[232],True,0.000997350859645918
+208,1130,imports,imports.libraries_hashed[134],True,0.0010036473636851895
+209,1226,imports,imports.libraries_hashed[230],True,0.0010142192214390722
+210,807,section,section.sizes_hashed[26],True,0.0010158992894360175
+211,1299,imports,imports.lib_func_hashed[47],True,0.0010233646601416346
+212,679,strings,string_count_powershell,False,0.0010438222645503537
+213,733,header,coff.characteristics:BYTES_REVERSED_LO,False,0.0010479460384427153
+214,1169,imports,imports.libraries_hashed[173],True,0.0010713933386685692
+215,1216,imports,imports.libraries_hashed[220],True,0.0010823408142484059
+216,1042,imports,imports.libraries_hashed[46],True,0.001099142892794891
+217,732,header,coff.characteristics:16BIT_MACHINE,False,0.0010993929405429537
+218,1225,imports,imports.libraries_hashed[229],True,0.0010995606249606382
+219,1155,imports,imports.libraries_hashed[159],True,0.0011010917244389518
+220,1108,imports,imports.libraries_hashed[112],True,0.001113233992054985
+221,624,strings,string_count_/dev/,False,0.001126431448499332
+222,1015,imports,imports.libraries_hashed[19],True,0.0011363691730452707
+223,827,section,section.sizes_hashed[46],True,0.0011388986670848311
+224,1035,imports,imports.libraries_hashed[39],True,0.0011436751314335414
+225,1148,imports,imports.libraries_hashed[152],True,0.001148677557131883
+226,738,header,coff.characteristics:SYSTEM,False,0.001158075707573536
+227,1079,imports,imports.libraries_hashed[83],True,0.0011624014922226866
+228,1002,imports,imports.libraries_hashed[6],True,0.0011637764479075496
+229,857,section,section.vsize_hashed[26],True,0.001164200547331129
+230,1076,imports,imports.libraries_hashed[80],True,0.0011683223620686523
+231,834,section,section.vsize_hashed[3],True,0.0011698116817517867
+232,818,section,section.sizes_hashed[37],True,0.001175077849789652
+233,672,strings,string_count_mac_addr,False,0.0011830748710750516
+234,780,section,section.vsize_ratio_min,False,0.0011915862636588948
+235,837,section,section.vsize_hashed[6],True,0.0012030672488516636
+236,1062,imports,imports.libraries_hashed[66],True,0.001207003550882657
+237,851,section,section.vsize_hashed[20],True,0.0012349160783295954
+238,2435,datadirectories,datadir.RESERVED.size,False,0.0012431620389323772
+239,1484,imports,imports.lib_func_hashed[232],True,0.0012591468855545074
+240,1212,imports,imports.libraries_hashed[216],True,0.001272102316828727
+241,1193,imports,imports.libraries_hashed[197],True,0.0012995943814031463
+242,1123,imports,imports.libraries_hashed[127],True,0.0013014423973218836
+243,852,section,section.vsize_hashed[21],True,0.0013015277927324043
+244,2551,pefilewarnings,pewarn:Too many warnings parsing section. Aborting...,False,0.0013125903267448003
+245,730,header,coff.characteristics:AGGRESIVE_WS_TRIM,False,0.0013241292158305829
+246,999,imports,imports.libraries_hashed[3],True,0.001330996112298477
+247,1209,imports,imports.libraries_hashed[213],True,0.0013384279533716903
+248,657,strings,string_count_file_path,False,0.0013398845632335288
+249,1161,imports,imports.libraries_hashed[165],True,0.0013546849344616696
+250,1075,imports,imports.libraries_hashed[79],True,0.001357070815021899
+251,1145,imports,imports.libraries_hashed[149],True,0.0013650346383988765
+252,1517,imports,imports.lib_func_hashed[265],True,0.0013723858360981112
+253,1248,imports,imports.libraries_hashed[252],True,0.001405148422859659
+254,740,header,coff.characteristics:UP_SYSTEM_ONLY,False,0.0014073989333411863
+255,868,section,section.vsize_hashed[37],True,0.0014180416563003284
+256,1224,imports,imports.libraries_hashed[228],True,0.0014207479680135027
+257,1227,imports,imports.libraries_hashed[231],True,0.001427289718771485

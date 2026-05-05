@@ -1,0 +1,587 @@
+{
+  "md5": "4c6fc7d00ff42a4a94199209b0bd9cc5",
+  "sha1": "4b64664bc6d0b3693673887dd74a6e9ac34bacba",
+  "sha256": "0008071d9cb565e03a5efc1bf37b1e27686a11f2185fc2c26f37b6414a89d9cb",
+  "tlsh": "T1AD95AE55F7EB40F2D9462970113E333BD634AF890229AB87E368EE255476161E23F23D",
+  "first_submission_date": 1695997157,
+  "last_analysis_date": 1699120448,
+  "detection_ratio": "0/76",
+  "label": 0,
+  "file_type": "Win32",
+  "family": null,
+  "family_confidence": null,
+  "behavior": [],
+  "file_property": [],
+  "packer": [],
+  "exploit": [],
+  "group": [],
+  "week_id": 0,
+  "caps": [
+    {
+      "Capability": "Create or open mutex on windows",
+      "Namespace": "host-interaction/mutex",
+      "Addrs": []
+    },
+    {
+      "Capability": "Link function at runtime on windows",
+      "Namespace": "linking/runtime-linking",
+      "Addrs": []
+    },
+    {
+      "Capability": "Encode data using xor",
+      "Namespace": "data-manipulation/encoding/xor",
+      "Addrs": [
+        "0x406a50",
+        "0x407510",
+        "0x483150",
+        "0x570eb0",
+        "0x570eb0",
+        "0x5710d0"
+      ]
+    },
+    {
+      "Capability": "Access peb ldr_data",
+      "Namespace": "linking/runtime-linking",
+      "Addrs": [
+        "0x40d750",
+        "0x534f70",
+        "0x53fae0",
+        "0x571430",
+        "0x571a60",
+        "0x5861b0"
+      ]
+    },
+    {
+      "Capability": "Get ntdll base address",
+      "Namespace": "linking/runtime-linking",
+      "Addrs": [
+        "0x40d750",
+        "0x534f70",
+        "0x53fae0"
+      ]
+    },
+    {
+      "Capability": "Create thread",
+      "Namespace": "host-interaction/thread/create",
+      "Addrs": [
+        "0x43de10",
+        "0x447230",
+        "0x44d290",
+        "0x44d971",
+        "0x578770",
+        "0x5795e0"
+      ]
+    },
+    {
+      "Capability": "Hide graphical window",
+      "Namespace": "host-interaction/gui/window/hide",
+      "Addrs": [
+        "0x4486b0",
+        "0x44a6e0",
+        "0x4810e0",
+        "0x481820",
+        "0x481920",
+        "0x481a20",
+        "0x481920",
+        "0x481a20",
+        "0x481a90",
+        "0x482bc0",
+        "0x4861b0",
+        "0x4861b0",
+        "0x4861b0",
+        "0x4861b0",
+        "0x4861b0",
+        "0x486f0c"
+      ]
+    },
+    {
+      "Capability": "Set file attributes",
+      "Namespace": "host-interaction/file-system/meta",
+      "Addrs": [
+        "0x485480"
+      ]
+    },
+    {
+      "Capability": "Create process on windows",
+      "Namespace": "host-interaction/process/create",
+      "Addrs": [
+        "0x4861b0"
+      ]
+    },
+    {
+      "Capability": "Contain obfuscated stackstrings",
+      "Namespace": "anti-analysis/obfuscation/string/stackstring",
+      "Addrs": [
+        "0x49ce80"
+      ]
+    },
+    {
+      "Capability": "Get file attributes",
+      "Namespace": "host-interaction/file-system/meta",
+      "Addrs": [
+        "0x59df16"
+      ]
+    },
+    {
+      "Capability": "Resolve function by parsing pe exports",
+      "Namespace": "load-code/pe",
+      "Addrs": [
+        "0x406a50",
+        "0x407510",
+        "0x409430",
+        "0x409ca0",
+        "0x40a8f0",
+        "0x414d70",
+        "0x416790",
+        "0x419590",
+        "0x41a4e0",
+        "0x41da10",
+        "0x4230c0",
+        "0x43b560",
+        "0x43c040",
+        "0x44e600",
+        "0x44ee10",
+        "0x454fa0",
+        "0x456500",
+        "0x457827",
+        "0x45b4c0",
+        "0x45ba40",
+        "0x45c590",
+        "0x45d560",
+        "0x45f670",
+        "0x475e10",
+        "0x48b2a0",
+        "0x4909d0",
+        "0x496040",
+        "0x4996c0",
+        "0x49b950",
+        "0x4a0400",
+        "0x4a38f0",
+        "0x4ab8c0",
+        "0x4abe40",
+        "0x4acb00",
+        "0x4b1960",
+        "0x4b9b30",
+        "0x4bf240",
+        "0x4c4b50",
+        "0x4c4b58",
+        "0x4cab00",
+        "0x4d7500",
+        "0x4f1b95",
+        "0x504de0",
+        "0x50b521",
+        "0x50b814",
+        "0x5125b0",
+        "0x5128d0",
+        "0x5128d5",
+        "0x514b30",
+        "0x514e50",
+        "0x514e55",
+        "0x52a8f0",
+        "0x535da4",
+        "0x53f4f0",
+        "0x5485f0",
+        "0x54dde0",
+        "0x54e8d0",
+        "0x54fde0",
+        "0x5508f0",
+        "0x5511a0",
+        "0x551b50",
+        "0x552580",
+        "0x552f60",
+        "0x553e50",
+        "0x554d30",
+        "0x555c20",
+        "0x556b10",
+        "0x557a30",
+        "0x558940",
+        "0x559640",
+        "0x55a330",
+        "0x55b030",
+        "0x55bd20",
+        "0x55ca20",
+        "0x55d720",
+        "0x55e430",
+        "0x55f140",
+        "0x55fe10",
+        "0x560ae0",
+        "0x5617f0",
+        "0x562500",
+        "0x563230",
+        "0x563f60",
+        "0x564c90",
+        "0x5659c0",
+        "0x566750",
+        "0x5674d0",
+        "0x568260",
+        "0x568ff0",
+        "0x569d90",
+        "0x56ab30",
+        "0x56b8e0",
+        "0x56ce70",
+        "0x56eba0",
+        "0x571f20"
+      ]
+    },
+    {
+      "Capability": "Parse pe header",
+      "Namespace": "load-code/pe",
+      "Addrs": [
+        "0x41a4e0"
+      ]
+    },
+    {
+      "Capability": "Check for time delay via gettickcount",
+      "Namespace": "anti-analysis/anti-debugging/debugger-detection",
+      "Addrs": [
+        "0x41b240",
+        "0x430e5a",
+        "0x4909d0",
+        "0x4bd230",
+        "0x578030"
+      ]
+    },
+    {
+      "Capability": "Get memory capacity",
+      "Namespace": "host-interaction/hardware/memory",
+      "Addrs": [
+        "0x426700",
+        "0x483200",
+        "0x485480",
+        "0x4861b0"
+      ]
+    },
+    {
+      "Capability": "Read file on windows",
+      "Namespace": "host-interaction/file-system/read",
+      "Addrs": [
+        "0x445110",
+        "0x573dbe"
+      ]
+    },
+    {
+      "Capability": "Log keystrokes via input method manager",
+      "Namespace": "collection/keylog",
+      "Addrs": [
+        "0x4486b0"
+      ]
+    },
+    {
+      "Capability": "Get graphical window text",
+      "Namespace": "host-interaction/gui/window/get-text",
+      "Addrs": [
+        "0x449d60"
+      ]
+    },
+    {
+      "Capability": "Enumerate pe sections",
+      "Namespace": "load-code/pe",
+      "Addrs": [
+        "0x45d560",
+        "0x4702c0",
+        "0x4a1e00"
+      ]
+    },
+    {
+      "Capability": "Create directory",
+      "Namespace": "host-interaction/file-system/create",
+      "Addrs": [
+        "0x460310",
+        "0x48cb70"
+      ]
+    },
+    {
+      "Capability": "Link many functions at runtime",
+      "Namespace": "linking/runtime-linking",
+      "Addrs": []
+    },
+    {
+      "Capability": "Terminate process",
+      "Namespace": "host-interaction/process/terminate",
+      "Addrs": [
+        "0x4810e0",
+        "0x481820",
+        "0x481920",
+        "0x481a90",
+        "0x482760",
+        "0x482bc0",
+        "0x4837d0",
+        "0x485480",
+        "0x4861b0",
+        "0x486f0c",
+        "0x487f4c"
+      ]
+    },
+    {
+      "Capability": "Delete file",
+      "Namespace": "host-interaction/file-system/delete",
+      "Addrs": [
+        "0x4814c0"
+      ]
+    },
+    {
+      "Capability": "Read .ini file",
+      "Namespace": "host-interaction/file-system/read",
+      "Addrs": [
+        "0x481e90",
+        "0x481f40",
+        "0x4821b0",
+        "0x482450",
+        "0x482760",
+        "0x484110",
+        "0x4846f0"
+      ]
+    },
+    {
+      "Capability": "Get disk information",
+      "Namespace": "host-interaction/hardware/storage",
+      "Addrs": [
+        "0x484010"
+      ]
+    },
+    {
+      "Capability": "Check os version",
+      "Namespace": "host-interaction/os/version",
+      "Addrs": [
+        "0x4861b0",
+        "0x493780"
+      ]
+    },
+    {
+      "Capability": "Get number of processors",
+      "Namespace": "host-interaction/hardware/cpu",
+      "Addrs": [
+        "0x4d0b30",
+        "0x4d1a30",
+        "0x4d1d90",
+        "0x51a930"
+      ]
+    },
+    {
+      "Capability": "Print debug messages",
+      "Namespace": "host-interaction/log/debug/write-event",
+      "Addrs": [
+        "0x589720"
+      ]
+    },
+    {
+      "Capability": "Set thread local storage value",
+      "Namespace": "host-interaction/thread/tls",
+      "Addrs": []
+    },
+    {
+      "Capability": "Move file",
+      "Namespace": "host-interaction/file-system/move",
+      "Addrs": []
+    },
+    {
+      "Capability": "Write file on windows",
+      "Namespace": "host-interaction/file-system/write",
+      "Addrs": [
+        "0x595b98"
+      ]
+    },
+    {
+      "Capability": "Check if file exists",
+      "Namespace": "host-interaction/file-system/exists",
+      "Addrs": [
+        "0x59df16"
+      ]
+    },
+    {
+      "Capability": "Contains pdb path",
+      "Namespace": "executable/pe/pdb",
+      "Addrs": []
+    },
+    {
+      "Capability": "Reference cryptocurrency strings",
+      "Namespace": "impact/cryptocurrency",
+      "Addrs": []
+    },
+    {
+      "Capability": "Reference anti-vm strings targeting virtualbox",
+      "Namespace": "anti-analysis/anti-vm/vm-detection",
+      "Addrs": []
+    }
+  ],
+  "ttps": [
+    {
+      "Tactic": "EXECUTION",
+      "Technique": "Shared Modules [T1129]"
+    },
+    {
+      "Tactic": "DEFENSE EVASION",
+      "Technique": "Obfuscated Files or Information [T1027]"
+    },
+    {
+      "Tactic": "EXECUTION",
+      "Technique": "Shared Modules [T1129]"
+    },
+    {
+      "Tactic": "EXECUTION",
+      "Technique": "Shared Modules [T1129]"
+    },
+    {
+      "Tactic": "DEFENSE EVASION",
+      "Technique": "Hide Artifacts [T1564.003]"
+    },
+    {
+      "Tactic": "DEFENSE EVASION",
+      "Technique": "File and Directory Permissions Modification [T1222]"
+    },
+    {
+      "Tactic": "DEFENSE EVASION",
+      "Technique": "Obfuscated Files or Information [T1027.005]"
+    },
+    {
+      "Tactic": "EXECUTION",
+      "Technique": "Shared Modules [T1129]"
+    },
+    {
+      "Tactic": "DISCOVERY",
+      "Technique": "System Information Discovery [T1082]"
+    },
+    {
+      "Tactic": "EXECUTION",
+      "Technique": "Shared Modules [T1129]"
+    },
+    {
+      "Tactic": "DISCOVERY",
+      "Technique": "System Information Discovery [T1082]"
+    },
+    {
+      "Tactic": "DISCOVERY",
+      "Technique": "System Information Discovery [T1082]"
+    },
+    {
+      "Tactic": "DISCOVERY",
+      "Technique": "System Information Discovery [T1082]"
+    },
+    {
+      "Tactic": "DISCOVERY",
+      "Technique": "File and Directory Discovery [T1083]"
+    },
+    {
+      "Tactic": "IMPACT",
+      "Technique": "Resource Hijacking [T1496]"
+    },
+    {
+      "Tactic": "DEFENSE EVASION",
+      "Technique": "Virtualization/Sandbox Evasion [T1497.001]"
+    }
+  ],
+  "mbc": [
+    {
+      "Objective": "DATA",
+      "Behavior": "Modulo [C0058]"
+    },
+    {
+      "Objective": "PROCESS",
+      "Behavior": "Create Mutex [C0042]"
+    },
+    {
+      "Objective": "FILE SYSTEM",
+      "Behavior": "Create File [C0016]"
+    },
+    {
+      "Objective": "DEFENSE EVASION",
+      "Behavior": "Obfuscated Files or Information [E1027.m02]"
+    },
+    {
+      "Objective": "DATA",
+      "Behavior": "Encode Data [C0026.002]"
+    },
+    {
+      "Objective": "ANTI-BEHAVIORAL ANALYSIS",
+      "Behavior": "Debugger Detection [B0001.019]"
+    },
+    {
+      "Objective": "ANTI-BEHAVIORAL ANALYSIS",
+      "Behavior": "Dynamic Analysis Evasion [B0003.003]"
+    },
+    {
+      "Objective": "PROCESS",
+      "Behavior": "Create Thread [C0038]"
+    },
+    {
+      "Objective": "FILE SYSTEM",
+      "Behavior": "Set File Attributes [C0050]"
+    },
+    {
+      "Objective": "PROCESS",
+      "Behavior": "Create Process [C0017]"
+    },
+    {
+      "Objective": "ANTI-STATIC ANALYSIS",
+      "Behavior": "Executable Code Obfuscation [B0032.020]"
+    },
+    {
+      "Objective": "ANTI-STATIC ANALYSIS",
+      "Behavior": "Executable Code Obfuscation [B0032.017]"
+    },
+    {
+      "Objective": "FILE SYSTEM",
+      "Behavior": "Get File Attributes [C0049]"
+    },
+    {
+      "Objective": "ANTI-BEHAVIORAL ANALYSIS",
+      "Behavior": "Debugger Detection [B0001.032]"
+    },
+    {
+      "Objective": "FILE SYSTEM",
+      "Behavior": "Read File [C0051]"
+    },
+    {
+      "Objective": "DISCOVERY",
+      "Behavior": "Application Window Discovery [E1010]"
+    },
+    {
+      "Objective": "DISCOVERY",
+      "Behavior": "Code Discovery [B0046.001]"
+    },
+    {
+      "Objective": "FILE SYSTEM",
+      "Behavior": "Create Directory [C0046]"
+    },
+    {
+      "Objective": "PROCESS",
+      "Behavior": "Terminate Process [C0018]"
+    },
+    {
+      "Objective": "FILE SYSTEM",
+      "Behavior": "Delete File [C0047]"
+    },
+    {
+      "Objective": "FILE SYSTEM",
+      "Behavior": "Read File [C0051]"
+    },
+    {
+      "Objective": "DISCOVERY",
+      "Behavior": "System Information Discovery [E1082]"
+    },
+    {
+      "Objective": "DISCOVERY",
+      "Behavior": "System Information Discovery [E1082]"
+    },
+    {
+      "Objective": "PROCESS",
+      "Behavior": "Set Thread Local Storage Value [C0041]"
+    },
+    {
+      "Objective": "FILE SYSTEM",
+      "Behavior": "Move File [C0063]"
+    },
+    {
+      "Objective": "FILE SYSTEM",
+      "Behavior": "Writes File [C0052]"
+    },
+    {
+      "Objective": "DISCOVERY",
+      "Behavior": "File and Directory Discovery [E1083]"
+    },
+    {
+      "Objective": "ANTI-BEHAVIORAL ANALYSIS",
+      "Behavior": "Virtual Machine Detection [B0009]"
+    }
+  ]
+}
