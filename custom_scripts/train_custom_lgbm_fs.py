@@ -48,12 +48,26 @@ FEATURE_INDEX_MAP_PATH = (
 )
 
 
+# LightGBM rejects feature names that contain any of these JSON-special chars
+# (see LightGBM source: src/io/dataset.cpp -- "Do not support special JSON
+# characters in feature name."). We replace them with '_' before handing names
+# to lgb.Dataset.
+_LGB_FORBIDDEN_CHARS = '"\\,:[]{}'
+_LGB_FORBIDDEN_TABLE = str.maketrans({c: "_" for c in _LGB_FORBIDDEN_CHARS})
+
+
+def _sanitize_lgb_name(name: str) -> str:
+    return name.translate(_LGB_FORBIDDEN_TABLE)
+
+
 def load_feature_names(map_path: Path, expected_dim: int) -> list:
     """Build LightGBM-compatible feature names from a feature_index_map.json.
 
-    Each name is `"{block}[{block_index}].{field}"` to keep names unique across
-    hashed buckets (which share `field` within a block). Returns generic
-    `Column_<i>` names if the map cannot be used.
+    Each name starts as `"{block}[{block_index}].{field}"` to keep names unique
+    across hashed buckets (which share `field` within a block), then has any
+    JSON-special characters (which LightGBM rejects) replaced with '_'. If the
+    sanitization collapses two names together, we suffix the index to preserve
+    uniqueness. Returns generic `Column_<i>` names if the map cannot be used.
     """
     try:
         with map_path.open("r") as f:
@@ -77,15 +91,30 @@ def load_feature_names(map_path: Path, expected_dim: int) -> list:
             i = e["index"]
             if not isinstance(i, int) or not (0 <= i < expected_dim):
                 raise ValueError(f"index out of range: {i!r}")
-            names[i] = f"{e['block']}[{e['block_index']}].{e['field']}"
+            raw = f"{e['block']}[{e['block_index']}].{e['field']}"
+            names[i] = _sanitize_lgb_name(raw)
     except (KeyError, TypeError, ValueError) as err:
         print(f"WARNING: malformed entry in feature index map ({err}). "
               f"Falling back to Column_<i> names.")
         return [f"Column_{i}" for i in range(expected_dim)]
-    if any(n is None for n in names) or len(set(names)) != expected_dim:
-        print(f"WARNING: feature index map produced duplicate or missing names. "
+    if any(n is None for n in names):
+        print(f"WARNING: feature index map produced missing names. "
               f"Falling back to Column_<i> names.")
         return [f"Column_{i}" for i in range(expected_dim)]
+    # Sanitization can collapse e.g. `field[0]` and `field_0_` into the same
+    # string. Disambiguate any collisions by appending the original index.
+    if len(set(names)) != expected_dim:
+        seen = {}
+        for i, n in enumerate(names):
+            seen.setdefault(n, []).append(i)
+        for n, idxs in seen.items():
+            if len(idxs) > 1:
+                for i in idxs:
+                    names[i] = f"{n}__i{i}"
+        if len(set(names)) != expected_dim:
+            print(f"WARNING: feature index map produced duplicate names even "
+                  f"after disambiguation. Falling back to Column_<i> names.")
+            return [f"Column_{i}" for i in range(expected_dim)]
     return names
 
 
