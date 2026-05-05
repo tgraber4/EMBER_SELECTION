@@ -6,20 +6,7 @@ A short, copy-pasteable guide. Assumes you have already moved your `train.jsonl`
 
 ## 1. Minimal files to upload
 
-Only these need to be on the cluster — nothing else from the repo is required:
-
-```
-EMBER2024/
-├── pyproject.toml
-├── setup.cfg
-├── src/thrember/                       # the whole folder (the importable package)
-├── examples/lgbm_config.json           # LightGBM hyperparameters
-├── Documentation/feature_index_map.json   # optional, only used for nice feature names
-└── custom_scripts/
-    └── train_custom_lgbm_fs.py         # the script
-```
-
-Plus your data, anywhere on the cluster (any folder name works, e.g. `data/`):
+add data
 
 ```
 data/
@@ -50,31 +37,9 @@ If your cluster blocks internet on compute nodes, run those `pip` commands on a 
 
 ---
 
-## 3. Submit script (SLURM)
+## 3. Job
 
-Save as `run.slurm` next to the `EMBER2024/` folder, edit the two paths, then `sbatch run.slurm`.
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=ember_fs
-#SBATCH --cpus-per-task=16
-#SBATCH --mem=32G
-#SBATCH --time=04:00:00
-#SBATCH --output=run_%j.out
-
-module load python/3.11
-source EMBER2024/.venv/bin/activate
-export OMP_NUM_THREADS=$SLURM_CPUS_PER_TASK
-
-python EMBER2024/custom_scripts/train_custom_lgbm_fs.py \
-    /path/to/data \
-    /path/to/output/model.txt \
-    --config-file EMBER2024/examples/lgbm_config.json
-```
-
-Resources rule-of-thumb: 16 CPUs, 32 GB RAM, ~1–4 h for a full PE-set run; an 8 GB / 30 min job is fine for a ~100k sub-sample.
-
----
+CPU
 
 ## 4. What you get back
 
