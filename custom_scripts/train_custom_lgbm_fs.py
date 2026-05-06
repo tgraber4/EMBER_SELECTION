@@ -209,6 +209,18 @@ def select_features_to_drop(gain: np.ndarray, split: np.ndarray, n_drop: int):
     return dropped_idx, absolute_zero_idx, signal_dropped_idx
 
 
+def _format_duration(seconds: float) -> str:
+    """Format a duration in seconds as `HhMmSs` (skipping zero-leading units)."""
+    total = int(seconds)
+    h, rem = divmod(total, 3600)
+    m, s = divmod(rem, 60)
+    if h:
+        return f"{h}h{m:02d}m{s:02d}s"
+    if m:
+        return f"{m}m{s:02d}s"
+    return f"{seconds:.2f}s"
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("data_dir", type=str,
@@ -228,6 +240,8 @@ def main():
                         help="Path to write the dropped-feature report JSON. "
                              "Defaults to <model_path>.dropped_features.json.")
     args = parser.parse_args()
+
+    t_script_start = time.perf_counter()
 
     if not (0.0 < args.drop_fraction < 1.0):
         raise ValueError(f"--drop-fraction must be in (0, 1); got {args.drop_fraction}")
@@ -376,6 +390,7 @@ def main():
         "dropped_gain": dropped_gain,
         "train_seconds": train_seconds,
         "selection_seconds": proc_seconds,
+        "total_script_seconds": time.perf_counter() - t_script_start,
         "test_accuracy": test_acc,
         "best_iteration": best_iter,
         "dropped_indices": dropped_idx.tolist(),
@@ -387,6 +402,10 @@ def main():
     with open(out_path, "w") as f:
         json.dump(report, f, indent=2)
     print(f"Saved dropped-feature report to {out_path}")
+
+    total_script_seconds = time.perf_counter() - t_script_start
+    print(f"Total script runtime          : "
+          f"{total_script_seconds:.2f} s ({_format_duration(total_script_seconds)})")
 
 
 if __name__ == "__main__":

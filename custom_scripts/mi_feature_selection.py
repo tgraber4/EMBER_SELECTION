@@ -9,7 +9,7 @@ from thrember.features import PEFeatureExtractor
 
 
 def main():
-    JSONL_FILE = "ember_data\PE_both_sampled.jsonl"
+    JSONL_FILE = "ember_data\PE_train_sampled.jsonl"
     N_DROP = 257
     MAX_SAMPLES = 100_000
     OUTPUT = "dropped_features.csv"
