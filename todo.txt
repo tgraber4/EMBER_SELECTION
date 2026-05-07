@@ -1,6 +1,4 @@
-- test drop features out with sub-sample
-- figure out if using full dataset or sub-sample
 - run run_thrember_lite.py for all 3 methods
-- rerun mutual information and get time taken
+- rerun mutual information and get time taken(use right data)
 - rerun embedded and get time taken
 - compile and organize notes
