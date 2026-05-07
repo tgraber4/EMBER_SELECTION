@@ -1,0 +1,14 @@
+Dropped 257 features -> runs/dropped_features.csv
+  inactive       : 257
+  redundant      : 0
+  low_importance : 0
+
+Runtime breakdown:
+  vectorize & load   : 55.76s
+  baseline training  : 13m 22s (802.56s)
+  baseline eval      : 0.52s
+  SHAP compute       : 21.58s
+  clustering         : 0.41s
+  selection          : 0.00s
+  CSV export         : 0.01s
+  total wall-clock   : 14m 41s (881.12s)
