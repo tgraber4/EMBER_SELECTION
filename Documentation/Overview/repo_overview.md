@@ -26,7 +26,6 @@ EMBER2024/
 ├── bernoulli_sample.py            # Build PE_both_sampled.jsonl (~100k row subsample)
 ├── build_feature_index_map.py     # Generate Documentation/feature_index_map.json
 ├── mi_feature_selection.py        # Score features via mutual information, write drop list
-├── drop_features.py               # Vectorize JSONL and drop columns by index
 ├── check_labels.py                # Sanity-check label coverage of the sampled file
 ├── count_rows.py                  # Line-count every .jsonl under ember_data/
 ├── dropped_features.csv/.json     # Output of mi_feature_selection.py — bottom-MI features
@@ -158,17 +157,6 @@ Trains a binary LightGBM classifier on a custom train/test JSONL pair, then runs
 
 **Hard cap behavior:** if the absolute-zero set alone is larger than `N_drop`, the script truncates to the first `N_drop` zeros (deterministic by feature index) and leaves the rest in the active set — never drops more than the configured fraction.
 
-### `drop_features.py`
-Reads a drop list (CSV or JSON with an `index` column) and a raw EMBER JSONL, then writes a reduced-vector JSONL with structure `{sha256, label, ..., vector: [...]}`. Pass-through metadata keys are preserved verbatim. CLI: `--dropped`, `--in`, `--out`. Validates that drop indices are in `[0, dim)` before running.
-
-**Pipeline:** raw JSONL → `PEFeatureExtractor.process_raw_features` (full 2,568-dim vector) → slice out dropped indices → write JSONL with passthrough metadata + a `"vector"` field of length `2568 − len(drop_list)`. Vectorization and trimming happen in one pass; no pre-vectorized input is required.
-
-**Why post-vectorization (not raw-JSON edit):** the drop list refers to vector positions, not raw-JSON keys. Hashed buckets (e.g. `imports.libraries_hashed[105]`) and computed counters (e.g. `pewarn:...`) have no raw equivalent — they only exist after the hasher / warning scanner runs. And every block has a hardcoded `dim`, so deleting raw keys does not shrink the output vector. Slicing after extraction is the only place the drop list maps cleanly.
-
-**Training-readiness:** the output carries the data LightGBM needs (features + labels, dimensionally reduced) but is **not** drop-in for `thrember.train_model`. Two gaps:
-1. Format mismatch — `train_model` reads `.dat` memmaps via `read_vectorized_features`, not JSONL. To use the reduced JSONL, stack lines into a NumPy array (or write your own memmap of shape `(N, dim_kept)`) and call `lgb.train` directly.
-2. Categorical-feature remap — thrember hardcodes `categorical_feature=[2, 3, 4, 5, 6, 701, 702]` for the full 2,568-wide vector. After dropping columns, those indices point at the wrong features; translate them to positions in the reduced vector before passing to `lgb.train`, or LightGBM will silently treat continuous columns as categorical.
-
 ### `check_labels.py`
 Sanity script. Walks `PE_both_sampled.jsonl`, counts label values, flags any rows missing the `label` key, and prints a benign/malware/unlabeled tally.
 
@@ -176,7 +164,7 @@ Sanity script. Walks `PE_both_sampled.jsonl`, counts label values, flags any row
 Streams every `.jsonl` under `ember_data/` and prints the per-file row count, plus a separate count for `PE_both_sampled.jsonl`. Memory-bounded (line-by-line).
 
 ### `dropped_features.csv` / `dropped_features.json`
-The most recent output of `mi_feature_selection.py`. Each row carries `rank, index, block, field, hashed, mi_score`. Consumed by `drop_features.py`.
+The most recent output of `mi_feature_selection.py`. Each row carries `rank, index, block, field, hashed, mi_score`. Consumed by `thrember_lite.FeatureSpec.from_drop_columns`.
 
 ### `overall_notes.txt`
 Personal cheat sheet pointing at which script generates which artifact.
@@ -212,9 +200,10 @@ python build_feature_index_map.py
 python mi_feature_selection.py
 ```
 
-**Apply the drop list to a JSONL**
+**Train a reduced-feature model with thrember_lite** (after vectorization, see `Documentation/thrember_lite_usage.md`)
 ```
-python drop_features.py --dropped dropped_features.json --in ember_data/PE_both_sampled.jsonl --out reduced.jsonl
+python -m thrember_lite.cli build-spec --drop dropped_features.json --out runs/exp01/spec.json
+python -m thrember_lite.cli train ember_data runs/exp01/spec.json runs/exp01/ --seed 42
 ```
 
 **Train / evaluate the upstream benchmark** (once `create_vectorized_features` has produced `.dat` memmaps)

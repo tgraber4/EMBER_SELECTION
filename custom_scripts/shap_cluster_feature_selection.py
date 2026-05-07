@@ -7,7 +7,8 @@ to (1) rank features by mean-|SHAP| and (2) hierarchically cluster features by
 the Pearson correlation of their per-sample SHAP-contribution vectors. The
 bottom `--drop-fraction` (default 10%) of features is selected via a three-tier
 ranking (inactive -> redundant clones -> low importance) and written to a CSV
-that is consumed downstream by `drop_features.py` as a separate manual step.
+that is consumed downstream by `thrember_lite` (e.g.
+`custom_scripts/run_thrember_lite.py`) as a separate manual step.
 
 Built off `train_custom_lgbm.py` -- reuses `find_jsonl`, `vectorize_split`,
 `read_vectorized`, `assert_binary`, `CAT_FEATURES`, and `RANDOM_STATE` from it
@@ -547,8 +548,8 @@ def main():
             print(f"  {label}: {_format_duration(timings[key])}")
     print(f"  {'total wall-clock   '}: {_format_duration(total_runtime)}")
     print()
-    print("Next step: feed this CSV to custom_scripts/drop_features.py "
-          "(separate manual step).")
+    print("Next step: feed this CSV (or its .json sibling) to thrember_lite "
+          "via custom_scripts/run_thrember_lite.py (separate manual step).")
 
 
 if __name__ == "__main__":

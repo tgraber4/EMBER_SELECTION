@@ -109,7 +109,7 @@ In stdout (redirect with `... | tee run.log` if you want a copy on disk):
 - Baseline test metrics (acc / AUC / log_loss).
 - Inactive-feature count, cluster count, and the per-tier drop summary.
 
-**Next step (separate manual run):** feed `dropped_features.csv` into `custom_scripts/drop_features.py` to produce a reduced-feature dataset and retrain.
+**Next step (separate manual run):** feed `dropped_features.csv` (or its `.json` sibling) into `thrember_lite` via `custom_scripts/run_thrember_lite.py` to slice the columns at training time and retrain.
 
 ---
 

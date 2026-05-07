@@ -371,7 +371,8 @@ def main():
     print(f"Training time                 : {train_seconds:.2f} s")
     print(f"Selection processing time     : {proc_seconds:.4f} s")
 
-    # Persist the dropped-feature decision for downstream `drop_features.py`.
+    # Persist the dropped-feature decision for downstream consumption by
+    # thrember_lite.FeatureSpec.from_drop_columns.
     out_path = Path(args.dropped_out) if args.dropped_out else Path(
         f"{args.model_path}.dropped_features.json"
     )

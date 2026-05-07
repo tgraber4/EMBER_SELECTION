@@ -104,7 +104,7 @@ The script must:
 rank,index,block,field,hashed,mean_abs_shap,cluster_id,drop_reason
 ```
 
-* `index` is required — `drop_features.py` keys on it.
+* `index` is required — the downstream consumer (`thrember_lite.FeatureSpec.from_drop_columns`) keys on it.
 * `block`, `field`, `hashed` are populated from the feature index map (§2.1).
 * `cluster_id` is the integer cluster label from `fcluster`, or `-1` for
   features that were excluded from clustering (low/zero SHAP variance — see
@@ -113,10 +113,10 @@ rank,index,block,field,hashed,mean_abs_shap,cluster_id,drop_reason
   (see Phase 3 for the meaning of each).
 * Sorted by `rank` ascending (rank 1 = first feature dropped).
 
-**Downstream handoff:** the CSV is consumed by `custom_scripts/drop_features.py`
-**as a separate manual step** — the new script does **not** invoke
-`drop_features.py`. The dropped-features CSV is the entire output of this
-stage.
+**Downstream handoff:** the CSV (or its `.json` sibling) is consumed by
+`thrember_lite.FeatureSpec.from_drop_columns` **as a separate manual step** —
+this script does **not** invoke training. The dropped-features file is the
+entire output of this stage.
 
 ---
 
@@ -295,8 +295,8 @@ contribution is split across several near-identical "clones."
 
 Validation of the reduced feature set (re-training on the kept features
 and comparing metrics against the baseline) is **out of scope for this
-script** — that happens downstream after `drop_features.py` produces the
-slimmed dataset.
+script** — that happens downstream by feeding the dropped-features file
+into `thrember_lite` and re-training.
 
 ---
 
@@ -326,8 +326,8 @@ slimmed dataset.
 - [ ] **Selection:** Generate exactly `n_drop` indices via
       Rank 0 → Rank A → Rank B with the tie-break rules in Phase 3.
 - [ ] **Export CSV:** Write `dropped_features.csv` with the schema in §2
-      (must include `index` so `drop_features.py` works). Do **not** invoke
-      `drop_features.py` — that's a separate downstream step.
+      (must include `index` so the downstream consumer works). Do **not**
+      invoke training here — that's a separate downstream step.
 
 ---
 
@@ -355,7 +355,7 @@ slimmed dataset.
 * **Fallback behavior** when `feature_index_map.json` is missing or
   malformed: emit the CSV with `block="unknown"`, `field=f"Column_{i}"`,
   `hashed=False` — the pipeline still produces a valid drop list keyed on
-  `index`, which is all `drop_features.py` needs.
+  `index`, which is all the downstream consumer needs.
 
 ---
 

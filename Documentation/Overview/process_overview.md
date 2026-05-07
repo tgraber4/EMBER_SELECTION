@@ -58,32 +58,29 @@ After this, `read_vectorized_features(data_dir, subset)` reshapes the memmap bac
 This path is fixed-width: it always emits 2,568 columns, hard-codes the categorical indices, and writes `.dat` files keyed off `extractor.dim`.
 
 ### Customization — what is and isn't possible
-- **`PEFeatureExtractor.process_raw_features`** is fully reusable on a single dict. You don't have to go through `create_vectorized_features` — `drop_features.py` calls the extractor directly.
+- **`PEFeatureExtractor.process_raw_features`** is fully reusable on a single dict. You don't have to go through `create_vectorized_features` — `thrember_lite.predict_file` calls the extractor directly on a single sample.
 - **The `.dat` memmap layout is not customizable** in shape. Every cell is `float32`, every row is `extractor.dim` wide. `read_vectorized_features` reshapes by that constant.
 - **The list of feature blocks is not parameterized.** `PEFeatureExtractor.__init__` builds the same 12 feature classes every time. To genuinely skip a block at extraction time you would have to modify `features.py` or fork it.
 
-### Vectorizing with features removed (`drop_features.py`)
+### Vectorizing with features removed (`thrember_lite`)
 
-The current strategy is **extract all 2,568 features, then drop columns**, never "skip during extraction." Concretely:
+The current strategy is **extract all 2,568 features into the canonical `.dat`, then slice columns at training time**, never "skip during extraction." Concretely:
 
-1. `mi_feature_selection.py` ranks features by mutual information against the binary label and writes `dropped_features.{csv,json}` containing the bottom-N indices (default N=257, ~10%).
-2. `drop_features.py` reads the drop list, builds a boolean keep-mask of length 2,568, runs `PEFeatureExtractor.process_raw_features` on every input row, slices `vec[keep_idx]`, and writes a JSONL with `{<passthrough metadata>, "vector": [reduced floats...]}`.
+1. `mi_feature_selection.py` (or `shap_cluster_feature_selection.py`) ranks features and writes `dropped_features.{csv,json}` containing the indices to drop (default ~10%).
+2. `thrember_lite.FeatureSpec.from_drop_columns` reads the drop list and produces a `spec.json` holding `kept_indices`, `original_dim`, and the remapped `new_categorical` positions.
+3. `thrember_lite.read_vectorized_features` opens the canonical `X_<subset>.dat`, slices columns to `kept_indices` during a chunked load (so the full-width matrix is never materialized in RAM), and hands `(X, y)` to `train_binary`.
 
 **What works under this design:**
-- Any drop list, including dropping categorical indices, is mechanically valid.
-- The original index map (`Documentation/feature_index_map.json`) still names every kept column — you just filter it by the keep-mask.
-- Re-running with a different drop list is a fresh JSONL; the source data is untouched.
-- `bernoulli_sample.py`, `mi_feature_selection.py`, and the index map all work on **raw** rows, so they are immune to feature-removal — drop selection happens after them in the pipeline, not before.
+- Any drop list, including dropping categorical indices, is mechanically valid — `FeatureSpec.new_categorical` remaps surviving categoricals to their post-slice positions automatically.
+- The original index map (`Documentation/feature_index_map.json`) still names every kept column.
+- Re-running with a different drop list reuses the same `.dat` files — only `spec.json` and the model change.
+- `bernoulli_sample.py`, `mi_feature_selection.py`, and the index map all work on **raw** rows; drop selection happens after them in the pipeline.
 
-**What breaks (and why):**
-- `thrember.create_vectorized_features` cannot consume the reduced JSONL — it expects the full nested dict, not a `vector` key.
-- `thrember.read_vectorized_features` is hard-wired to `extractor.dim = 2568`. A reduced `.dat` would be reshaped wrong.
+**What breaks (and why) for the upstream `thrember` training path:**
 - `thrember.train_model` / `train_ovr_model` set `categorical_feature=[2, 3, 4, 5, 6, 701, 702]` literally. After dropping any column ≤ 702, those indices point at the wrong feature.
 - `thrember.predict_sample` calls `extractor.feature_vector(file_data)` and feeds the full 2,568-wide result straight to `booster.predict` — it has no notion of a column slice.
 
-So feature-removal **bypasses the entire thrember training entry-point** and needs its own thin layer. The design for that layer is in `Documentation/thrember_lite_plan.md` (`FeatureSpec` + `train_binary` + `ModelBundle`); `drop_features.py` is a precursor that produces reduced vectors but does not yet write `.dat` memmaps or train.
-
-A practical bridge: write the reduced vectors as a memmap of shape `(N, dim_kept)` and keep `kept_indices` + the remapped `categorical_feature` list alongside the model so inference can re-apply the same slice.
+`thrember_lite` solves both: `train_binary` uses `spec.new_categorical` instead of the hardcoded list, and `predict_file` slices the extracted vector through `spec.kept_indices` before predicting. The model and the spec ship together as a `ModelBundle` so inference always replays the same slice it trained on.
 
 ### Why dropping must happen post-vectorization
 
@@ -95,18 +92,17 @@ The dropped-features list refers to **positions in the output vector**, not to k
 
 So the only place the drop list maps cleanly is **after** vectorization, where each index points to exactly one output slot. Vectorize once on full raw data, then slice.
 
-### What `drop_features.py` outputs
+### What `thrember_lite` writes to disk
 
-A new JSONL at `--out`, one line per input sample:
+After `train_binary` + `ModelBundle.save(booster, spec, out_dir)` the run directory contains:
 
-```json
-{"md5": "...", "sha1": "...", "sha256": "...", "label": 0, "file_type": "Win32", "vector": [5785.0, 307.0, 174.0, ...]}
+```
+out_dir/
+├── model.txt    # LightGBM text dump (full booster, all trees)
+└── spec.json    # original_dim, kept_indices, new_categorical, block_ranges, source
 ```
 
-- Passthrough metadata copied from each input line (`md5`, `sha1`, `sha256`, `tlsh`, `label`, `file_type`, `family`, etc.).
-- `"vector"`: a flat list of floats — the full 2,568-element vector with the dropped indices removed. Length = `2568 − len(drop_list)`.
-
-Each line is self-contained for training: `(label, vector)`. The script does both vectorization and trimming in one pass — no pre-vectorized input is required.
+The two files travel together: the model alone is unusable because LightGBM only knows column *positions*, not names. `spec.json` is what tells inference which 2,311 of the 2,568 features the booster actually trained on, and where the categoricals ended up after the slice.
 
 ---
 
@@ -126,18 +122,17 @@ Each line is self-contained for training: `(label, vector)`. The script does bot
 Multilabel tasks go through `train_ovr_model`, which trains one binary booster per label.
 
 ### Training with features removed
-This is where the design changes the most. The reduced JSONL emitted by `drop_features.py` has shape `(N, dim_kept)` per row. To train on it you need to:
+`thrember_lite.train_binary(data_dir, spec, params, seed=...)` is the entry point. The four things it does that thrember doesn't:
 
-1. **Stack into an array.** Either load all rows into memory (fine at ~100k rows) or write your own memmap of the reduced shape.
-2. **Remap the categorical indices.** If `kept_indices = sorted indices kept after the drop`, the new categorical list is `[kept_indices.index(c) for c in [2,3,4,5,6,701,702] if c in kept_indices]`. Any categorical that got dropped must be removed from the list, and every surviving categorical's position shifts down by however many lower-indexed columns were dropped before it.
-3. **Build the `lgb.Dataset` and call `lgb.train` directly** with the same params dict you would have given thrember. The training algorithm itself is column-count-agnostic — only the `categorical_feature` indices need fixing.
-4. **Persist the kept-indices list** next to the booster so inference can replay the same slice (this is the `FeatureSpec` / `ModelBundle` idea).
+1. **Slices columns at load time.** `read_vectorized_features` opens the canonical `X_train.dat` as a lazy memmap and copies only the kept columns into a pre-allocated output array (chunked at 50k rows by default). The full-width matrix is never materialized.
+2. **Remaps the categorical indices.** `spec.new_categorical = [kept_indices.index(c) for c in [2,3,4,5,6,701,702] if c in kept_indices]` is computed at spec-build time and cached in `spec.json`. `train_binary` passes it to `lgb.Dataset(categorical_feature=...)` instead of the hardcoded list.
+3. **Pins the seed across both RNGs.** `random_state=seed` for the val split *and* `seed`/`bagging_seed`/`feature_fraction_seed` for LightGBM (on a copy of `params`, with a printed warning if they were already set). This is what makes ablation deltas attributable to the feature set rather than RNG noise.
+4. **Returns `lgb.Booster` directly**, matching `thrember.train_model`. `ModelBundle.save(booster, spec, out_dir)` is a separate, explicit step that writes `model.txt` + `spec.json`.
 
 Things to watch out for:
-- If you drop a categorical column **and** forget to remove it from `categorical_feature`, LightGBM will silently treat a continuous column as categorical — quietly garbage results.
-- If you drop a low index (e.g. column 5) **and** forget to shift, the indices `701, 702` become `700, 701` and you'll be flagging the wrong column as categorical.
-- Stratified splitting still works — only `X.shape[1]` changed, not `y`.
-- The original LightGBM JSON config doesn't reference column indices, so you can reuse `examples/lgbm_config.json` as-is.
+- The drop list must come from a reproducible source (`mi_feature_selection.py`, SHAP-cluster, etc.) — `FeatureSpec.from_drop_columns` enforces sorted, in-range, deduped indices but doesn't validate the *quality* of the selection.
+- For ablation studies, hold `--seed` constant across configs. AUC differences from feature drops are typically the same magnitude as RNG noise.
+- The original LightGBM JSON config doesn't reference column indices, so you can reuse `examples/lgbm_config.json` as-is — `train_binary` only injects the seed knobs.
 
 ### Tracking what changed
 You don't gain new training logic from feature removal — you lose work, because the column count drops. What you gain is the obligation to keep `kept_indices` (and the remapped categorical list) bundled with the model.
@@ -190,6 +185,6 @@ So evaluation under feature removal needs exactly one new piece of plumbing (app
 
 ## Resolved design decisions
 
-1. **Reduced-vector training is not implemented yet.** `drop_features.py` produces reduced JSONL but no script in the repo currently trains a LightGBM model from it. The `thrember_lite_plan.md` plan is the path forward; until that lands, "training with features removed" is design-only.
+1. **Reduced-vector training is implemented as `thrember_lite`.** The package at `src/thrember_lite/` consumes a `dropped_features.json`, slices columns at load time off the canonical `.dat` files, trains a binary LightGBM booster, and saves a `ModelBundle` (`model.txt` + `spec.json`) for reproducible inference. See `Documentation/thrember_lite_plan.md` for the design and `Documentation/thrember_lite_usage.md` for the end-to-end commands.
 2. **Feature removal stays post-extraction for now.** `PEFeatureExtractor` always emits the full 2,568-dim vector and downstream scripts slice it via `kept_indices`. No block-level skipping inside `features.py`.
 3. **Raw-bytes inference will use a forked `predict_sample`** that takes an explicit slice argument (e.g. `kept_indices` or a `FeatureSpec`) rather than a wrapper that reads a sidecar at call time. The fork extracts the full 2,568-dim vector via `PEFeatureExtractor`, applies the slice in-place, and calls `booster.predict` on the reduced array.

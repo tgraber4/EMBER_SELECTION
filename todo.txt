@@ -1,6 +1,6 @@
-- finish running shap
+- test drop features out with sub-sample
+- figure out if using full dataset or sub-sample
+- run run_thrember_lite.py for all 3 methods
 - rerun mutual information and get time taken
 - rerun embedded and get time taken
-- get drop features layout working
-- run drop features for all 3 methods
 - compile and organize notes
