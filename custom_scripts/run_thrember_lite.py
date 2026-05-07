@@ -45,7 +45,7 @@ def main() -> int:
     DATA_DIR    = Path("ember_data/")
     DROP        = Path("custom_scripts/old_data/dropped_features.json")
     OUT         = Path("runs/exp01/")
-    CONFIG      = None                 # Path("configs/lgbm_default.json") or None
+    CONFIG      = Path("examples/lgbm_config.json")
     SEED        = 42
     SOURCE_NOTE = ""                   # free-form provenance string
     REVECTORIZE = False                # force step 1 even if .dat files exist
