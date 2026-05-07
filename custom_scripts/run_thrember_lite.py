@@ -52,6 +52,21 @@ def main() -> int:
     PREDICT     = None                 # Path("suspicious.exe") or None
     # -----------------------------------------------------------------------
 
+    # Validate inputs up front so failures point at the right input rather than
+    # surfacing as cryptic errors deep inside thrember.
+    if not DATA_DIR.is_dir():
+        print(f"error: DATA_DIR {DATA_DIR} does not exist or is not a directory", file=sys.stderr)
+        return 2
+    if not DROP.is_file():
+        print(f"error: DROP {DROP} does not exist", file=sys.stderr)
+        return 2
+    if CONFIG is not None and not CONFIG.is_file():
+        print(f"error: CONFIG {CONFIG} does not exist", file=sys.stderr)
+        return 2
+    if PREDICT is not None and not PREDICT.is_file():
+        print(f"error: PREDICT {PREDICT} does not exist", file=sys.stderr)
+        return 2
+
     OUT.mkdir(parents=True, exist_ok=True)
 
     # ------------------------------------------------------------------ step 1
@@ -62,14 +77,13 @@ def main() -> int:
         create_vectorized_features(DATA_DIR)
 
     # ------------------------------------------------------------------ step 2
-    _step(2, f"Build spec.json from {DROP}")
+    # spec.json is written by ModelBundle.save in step 3; we only build the
+    # FeatureSpec here so train_binary has it.
+    _step(2, f"Build spec from {DROP}")
     spec = FeatureSpec.from_drop_columns(DROP, source_note=SOURCE_NOTE)
-    spec_path = OUT / "spec.json"
-    spec.to_json(spec_path)
     print(
-        f"wrote {spec_path} "
-        f"(original_dim={spec.original_dim}, kept={len(spec.kept_indices)}, "
-        f"dropped={spec.original_dim - len(spec.kept_indices)})"
+        f"original_dim={spec.original_dim}, kept={len(spec.kept_indices)}, "
+        f"dropped={spec.original_dim - len(spec.kept_indices)}"
     )
 
     # ------------------------------------------------------------------ step 3
