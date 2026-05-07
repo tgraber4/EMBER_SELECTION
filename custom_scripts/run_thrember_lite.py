@@ -42,7 +42,7 @@ def _dat_files_present(data_dir: Path) -> bool:
 
 def main() -> int:
     # ----- inputs -- edit these to point at your data ----------------------
-    DATA_DIR    = Path("my_dataset/")
+    DATA_DIR    = Path("ember_data/")
     DROP        = Path("custom_scripts/old_data/dropped_features.json")
     OUT         = Path("runs/exp01/")
     CONFIG      = None                 # Path("configs/lgbm_default.json") or None
