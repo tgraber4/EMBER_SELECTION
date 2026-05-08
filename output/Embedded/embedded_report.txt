@@ -1,0 +1,14 @@
+=== Feature Selection Report ===
+Total features                : 2568
+Target drop (N_drop)          : 257  (10%)
+0-Gain features               : 1031
+0-Split features              : 1031
+Absolute zeros (Gain & Split) : 1031
+Signal features dropped       : 0  (features with Gain > 0 removed to meet the quota)
+Total global gain             : 585264
+Sum of dropped gain           : 0
+Information cost              : 0.0000%
+Training time                 : 95.95 s
+Selection processing time     : 0.0033 s
+Saved dropped-feature report to output/Embedded/embedded_dropped_features.json
+Total script runtime          : 152.87 s (2m32s)

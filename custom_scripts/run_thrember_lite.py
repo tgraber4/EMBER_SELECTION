@@ -43,12 +43,12 @@ def _dat_files_present(data_dir: Path) -> bool:
 def main() -> int:
     # ----- inputs -- edit these to point at your data ----------------------
     DATA_DIR    = Path("ember_data/")
-    DROP        = Path("output/Mutual_Information/dropped_features.json")
-    OUT         = Path("runs/MI01/")
+    DROP        = Path("output/SHAP/shap_dropped_features.json")
+    OUT         = Path("runs/SHAP01/")
     CONFIG      = Path("examples/lgbm_config.json")
     SEED        = 42
     SOURCE_NOTE = ""                   # free-form provenance string
-    REVECTORIZE = False                # force step 1 even if .dat files exist
+    REVECTORIZE = True                # force step 1 even if .dat files exist
     PREDICT     = None                 # Path("suspicious.exe") or None
     # -----------------------------------------------------------------------
 

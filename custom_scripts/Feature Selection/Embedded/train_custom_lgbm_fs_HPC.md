@@ -37,23 +37,10 @@ If your cluster blocks internet on compute nodes, run those `pip` commands on a 
 
 ---
 
-## 3. Job
 
-CPU
+## 3. How to run
 
-## 4. What you get back
-
-In your data folder:
-- `X_train.dat`, `y_train.dat`, `X_test.dat`, `y_test.dat` — vectorized features (auto-created on first run; reused if re-running).
-
-Where you pointed `model.txt`:
-- `model.txt` — trained LightGBM booster.
-- `model.txt.dropped_features.json` — the feature-selection report (which features to drop, gain/split per feature, information cost, timings, test accuracy).
-
-In `run_<jobid>.out`:
-- Training log + the `=== Feature Selection Report ===` summary.
-
----
+python3 "custom_scripts/Feature Selection/Embedded/train_custom_lgbm_fs.py" ember_data/
 
 ## 5. Common errors
 
