@@ -52,9 +52,7 @@ EARLY_STOPPING = 50
 # report. Edit this string to point at a different map file. Falls back to
 # generic Column_<i> names if the file is missing or its dim doesn't match
 # PEFeatureExtractor.dim.
-FEATURE_INDEX_MAP_PATH = (
-    Path(__file__).resolve().parent.parent / "Documentation" / "feature_index_map.json"
-)
+FEATURE_INDEX_MAP_PATH = Path("custom_scripts/Documentation/feature_index_map.json")
 
 
 # LightGBM rejects feature names that contain any of these JSON-special chars
