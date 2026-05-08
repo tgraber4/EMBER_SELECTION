@@ -10,10 +10,9 @@ import json
 from pathlib import Path
 
 # --- User-editable paths ---
-# INPUT_PATH       = "output/Embedded/embedded_dropped_features.json"
-INPUT_PATH       = r"output\Embedded\Old\model.txt.dropped_features.json"
-OUTPUT_PATH      = "output/Embedded/updated_dropped_features.json"
-FEATURE_MAP_PATH = "Documentation/feature_index_map.json"
+INPUT_PATH       = Path("output/Embedded/embedded_dropped_features.json")
+OUTPUT_PATH      = Path("output/Embedded/updated_dropped_features.json")
+FEATURE_MAP_PATH = Path("Documentation/feature_index_map.json")
 
 
 def main():
@@ -43,7 +42,7 @@ def main():
             "gain":   gain,
         })
 
-    out = Path(OUTPUT_PATH)
+    out = OUTPUT_PATH
     out.parent.mkdir(parents=True, exist_ok=True)
     with open(out, "w") as f:
         json.dump(records, f, indent=2)
