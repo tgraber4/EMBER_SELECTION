@@ -50,7 +50,7 @@ if __name__ == "__main__":
     plt.grid(True)
     plt.savefig("Classifier_ROC_AUC.pdf")
     print("Saved ROC curve plot to Classifier_ROC_AUC.pdf")
-    print("TPR of test set at FPR 0.1: {}".format(tpr_at_fpr_01))
+    print("TPR of test set at FPR 1%: {}".format(tpr_at_fpr_01))
 
     # Load the challenge set
     X_challenge, y_challenge = thrember.read_vectorized_features(args.data_dir, "challenge")

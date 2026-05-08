@@ -91,7 +91,7 @@ def _save_roc_plot(metrics: dict, out_path: Path, title: str) -> None:
 
 def main() -> int:
     # ----- inputs -- edit these to point at your model + data ---------------
-    MODEL_DIR      = Path("runs/exp01/")
+    MODEL_DIR      = Path("runs/MI01/")
     DATA_DIR       = Path("ember_data/")
     EVAL_CHALLENGE = False            # set False to skip the challenge set
     OUT_PLOT_TEST  = MODEL_DIR / "roc_test.pdf"

@@ -43,8 +43,8 @@ def _dat_files_present(data_dir: Path) -> bool:
 def main() -> int:
     # ----- inputs -- edit these to point at your data ----------------------
     DATA_DIR    = Path("ember_data/")
-    DROP        = Path("custom_scripts/old_data/dropped_features.json")
-    OUT         = Path("runs/exp01/")
+    DROP        = Path("output/Mutual_Information/dropped_features.json")
+    OUT         = Path("runs/MI01/")
     CONFIG      = Path("examples/lgbm_config.json")
     SEED        = 42
     SOURCE_NOTE = ""                   # free-form provenance string
