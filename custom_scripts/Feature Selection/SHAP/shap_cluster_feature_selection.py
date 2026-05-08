@@ -15,7 +15,14 @@ Built off `train_custom_lgbm.py` -- reuses `find_jsonl`, `vectorize_split`,
 so the data-prep / training side stays in lock-step with the baseline pipeline.
 
 Usage:
-    python custom_scripts/shap_cluster_feature_selection.py data runs/baseline_model.txt --config-file examples/lgbm_config.json --drop-fraction 0.10 --shap-sample 20000 --cluster-threshold 0.10 --feature-map Documentation/feature_index_map.json --dropped-out runs/dropped_features.csv
+    python custom_scripts/shap_cluster_feature_selection.py \
+        [--data-dir ember_data] \
+        [--config-file examples/lgbm_config.json] \
+        [--output-dir output/SHAP] \
+        [--model-name model.txt] \
+        [--drop-fraction 0.10] \
+        [--shap-sample 20000] \
+        [--cluster-threshold 0.10]
 """
 
 import argparse
@@ -49,6 +56,18 @@ from train_custom_lgbm import (  # noqa: E402
     vectorize_split,
 )
 
+
+# --- User-editable defaults ---
+DATA_DIR          = "ember_data"
+OUTPUT_DIR        = "output/SHAP"
+MODEL_NAME        = "model.txt"
+CONFIG_FILE       = "examples/lgbm_config.json"
+DROPPED_OUT_NAME  = "shap_dropped_features.csv"
+DROP_FRACTION     = 0.10
+EARLY_STOPPING    = 50
+SHAP_SAMPLE       = 20000
+CLUSTER_THRESHOLD = 0.10
+SHAP_VAR_EPS      = 1e-12
 
 DEFAULT_FEATURE_MAP = (
     Path(__file__).resolve().parent.parent / "Documentation" / "feature_index_map.json"
@@ -301,32 +320,35 @@ def parse_args():
     parser = argparse.ArgumentParser(
         description="SHAP + correlation-clustering feature selection for EMBER2024."
     )
-    parser.add_argument("data_dir", type=str,
-                        help="Folder containing the train and test .jsonl files. "
-                             "Vectorized .dat outputs are written here too.")
-    parser.add_argument("model_path", type=str,
-                        help="Path to save the trained baseline LightGBM model.")
-    parser.add_argument("--config-file", type=str, required=True,
-                        help="Path to LightGBM config JSON.")
-    parser.add_argument("--early-stopping", type=int, default=50,
-                        help="Early-stopping rounds on the val set. 0 disables.")
-    parser.add_argument("--drop-fraction", type=float, default=0.10,
-                        help="Fraction of features to drop (default 0.10).")
-    parser.add_argument("--shap-sample", type=int, default=20000,
-                        help="Stratified subsample size for TreeSHAP "
-                             "(default 20000). Capped at len(X_tr).")
-    parser.add_argument("--cluster-threshold", type=float, default=0.10,
-                        help="fcluster distance threshold (default 0.10 ~ R>=0.995). "
-                             "Must be in (0, sqrt(2)].")
-    parser.add_argument("--shap-var-eps", type=float, default=1e-12,
-                        help="Variance threshold below which a SHAP column is "
-                             "treated as inactive (default 1e-12).")
+    parser.add_argument("--data-dir", type=str, default=DATA_DIR,
+                        help=f"Folder containing the train and test .jsonl files. "
+                             f"Vectorized .dat outputs are written here too "
+                             f"(default: {DATA_DIR}).")
+    parser.add_argument("--output-dir", type=str, default=OUTPUT_DIR,
+                        help=f"Folder to write the model and dropped-feature CSV "
+                             f"(default: {OUTPUT_DIR}).")
+    parser.add_argument("--model-name", type=str, default=MODEL_NAME,
+                        help=f"Filename for the saved LightGBM model "
+                             f"(default: {MODEL_NAME}).")
+    parser.add_argument("--config-file", type=str, default=CONFIG_FILE,
+                        help=f"Path to LightGBM config JSON (default: {CONFIG_FILE}).")
+    parser.add_argument("--early-stopping", type=int, default=EARLY_STOPPING,
+                        help=f"Early-stopping rounds on the val set. 0 disables "
+                             f"(default: {EARLY_STOPPING}).")
+    parser.add_argument("--drop-fraction", type=float, default=DROP_FRACTION,
+                        help=f"Fraction of features to drop (default: {DROP_FRACTION}).")
+    parser.add_argument("--shap-sample", type=int, default=SHAP_SAMPLE,
+                        help=f"Stratified subsample size for TreeSHAP "
+                             f"(default: {SHAP_SAMPLE}). Capped at len(X_tr).")
+    parser.add_argument("--cluster-threshold", type=float, default=CLUSTER_THRESHOLD,
+                        help=f"fcluster distance threshold (default: {CLUSTER_THRESHOLD} ~ R>=0.995). "
+                             f"Must be in (0, sqrt(2)].")
+    parser.add_argument("--shap-var-eps", type=float, default=SHAP_VAR_EPS,
+                        help=f"Variance threshold below which a SHAP column is "
+                             f"treated as inactive (default: {SHAP_VAR_EPS}).")
     parser.add_argument("--feature-map", type=str, default=str(DEFAULT_FEATURE_MAP),
                         help="Path to feature_index_map.json (default: "
                              "../Documentation/feature_index_map.json).")
-    parser.add_argument("--dropped-out", type=str, default="dropped_features.csv",
-                        help="Output CSV of dropped features "
-                             "(default dropped_features.csv).")
     args = parser.parse_args()
 
     # Validate cluster-threshold up-front per the plan.
@@ -357,6 +379,11 @@ def main():
         raise ValueError(f"Not a directory: {data_dir}")
     if not os.path.isfile(args.config_file):
         raise ValueError(f"Not a file: {args.config_file}")
+
+    out_dir = Path(args.output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    model_path = str(out_dir / args.model_name)
+    dropped_out = out_dir / DROPPED_OUT_NAME
 
     train_jsonl = find_jsonl(data_dir, "train")
     test_jsonl = find_jsonl(data_dir, "test")
@@ -402,8 +429,8 @@ def main():
     # never fired"; we don't want that leaking into tree_limit / num_iteration.
     bi = model.best_iteration
     best_iter = int(bi) if bi is not None and bi > 0 else None
-    model.save_model(args.model_path, num_iteration=best_iter)
-    print(f"Saved baseline model to {args.model_path} (best_iter={best_iter}).")
+    model.save_model(model_path, num_iteration=best_iter)
+    print(f"Saved baseline model to {model_path} (best_iter={best_iter}).")
 
     # Baseline metrics on the full test set.
     t_eval_start = time.perf_counter()
@@ -497,8 +524,7 @@ def main():
     t_export_start = time.perf_counter()
     index_map = load_index_map(Path(args.feature_map), dim)
 
-    out_path = Path(args.dropped_out)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path = dropped_out
     fieldnames = [
         "rank", "index", "block", "field", "hashed",
         "mean_abs_shap", "cluster_id", "drop_reason",

@@ -9,10 +9,12 @@ from thrember.features import PEFeatureExtractor
 
 
 def main():
-    JSONL_FILE = "ember_data\PE_train_sampled.jsonl"
+    JSONL_FILE = r"ember_data\PE_train_sampled.jsonl"
     N_DROP = 257
     MAX_SAMPLES = 100_000
-    OUTPUT = "dropped_features.csv"
+    OUT_DIR = Path("output/Mutual_Information")
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    OUTPUT = str(OUT_DIR / "dropped_features.csv")
     FEATURE_MAP = "Documentation/feature_index_map.json"
     SEED = 42
 

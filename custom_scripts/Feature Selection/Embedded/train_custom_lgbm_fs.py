@@ -13,10 +13,11 @@ run the embedded feature-selection plan from
             feature indices/names to a JSON sidecar next to the model.
 
 Usage:
-    python train_custom_lgbm_fs.py <data_dir> <model_path> \
-        --config-file ../examples/lgbm_config.json \
-        [--drop-fraction 0.10] \
-        [--dropped-out <path.json>]
+    python train_custom_lgbm_fs.py <data_dir> \
+        [--config-file examples/lgbm_config.json] \
+        [--output-dir output/Embedded] \
+        [--model-name model.txt] \
+        [--drop-fraction 0.10]
 
 The path to feature_index_map.json is set at the top of this file via the
 `FEATURE_INDEX_MAP_PATH` constant -- edit it to point elsewhere.
@@ -37,6 +38,14 @@ from thrember.model import vectorize_subset
 
 CAT_FEATURES = [2, 3, 4, 5, 6, 701, 702]
 RANDOM_STATE = 0
+
+# --- User-editable defaults ---
+OUTPUT_DIR  = "output/Embedded"
+MODEL_NAME  = "model.txt"
+CONFIG_FILE = "examples/lgbm_config.json"
+DROP_JSON_NAME = "embedded_dropped_features.json"
+DROP_FRACTION  = 0.10
+EARLY_STOPPING = 50
 
 # --- User-editable: path to the feature_index_map.json used to translate
 # vector indices into human-readable feature names in the dropped-features
@@ -226,19 +235,21 @@ def main():
     parser.add_argument("data_dir", type=str,
                         help="Folder containing the train and test .jsonl files. "
                              "Vectorized .dat outputs are written here too.")
-    parser.add_argument("model_path", type=str,
-                        help="Path to save the trained LightGBM model.")
-    parser.add_argument("--config-file", type=str, required=True,
-                        help="Path to LightGBM config JSON.")
-    parser.add_argument("--early-stopping", type=int, default=50,
-                        help="Early-stopping rounds on the val set. 0 disables.")
-    parser.add_argument("--drop-fraction", type=float, default=0.10,
-                        help="Hard cap on the fraction of features to drop "
-                             "(default: 0.10). The script will never drop more "
-                             "than ceil(total_features * drop_fraction).")
-    parser.add_argument("--dropped-out", type=str, default=None,
-                        help="Path to write the dropped-feature report JSON. "
-                             "Defaults to <model_path>.dropped_features.json.")
+    parser.add_argument("--output-dir", type=str, default=OUTPUT_DIR,
+                        help=f"Folder to write the model and dropped-feature report "
+                             f"(default: {OUTPUT_DIR}).")
+    parser.add_argument("--model-name", type=str, default=MODEL_NAME,
+                        help=f"Filename for the saved LightGBM model "
+                             f"(default: {MODEL_NAME}).")
+    parser.add_argument("--config-file", type=str, default=CONFIG_FILE,
+                        help=f"Path to LightGBM config JSON (default: {CONFIG_FILE}).")
+    parser.add_argument("--early-stopping", type=int, default=EARLY_STOPPING,
+                        help=f"Early-stopping rounds on the val set. 0 disables "
+                             f"(default: {EARLY_STOPPING}).")
+    parser.add_argument("--drop-fraction", type=float, default=DROP_FRACTION,
+                        help=f"Hard cap on the fraction of features to drop "
+                             f"(default: {DROP_FRACTION}). The script will never drop more "
+                             f"than ceil(total_features * drop_fraction).")
     args = parser.parse_args()
 
     t_script_start = time.perf_counter()
@@ -252,8 +263,13 @@ def main():
     if not os.path.isfile(args.config_file):
         raise ValueError(f"Not a file: {args.config_file}")
 
+    out_dir = Path(args.output_dir)
+    out_dir.mkdir(parents=True, exist_ok=True)
+    model_path = str(out_dir / args.model_name)
+    out_path = out_dir / DROP_JSON_NAME
+
     train_jsonl = find_jsonl(data_dir, "train")
-    test_jsonl = find_jsonl(data_dir, "test")
+    test_jsonl  = find_jsonl(data_dir, "test")
 
     with open(args.config_file, "r") as f:
         fit_params = json.load(f)
@@ -297,8 +313,8 @@ def main():
 
     bi = model.best_iteration
     best_iter = int(bi) if bi is not None and bi > 0 else None
-    model.save_model(args.model_path, num_iteration=best_iter)
-    print(f"Saved model to {args.model_path}")
+    model.save_model(model_path, num_iteration=best_iter)
+    print(f"Saved model to {model_path}")
 
     # Score on the held-out test set (unchanged from train_custom_lgbm.py).
     X_test, y_test = read_vectorized(data_dir, "test", extractor.dim)
@@ -373,9 +389,6 @@ def main():
 
     # Persist the dropped-feature decision for downstream consumption by
     # thrember_lite.FeatureSpec.from_drop_columns.
-    out_path = Path(args.dropped_out) if args.dropped_out else Path(
-        f"{args.model_path}.dropped_features.json"
-    )
     report = {
         "total_features": int(total_features),
         "drop_fraction": float(args.drop_fraction),

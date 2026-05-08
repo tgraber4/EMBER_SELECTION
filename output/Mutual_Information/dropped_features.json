@@ -1,0 +1,2058 @@
+[
+  {
+    "rank": 1,
+    "index": 2502,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the resources directory, attempting to read entry name. Entry names overlap...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 2,
+    "index": 2522,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid bdd info...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 3,
+    "index": 2524,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid function override header...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 4,
+    "index": 2526,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid IMAGE_DYNAMIC_RELOCATION_TABLE information...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 5,
+    "index": 2549,
+    "block": "pefilewarnings",
+    "field": "pewarn:Suspicious value found parsing section...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 6,
+    "index": 2552,
+    "block": "pefilewarnings",
+    "field": "pewarn:Too many errors parsing the Delay import directory...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 7,
+    "index": 2556,
+    "block": "pefilewarnings",
+    "field": "pewarn:Unsupported version of UNWIND_INFO...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 8,
+    "index": 2557,
+    "block": "pefilewarnings",
+    "field": "pewarn:...Contents are null-bytes.",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 9,
+    "index": 2558,
+    "block": "pefilewarnings",
+    "field": "pewarn:...No data in the file (is this corkami's virtsectblXP?).",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 10,
+    "index": 2564,
+    "block": "pefilewarnings",
+    "field": "pewarn:...symbol entries. Assuming corrupt.",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 11,
+    "index": 2002,
+    "block": "imports",
+    "field": "imports.lib_func_hashed[750]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 12,
+    "index": 2517,
+    "block": "pefilewarnings",
+    "field": "pewarn:FunctionEntry of UNWIND_INFO at...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 13,
+    "index": 2519,
+    "block": "pefilewarnings",
+    "field": "pewarn:If FileAlignment > 0x200 it should be a power of 2. Value...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 14,
+    "index": 2514,
+    "block": "pefilewarnings",
+    "field": "pewarn:Failed rendering pascal string, attempting to read from RVA 0x...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 15,
+    "index": 2512,
+    "block": "pefilewarnings",
+    "field": "pewarn:Export directory contains more than 10 repeated entries...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 16,
+    "index": 2562,
+    "block": "pefilewarnings",
+    "field": "pewarn:...VirtualSize is extremely large > 256MiB",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 17,
+    "index": 2495,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the import table. Entries go beyond bounds...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 18,
+    "index": 682,
+    "block": "strings",
+    "field": "string_count_registry_key",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 19,
+    "index": 693,
+    "block": "strings",
+    "field": "string_count_useragent",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 20,
+    "index": 2515,
+    "block": "pefilewarnings",
+    "field": "pewarn:Failed rendering unicode string, attempting to read from RVA 0x...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 21,
+    "index": 2485,
+    "block": "pefilewarnings",
+    "field": "pewarn:Don't know how to parse LOAD_CONFIG information for non-PE32...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 22,
+    "index": 2486,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error, too many imported symbols...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 23,
+    "index": 2490,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing StringFileInfo/VarFileInfo struct...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 24,
+    "index": 2491,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the Delay import directory...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 25,
+    "index": 629,
+    "block": "strings",
+    "field": "string_count_Invoke-Command",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 26,
+    "index": 630,
+    "block": "strings",
+    "field": "string_count_Invoke-Expression",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 27,
+    "index": 776,
+    "block": "section",
+    "field": "section.entropy_min",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 28,
+    "index": 628,
+    "block": "strings",
+    "field": "string_count_<script",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 29,
+    "index": 778,
+    "block": "section",
+    "field": "section.size_ratio_min",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 30,
+    "index": 748,
+    "block": "header",
+    "field": "optional.dll_characteristics:NO_BIND",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 31,
+    "index": 740,
+    "block": "header",
+    "field": "coff.characteristics:UP_SYSTEM_ONLY",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 32,
+    "index": 733,
+    "block": "header",
+    "field": "coff.characteristics:BYTES_REVERSED_LO",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 33,
+    "index": 914,
+    "block": "section",
+    "field": "section.entropy_hashed[33]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 34,
+    "index": 884,
+    "block": "section",
+    "field": "section.entropy_hashed[3]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 35,
+    "index": 864,
+    "block": "section",
+    "field": "section.vsize_hashed[33]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 36,
+    "index": 730,
+    "block": "header",
+    "field": "coff.characteristics:AGGRESIVE_WS_TRIM",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 37,
+    "index": 678,
+    "block": "strings",
+    "field": "string_count_post",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 38,
+    "index": 2476,
+    "block": "authenticode",
+    "field": "auth.parse_error",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 39,
+    "index": 2482,
+    "block": "pefilewarnings",
+    "field": "pewarn:Byte 0x...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 40,
+    "index": 1224,
+    "block": "imports",
+    "field": "imports.libraries_hashed[228]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 41,
+    "index": 1225,
+    "block": "imports",
+    "field": "imports.libraries_hashed[229]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 42,
+    "index": 1228,
+    "block": "imports",
+    "field": "imports.libraries_hashed[232]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 43,
+    "index": 1229,
+    "block": "imports",
+    "field": "imports.libraries_hashed[233]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 44,
+    "index": 797,
+    "block": "section",
+    "field": "section.sizes_hashed[16]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 45,
+    "index": 805,
+    "block": "section",
+    "field": "section.sizes_hashed[24]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 46,
+    "index": 784,
+    "block": "section",
+    "field": "section.sizes_hashed[3]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 47,
+    "index": 987,
+    "block": "section",
+    "field": "section.entry_name_hashed[6]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 48,
+    "index": 925,
+    "block": "section",
+    "field": "section.entropy_hashed[44]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 49,
+    "index": 1207,
+    "block": "imports",
+    "field": "imports.libraries_hashed[211]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 50,
+    "index": 1031,
+    "block": "imports",
+    "field": "imports.libraries_hashed[35]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 51,
+    "index": 1002,
+    "block": "imports",
+    "field": "imports.libraries_hashed[6]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 52,
+    "index": 1232,
+    "block": "imports",
+    "field": "imports.libraries_hashed[236]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 53,
+    "index": 2422,
+    "block": "datadirectories",
+    "field": "datadir.GLOBALPTR.virtual_address",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 54,
+    "index": 2433,
+    "block": "datadirectories",
+    "field": "datadir.COM_DESCRIPTOR.size",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 55,
+    "index": 2419,
+    "block": "datadirectories",
+    "field": "datadir.COPYRIGHT.size",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 56,
+    "index": 1203,
+    "block": "imports",
+    "field": "imports.libraries_hashed[207]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 57,
+    "index": 1006,
+    "block": "imports",
+    "field": "imports.libraries_hashed[10]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 58,
+    "index": 1012,
+    "block": "imports",
+    "field": "imports.libraries_hashed[16]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 59,
+    "index": 1014,
+    "block": "imports",
+    "field": "imports.libraries_hashed[18]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 60,
+    "index": 1005,
+    "block": "imports",
+    "field": "imports.libraries_hashed[9]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 61,
+    "index": 1045,
+    "block": "imports",
+    "field": "imports.libraries_hashed[49]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 62,
+    "index": 1214,
+    "block": "imports",
+    "field": "imports.libraries_hashed[218]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 63,
+    "index": 1210,
+    "block": "imports",
+    "field": "imports.libraries_hashed[214]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 64,
+    "index": 1024,
+    "block": "imports",
+    "field": "imports.libraries_hashed[28]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 65,
+    "index": 2510,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the version information, to read StringTable Value string...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 66,
+    "index": 1127,
+    "block": "imports",
+    "field": "imports.libraries_hashed[131]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 67,
+    "index": 1131,
+    "block": "imports",
+    "field": "imports.libraries_hashed[135]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 68,
+    "index": 1216,
+    "block": "imports",
+    "field": "imports.libraries_hashed[220]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 69,
+    "index": 1188,
+    "block": "imports",
+    "field": "imports.libraries_hashed[192]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 70,
+    "index": 1189,
+    "block": "imports",
+    "field": "imports.libraries_hashed[193]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 71,
+    "index": 1193,
+    "block": "imports",
+    "field": "imports.libraries_hashed[197]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 72,
+    "index": 1195,
+    "block": "imports",
+    "field": "imports.libraries_hashed[199]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 73,
+    "index": 1081,
+    "block": "imports",
+    "field": "imports.libraries_hashed[85]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 74,
+    "index": 1056,
+    "block": "imports",
+    "field": "imports.libraries_hashed[60]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 75,
+    "index": 1057,
+    "block": "imports",
+    "field": "imports.libraries_hashed[61]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 76,
+    "index": 1063,
+    "block": "imports",
+    "field": "imports.libraries_hashed[67]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 77,
+    "index": 1040,
+    "block": "imports",
+    "field": "imports.libraries_hashed[44]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 78,
+    "index": 1036,
+    "block": "imports",
+    "field": "imports.libraries_hashed[40]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 79,
+    "index": 1069,
+    "block": "imports",
+    "field": "imports.libraries_hashed[73]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 80,
+    "index": 1072,
+    "block": "imports",
+    "field": "imports.libraries_hashed[76]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 81,
+    "index": 1183,
+    "block": "imports",
+    "field": "imports.libraries_hashed[187]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 82,
+    "index": 1073,
+    "block": "imports",
+    "field": "imports.libraries_hashed[77]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 83,
+    "index": 1077,
+    "block": "imports",
+    "field": "imports.libraries_hashed[81]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 84,
+    "index": 1171,
+    "block": "imports",
+    "field": "imports.libraries_hashed[175]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 85,
+    "index": 1172,
+    "block": "imports",
+    "field": "imports.libraries_hashed[176]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 86,
+    "index": 1177,
+    "block": "imports",
+    "field": "imports.libraries_hashed[181]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 87,
+    "index": 1178,
+    "block": "imports",
+    "field": "imports.libraries_hashed[182]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 88,
+    "index": 1182,
+    "block": "imports",
+    "field": "imports.libraries_hashed[186]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 89,
+    "index": 1122,
+    "block": "imports",
+    "field": "imports.libraries_hashed[126]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 90,
+    "index": 1111,
+    "block": "imports",
+    "field": "imports.libraries_hashed[115]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 91,
+    "index": 1114,
+    "block": "imports",
+    "field": "imports.libraries_hashed[118]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 92,
+    "index": 1119,
+    "block": "imports",
+    "field": "imports.libraries_hashed[123]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 93,
+    "index": 1086,
+    "block": "imports",
+    "field": "imports.libraries_hashed[90]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 94,
+    "index": 1102,
+    "block": "imports",
+    "field": "imports.libraries_hashed[106]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 95,
+    "index": 1123,
+    "block": "imports",
+    "field": "imports.libraries_hashed[127]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 96,
+    "index": 1126,
+    "block": "imports",
+    "field": "imports.libraries_hashed[130]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 97,
+    "index": 2501,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the resources directory. Entry...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 98,
+    "index": 1235,
+    "block": "imports",
+    "field": "imports.libraries_hashed[239]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 99,
+    "index": 1241,
+    "block": "imports",
+    "field": "imports.libraries_hashed[245]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 100,
+    "index": 1136,
+    "block": "imports",
+    "field": "imports.libraries_hashed[140]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 101,
+    "index": 1110,
+    "block": "imports",
+    "field": "imports.libraries_hashed[114]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 102,
+    "index": 1161,
+    "block": "imports",
+    "field": "imports.libraries_hashed[165]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 103,
+    "index": 1167,
+    "block": "imports",
+    "field": "imports.libraries_hashed[171]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 104,
+    "index": 1168,
+    "block": "imports",
+    "field": "imports.libraries_hashed[172]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 105,
+    "index": 1142,
+    "block": "imports",
+    "field": "imports.libraries_hashed[146]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 106,
+    "index": 1144,
+    "block": "imports",
+    "field": "imports.libraries_hashed[148]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 107,
+    "index": 1145,
+    "block": "imports",
+    "field": "imports.libraries_hashed[149]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 108,
+    "index": 1147,
+    "block": "imports",
+    "field": "imports.libraries_hashed[151]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 109,
+    "index": 1149,
+    "block": "imports",
+    "field": "imports.libraries_hashed[153]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 110,
+    "index": 2505,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the version information, attempting to read VS_VERSION_INFO string...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 111,
+    "index": 2506,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the version information, attempting to read VarFileInfo Var string...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 112,
+    "index": 2507,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the version information, attempting to read StringFileInfo string...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 113,
+    "index": 2537,
+    "block": "pefilewarnings",
+    "field": "pewarn:Overlapping offsets in relocation data...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 114,
+    "index": 2531,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid resources directory. Can't read...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 115,
+    "index": 2528,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid relocation information. Can't read...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 116,
+    "index": 1243,
+    "block": "imports",
+    "field": "imports.libraries_hashed[247]",
+    "hashed": true,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 117,
+    "index": 2521,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid bdd dynamic relocation...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 118,
+    "index": 2565,
+    "block": "pefilewarnings",
+    "field": "pewarn:...ordinal entries. Assuming corrupt.",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 119,
+    "index": 2536,
+    "block": "pefilewarnings",
+    "field": "pewarn:No parsing available for IMAGE_DYNAMIC_RELOCATION_TABLE...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 120,
+    "index": 2533,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid TLS information. Can't read...",
+    "hashed": false,
+    "mi_score": 0.0
+  },
+  {
+    "rank": 121,
+    "index": 2,
+    "block": "general",
+    "field": "is_pe",
+    "hashed": false,
+    "mi_score": 1.2332142542239612e-07
+  },
+  {
+    "rank": 122,
+    "index": 2545,
+    "block": "pefilewarnings",
+    "field": "pewarn:RVA of IMAGE_BOUND_IMPORT_DESCRIPTOR points...",
+    "hashed": false,
+    "mi_score": 3.668026433256699e-06
+  },
+  {
+    "rank": 123,
+    "index": 4,
+    "block": "general",
+    "field": "start_bytes[1]",
+    "hashed": false,
+    "mi_score": 1.3872394671854231e-05
+  },
+  {
+    "rank": 124,
+    "index": 3,
+    "block": "general",
+    "field": "start_bytes[0]",
+    "hashed": false,
+    "mi_score": 1.3872394671854231e-05
+  },
+  {
+    "rank": 125,
+    "index": 633,
+    "block": "strings",
+    "field": "string_count_base64string",
+    "hashed": false,
+    "mi_score": 2.6493141049854785e-05
+  },
+  {
+    "rank": 126,
+    "index": 1079,
+    "block": "imports",
+    "field": "imports.libraries_hashed[83]",
+    "hashed": true,
+    "mi_score": 3.605659443395304e-05
+  },
+  {
+    "rank": 127,
+    "index": 2518,
+    "block": "pefilewarnings",
+    "field": "pewarn:If SectionAlignment...",
+    "hashed": false,
+    "mi_score": 5.1654807934120583e-05
+  },
+  {
+    "rank": 128,
+    "index": 1208,
+    "block": "imports",
+    "field": "imports.libraries_hashed[212]",
+    "hashed": true,
+    "mi_score": 5.282353754698654e-05
+  },
+  {
+    "rank": 129,
+    "index": 1097,
+    "block": "imports",
+    "field": "imports.libraries_hashed[101]",
+    "hashed": true,
+    "mi_score": 9.52681247090581e-05
+  },
+  {
+    "rank": 130,
+    "index": 2560,
+    "block": "pefilewarnings",
+    "field": "pewarn:...PointerToRawData should normally be a multiple of FileAlignment, this might imply the file is trying to confuse tools which parse this incorrectly.",
+    "hashed": false,
+    "mi_score": 0.0001059283005984124
+  },
+  {
+    "rank": 131,
+    "index": 2488,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing export directory at RVA...",
+    "hashed": false,
+    "mi_score": 0.00011662353601771258
+  },
+  {
+    "rank": 132,
+    "index": 1226,
+    "block": "imports",
+    "field": "imports.libraries_hashed[230]",
+    "hashed": true,
+    "mi_score": 0.0001516506213148361
+  },
+  {
+    "rank": 133,
+    "index": 1030,
+    "block": "imports",
+    "field": "imports.libraries_hashed[34]",
+    "hashed": true,
+    "mi_score": 0.00016289044550021892
+  },
+  {
+    "rank": 134,
+    "index": 2542,
+    "block": "pefilewarnings",
+    "field": "pewarn:Rich Header is not in Microsoft format, possibly malformed...",
+    "hashed": false,
+    "mi_score": 0.0001660039143331904
+  },
+  {
+    "rank": 135,
+    "index": 2527,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid LOAD_CONFIG information...",
+    "hashed": false,
+    "mi_score": 0.00018035917202841034
+  },
+  {
+    "rank": 136,
+    "index": 1191,
+    "block": "imports",
+    "field": "imports.libraries_hashed[195]",
+    "hashed": true,
+    "mi_score": 0.0001852883807198502
+  },
+  {
+    "rank": 137,
+    "index": 625,
+    "block": "strings",
+    "field": "string_count_/proc/",
+    "hashed": false,
+    "mi_score": 0.00020058648025655934
+  },
+  {
+    "rank": 138,
+    "index": 1205,
+    "block": "imports",
+    "field": "imports.libraries_hashed[209]",
+    "hashed": true,
+    "mi_score": 0.00020074698215144515
+  },
+  {
+    "rank": 139,
+    "index": 1075,
+    "block": "imports",
+    "field": "imports.libraries_hashed[79]",
+    "hashed": true,
+    "mi_score": 0.00021177050341680825
+  },
+  {
+    "rank": 140,
+    "index": 1194,
+    "block": "imports",
+    "field": "imports.libraries_hashed[198]",
+    "hashed": true,
+    "mi_score": 0.00021221013625538632
+  },
+  {
+    "rank": 141,
+    "index": 2421,
+    "block": "datadirectories",
+    "field": "datadir.GLOBALPTR.size",
+    "hashed": false,
+    "mi_score": 0.000223877308448861
+  },
+  {
+    "rank": 142,
+    "index": 2513,
+    "block": "pefilewarnings",
+    "field": "pewarn:Failed parsing FunctionEntry of UNWIND_INFO at...",
+    "hashed": false,
+    "mi_score": 0.0002633565372882618
+  },
+  {
+    "rank": 143,
+    "index": 744,
+    "block": "header",
+    "field": "optional.dll_characteristics:FORCE_INTEGRITY",
+    "hashed": false,
+    "mi_score": 0.000284711214356026
+  },
+  {
+    "rank": 144,
+    "index": 1155,
+    "block": "imports",
+    "field": "imports.libraries_hashed[159]",
+    "hashed": true,
+    "mi_score": 0.0002855424102226056
+  },
+  {
+    "rank": 145,
+    "index": 1150,
+    "block": "imports",
+    "field": "imports.libraries_hashed[154]",
+    "hashed": true,
+    "mi_score": 0.00032173298633897396
+  },
+  {
+    "rank": 146,
+    "index": 1054,
+    "block": "imports",
+    "field": "imports.libraries_hashed[58]",
+    "hashed": true,
+    "mi_score": 0.00034210409075896564
+  },
+  {
+    "rank": 147,
+    "index": 1083,
+    "block": "imports",
+    "field": "imports.libraries_hashed[87]",
+    "hashed": true,
+    "mi_score": 0.0003474780776986375
+  },
+  {
+    "rank": 148,
+    "index": 2481,
+    "block": "pefilewarnings",
+    "field": "pewarn:Bad RVA in relocation data...",
+    "hashed": false,
+    "mi_score": 0.00036671819151146146
+  },
+  {
+    "rank": 149,
+    "index": 1209,
+    "block": "imports",
+    "field": "imports.libraries_hashed[213]",
+    "hashed": true,
+    "mi_score": 0.00038721544907560634
+  },
+  {
+    "rank": 150,
+    "index": 1738,
+    "block": "imports",
+    "field": "imports.lib_func_hashed[486]",
+    "hashed": true,
+    "mi_score": 0.0003903178600561663
+  },
+  {
+    "rank": 151,
+    "index": 861,
+    "block": "section",
+    "field": "section.vsize_hashed[30]",
+    "hashed": true,
+    "mi_score": 0.00042296196652502616
+  },
+  {
+    "rank": 152,
+    "index": 986,
+    "block": "section",
+    "field": "section.entry_name_hashed[5]",
+    "hashed": true,
+    "mi_score": 0.00043814615089510234
+  },
+  {
+    "rank": 153,
+    "index": 2508,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the version information, attempting to read StringTable string...",
+    "hashed": false,
+    "mi_score": 0.00045904264144569495
+  },
+  {
+    "rank": 154,
+    "index": 887,
+    "block": "section",
+    "field": "section.entropy_hashed[6]",
+    "hashed": true,
+    "mi_score": 0.0004714408065698006
+  },
+  {
+    "rank": 155,
+    "index": 2540,
+    "block": "pefilewarnings",
+    "field": "pewarn:Resource size...",
+    "hashed": false,
+    "mi_score": 0.0004771339559157539
+  },
+  {
+    "rank": 156,
+    "index": 1165,
+    "block": "imports",
+    "field": "imports.libraries_hashed[169]",
+    "hashed": true,
+    "mi_score": 0.00048520011446484546
+  },
+  {
+    "rank": 157,
+    "index": 1107,
+    "block": "imports",
+    "field": "imports.libraries_hashed[111]",
+    "hashed": true,
+    "mi_score": 0.000492810065072069
+  },
+  {
+    "rank": 158,
+    "index": 1121,
+    "block": "imports",
+    "field": "imports.libraries_hashed[125]",
+    "hashed": true,
+    "mi_score": 0.0005031523691207962
+  },
+  {
+    "rank": 159,
+    "index": 1184,
+    "block": "imports",
+    "field": "imports.libraries_hashed[188]",
+    "hashed": true,
+    "mi_score": 0.0005043534428808005
+  },
+  {
+    "rank": 160,
+    "index": 2543,
+    "block": "pefilewarnings",
+    "field": "pewarn:RVA AddressOfFunctions in the export directory points to an invalid...",
+    "hashed": false,
+    "mi_score": 0.0005207825451851722
+  },
+  {
+    "rank": 161,
+    "index": 1222,
+    "block": "imports",
+    "field": "imports.libraries_hashed[226]",
+    "hashed": true,
+    "mi_score": 0.000541324845462432
+  },
+  {
+    "rank": 162,
+    "index": 1067,
+    "block": "imports",
+    "field": "imports.libraries_hashed[71]",
+    "hashed": true,
+    "mi_score": 0.0005475901071447797
+  },
+  {
+    "rank": 163,
+    "index": 1173,
+    "block": "imports",
+    "field": "imports.libraries_hashed[177]",
+    "hashed": true,
+    "mi_score": 0.0005645938889573543
+  },
+  {
+    "rank": 164,
+    "index": 1084,
+    "block": "imports",
+    "field": "imports.libraries_hashed[88]",
+    "hashed": true,
+    "mi_score": 0.0005684303682575997
+  },
+  {
+    "rank": 165,
+    "index": 1175,
+    "block": "imports",
+    "field": "imports.libraries_hashed[179]",
+    "hashed": true,
+    "mi_score": 0.0005693105160440304
+  },
+  {
+    "rank": 166,
+    "index": 672,
+    "block": "strings",
+    "field": "string_count_mac_addr",
+    "hashed": false,
+    "mi_score": 0.0005951150002927452
+  },
+  {
+    "rank": 167,
+    "index": 659,
+    "block": "strings",
+    "field": "string_count_get",
+    "hashed": false,
+    "mi_score": 0.0006011649220674098
+  },
+  {
+    "rank": 168,
+    "index": 926,
+    "block": "section",
+    "field": "section.entropy_hashed[45]",
+    "hashed": true,
+    "mi_score": 0.0006102733612800559
+  },
+  {
+    "rank": 169,
+    "index": 1041,
+    "block": "imports",
+    "field": "imports.libraries_hashed[45]",
+    "hashed": true,
+    "mi_score": 0.0006121437291868315
+  },
+  {
+    "rank": 170,
+    "index": 1124,
+    "block": "imports",
+    "field": "imports.libraries_hashed[128]",
+    "hashed": true,
+    "mi_score": 0.0006221432523054737
+  },
+  {
+    "rank": 171,
+    "index": 1239,
+    "block": "imports",
+    "field": "imports.libraries_hashed[243]",
+    "hashed": true,
+    "mi_score": 0.0006346573672015854
+  },
+  {
+    "rank": 172,
+    "index": 1047,
+    "block": "imports",
+    "field": "imports.libraries_hashed[51]",
+    "hashed": true,
+    "mi_score": 0.0006417170496544333
+  },
+  {
+    "rank": 173,
+    "index": 1035,
+    "block": "imports",
+    "field": "imports.libraries_hashed[39]",
+    "hashed": true,
+    "mi_score": 0.0006599078231468436
+  },
+  {
+    "rank": 174,
+    "index": 2493,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the import directory at RVA...",
+    "hashed": false,
+    "mi_score": 0.000676445895158917
+  },
+  {
+    "rank": 175,
+    "index": 1042,
+    "block": "imports",
+    "field": "imports.libraries_hashed[46]",
+    "hashed": true,
+    "mi_score": 0.0006837682630846942
+  },
+  {
+    "rank": 176,
+    "index": 2498,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the resources directory. Excessively nested table depth...",
+    "hashed": false,
+    "mi_score": 0.0006864200557306077
+  },
+  {
+    "rank": 177,
+    "index": 1064,
+    "block": "imports",
+    "field": "imports.libraries_hashed[68]",
+    "hashed": true,
+    "mi_score": 0.000689110734845011
+  },
+  {
+    "rank": 178,
+    "index": 1071,
+    "block": "imports",
+    "field": "imports.libraries_hashed[75]",
+    "hashed": true,
+    "mi_score": 0.0006952673984781388
+  },
+  {
+    "rank": 179,
+    "index": 1101,
+    "block": "imports",
+    "field": "imports.libraries_hashed[105]",
+    "hashed": true,
+    "mi_score": 0.0007256519255951499
+  },
+  {
+    "rank": 180,
+    "index": 857,
+    "block": "section",
+    "field": "section.vsize_hashed[26]",
+    "hashed": true,
+    "mi_score": 0.0007411342313048408
+  },
+  {
+    "rank": 181,
+    "index": 787,
+    "block": "section",
+    "field": "section.sizes_hashed[6]",
+    "hashed": true,
+    "mi_score": 0.0007422146886830738
+  },
+  {
+    "rank": 182,
+    "index": 785,
+    "block": "section",
+    "field": "section.sizes_hashed[4]",
+    "hashed": true,
+    "mi_score": 0.0007551022072767033
+  },
+  {
+    "rank": 183,
+    "index": 1218,
+    "block": "imports",
+    "field": "imports.libraries_hashed[222]",
+    "hashed": true,
+    "mi_score": 0.0007816325039464722
+  },
+  {
+    "rank": 184,
+    "index": 1022,
+    "block": "imports",
+    "field": "imports.libraries_hashed[26]",
+    "hashed": true,
+    "mi_score": 0.0007912480121092802
+  },
+  {
+    "rank": 185,
+    "index": 1009,
+    "block": "imports",
+    "field": "imports.libraries_hashed[13]",
+    "hashed": true,
+    "mi_score": 0.0007930664913913255
+  },
+  {
+    "rank": 186,
+    "index": 1204,
+    "block": "imports",
+    "field": "imports.libraries_hashed[208]",
+    "hashed": true,
+    "mi_score": 0.0008069519021338678
+  },
+  {
+    "rank": 187,
+    "index": 1244,
+    "block": "imports",
+    "field": "imports.libraries_hashed[248]",
+    "hashed": true,
+    "mi_score": 0.0008196896674079746
+  },
+  {
+    "rank": 188,
+    "index": 2496,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the import table. AddressOfData overlaps with THUNK_DATA for THUNK at RVA...",
+    "hashed": false,
+    "mi_score": 0.0008290614118506845
+  },
+  {
+    "rank": 189,
+    "index": 2548,
+    "block": "pefilewarnings",
+    "field": "pewarn:Suspicious NumberOfRvaAndSizes in the Optional Header...",
+    "hashed": false,
+    "mi_score": 0.0008483874285627468
+  },
+  {
+    "rank": 190,
+    "index": 2525,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid function override info...",
+    "hashed": false,
+    "mi_score": 0.000857197702299306
+  },
+  {
+    "rank": 191,
+    "index": 624,
+    "block": "strings",
+    "field": "string_count_/dev/",
+    "hashed": false,
+    "mi_score": 0.0008684228724418208
+  },
+  {
+    "rank": 192,
+    "index": 1134,
+    "block": "imports",
+    "field": "imports.libraries_hashed[138]",
+    "hashed": true,
+    "mi_score": 0.0008721988933242386
+  },
+  {
+    "rank": 193,
+    "index": 814,
+    "block": "section",
+    "field": "section.sizes_hashed[33]",
+    "hashed": true,
+    "mi_score": 0.0009241440663363409
+  },
+  {
+    "rank": 194,
+    "index": 1231,
+    "block": "imports",
+    "field": "imports.libraries_hashed[235]",
+    "hashed": true,
+    "mi_score": 0.0009310138237337284
+  },
+  {
+    "rank": 195,
+    "index": 2500,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the resources directory. The file contains at least...",
+    "hashed": false,
+    "mi_score": 0.0009355464636511268
+  },
+  {
+    "rank": 196,
+    "index": 2563,
+    "block": "pefilewarnings",
+    "field": "pewarn:...VirtualAddress is beyond 0x10000000",
+    "hashed": false,
+    "mi_score": 0.0009547757249617206
+  },
+  {
+    "rank": 197,
+    "index": 2225,
+    "block": "imports",
+    "field": "imports.lib_func_hashed[973]",
+    "hashed": true,
+    "mi_score": 0.0009832710017398938
+  },
+  {
+    "rank": 198,
+    "index": 2554,
+    "block": "pefilewarnings",
+    "field": "pewarn:Too many sections...",
+    "hashed": false,
+    "mi_score": 0.0009834756095443709
+  },
+  {
+    "rank": 199,
+    "index": 1206,
+    "block": "imports",
+    "field": "imports.libraries_hashed[210]",
+    "hashed": true,
+    "mi_score": 0.0009893633476414365
+  },
+  {
+    "rank": 200,
+    "index": 1181,
+    "block": "imports",
+    "field": "imports.libraries_hashed[185]",
+    "hashed": true,
+    "mi_score": 0.0009931688067648103
+  },
+  {
+    "rank": 201,
+    "index": 1247,
+    "block": "imports",
+    "field": "imports.libraries_hashed[251]",
+    "hashed": true,
+    "mi_score": 0.0010142518755860142
+  },
+  {
+    "rank": 202,
+    "index": 2551,
+    "block": "pefilewarnings",
+    "field": "pewarn:Too many warnings parsing section. Aborting...",
+    "hashed": false,
+    "mi_score": 0.0010373665639029639
+  },
+  {
+    "rank": 203,
+    "index": 1010,
+    "block": "imports",
+    "field": "imports.libraries_hashed[14]",
+    "hashed": true,
+    "mi_score": 0.0010435737829210812
+  },
+  {
+    "rank": 204,
+    "index": 2523,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid debug information...",
+    "hashed": false,
+    "mi_score": 0.0010538019818688849
+  },
+  {
+    "rank": 205,
+    "index": 1050,
+    "block": "imports",
+    "field": "imports.libraries_hashed[54]",
+    "hashed": true,
+    "mi_score": 0.001088691983474277
+  },
+  {
+    "rank": 206,
+    "index": 1085,
+    "block": "imports",
+    "field": "imports.libraries_hashed[89]",
+    "hashed": true,
+    "mi_score": 0.0011301112224333387
+  },
+  {
+    "rank": 207,
+    "index": 736,
+    "block": "header",
+    "field": "coff.characteristics:REMOVABLE_RUN_FROM_SWAP",
+    "hashed": false,
+    "mi_score": 0.0011411890002277492
+  },
+  {
+    "rank": 208,
+    "index": 746,
+    "block": "header",
+    "field": "optional.dll_characteristics:NO_ISOLATION",
+    "hashed": false,
+    "mi_score": 0.0011614067026439745
+  },
+  {
+    "rank": 209,
+    "index": 1025,
+    "block": "imports",
+    "field": "imports.libraries_hashed[29]",
+    "hashed": true,
+    "mi_score": 0.0011665989388685016
+  },
+  {
+    "rank": 210,
+    "index": 1169,
+    "block": "imports",
+    "field": "imports.libraries_hashed[173]",
+    "hashed": true,
+    "mi_score": 0.0011851784008263255
+  },
+  {
+    "rank": 211,
+    "index": 1029,
+    "block": "imports",
+    "field": "imports.libraries_hashed[33]",
+    "hashed": true,
+    "mi_score": 0.0012091846017083796
+  },
+  {
+    "rank": 212,
+    "index": 807,
+    "block": "section",
+    "field": "section.sizes_hashed[26]",
+    "hashed": true,
+    "mi_score": 0.0012307601012437885
+  },
+  {
+    "rank": 213,
+    "index": 1112,
+    "block": "imports",
+    "field": "imports.libraries_hashed[116]",
+    "hashed": true,
+    "mi_score": 0.0012623093405648156
+  },
+  {
+    "rank": 214,
+    "index": 2541,
+    "block": "pefilewarnings",
+    "field": "pewarn:Rich Header is malformed...",
+    "hashed": false,
+    "mi_score": 0.0012626406221099007
+  },
+  {
+    "rank": 215,
+    "index": 2555,
+    "block": "pefilewarnings",
+    "field": "pewarn:Unknown UNWIND_CODE at...",
+    "hashed": false,
+    "mi_score": 0.0012689315472322882
+  },
+  {
+    "rank": 216,
+    "index": 710,
+    "block": "header",
+    "field": "optional.minor_subsystem_version",
+    "hashed": false,
+    "mi_score": 0.0012809569125653564
+  },
+  {
+    "rank": 217,
+    "index": 631,
+    "block": "strings",
+    "field": "string_count_Start-process",
+    "hashed": false,
+    "mi_score": 0.00128216494881217
+  },
+  {
+    "rank": 218,
+    "index": 2494,
+    "block": "pefilewarnings",
+    "field": "pewarn:Error parsing the import directory. Invalid Import data at RVA...",
+    "hashed": false,
+    "mi_score": 0.0012834563612953431
+  },
+  {
+    "rank": 219,
+    "index": 1186,
+    "block": "imports",
+    "field": "imports.libraries_hashed[190]",
+    "hashed": true,
+    "mi_score": 0.0012868464416333492
+  },
+  {
+    "rank": 220,
+    "index": 1212,
+    "block": "imports",
+    "field": "imports.libraries_hashed[216]",
+    "hashed": true,
+    "mi_score": 0.0012888425760990696
+  },
+  {
+    "rank": 221,
+    "index": 1023,
+    "block": "imports",
+    "field": "imports.libraries_hashed[27]",
+    "hashed": true,
+    "mi_score": 0.0013047517829358757
+  },
+  {
+    "rank": 222,
+    "index": 1092,
+    "block": "imports",
+    "field": "imports.libraries_hashed[96]",
+    "hashed": true,
+    "mi_score": 0.0013231091432786002
+  },
+  {
+    "rank": 223,
+    "index": 918,
+    "block": "section",
+    "field": "section.entropy_hashed[37]",
+    "hashed": true,
+    "mi_score": 0.0013273262541857456
+  },
+  {
+    "rank": 224,
+    "index": 1016,
+    "block": "imports",
+    "field": "imports.libraries_hashed[20]",
+    "hashed": true,
+    "mi_score": 0.001349709829923773
+  },
+  {
+    "rank": 225,
+    "index": 997,
+    "block": "imports",
+    "field": "imports.libraries_hashed[1]",
+    "hashed": true,
+    "mi_score": 0.0013653147743657446
+  },
+  {
+    "rank": 226,
+    "index": 658,
+    "block": "strings",
+    "field": "string_count_ftp",
+    "hashed": false,
+    "mi_score": 0.0013746932983509375
+  },
+  {
+    "rank": 227,
+    "index": 2534,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid type 0x...",
+    "hashed": false,
+    "mi_score": 0.001380501622530339
+  },
+  {
+    "rank": 228,
+    "index": 825,
+    "block": "section",
+    "field": "section.sizes_hashed[44]",
+    "hashed": true,
+    "mi_score": 0.0013883044546270096
+  },
+  {
+    "rank": 229,
+    "index": 1133,
+    "block": "imports",
+    "field": "imports.libraries_hashed[137]",
+    "hashed": true,
+    "mi_score": 0.0014010358312279703
+  },
+  {
+    "rank": 230,
+    "index": 2544,
+    "block": "pefilewarnings",
+    "field": "pewarn:RVA AddressOfNames in the export directory points to an invalid...",
+    "hashed": false,
+    "mi_score": 0.0014064327137772725
+  },
+  {
+    "rank": 231,
+    "index": 737,
+    "block": "header",
+    "field": "coff.characteristics:NET_RUN_FROM_SWAP",
+    "hashed": false,
+    "mi_score": 0.0014198253780175474
+  },
+  {
+    "rank": 232,
+    "index": 1152,
+    "block": "imports",
+    "field": "imports.libraries_hashed[156]",
+    "hashed": true,
+    "mi_score": 0.0014222462551138904
+  },
+  {
+    "rank": 233,
+    "index": 1249,
+    "block": "imports",
+    "field": "imports.libraries_hashed[253]",
+    "hashed": true,
+    "mi_score": 0.0014316766816684368
+  },
+  {
+    "rank": 234,
+    "index": 2438,
+    "block": "datadirectories",
+    "field": "has_dynamic_relocs",
+    "hashed": false,
+    "mi_score": 0.0014360286245920229
+  },
+  {
+    "rank": 235,
+    "index": 1166,
+    "block": "imports",
+    "field": "imports.libraries_hashed[170]",
+    "hashed": true,
+    "mi_score": 0.001443284639813136
+  },
+  {
+    "rank": 236,
+    "index": 2539,
+    "block": "pefilewarnings",
+    "field": "pewarn:Relocating image but PE does not have (or pefile cannot parse) a DIRECTORY_ENTRY_BASERELOC...",
+    "hashed": false,
+    "mi_score": 0.0014610150113336662
+  },
+  {
+    "rank": 237,
+    "index": 851,
+    "block": "section",
+    "field": "section.vsize_hashed[20]",
+    "hashed": true,
+    "mi_score": 0.001467707922634176
+  },
+  {
+    "rank": 238,
+    "index": 996,
+    "block": "imports",
+    "field": "imports.libraries_hashed[0]",
+    "hashed": true,
+    "mi_score": 0.0014692173181334311
+  },
+  {
+    "rank": 239,
+    "index": 2535,
+    "block": "pefilewarnings",
+    "field": "pewarn:Invalid VS_VERSION_INFO block...",
+    "hashed": false,
+    "mi_score": 0.0014715439438874878
+  },
+  {
+    "rank": 240,
+    "index": 1106,
+    "block": "imports",
+    "field": "imports.libraries_hashed[110]",
+    "hashed": true,
+    "mi_score": 0.0014736073328227572
+  },
+  {
+    "rank": 241,
+    "index": 1187,
+    "block": "imports",
+    "field": "imports.libraries_hashed[191]",
+    "hashed": true,
+    "mi_score": 0.0014737058936802327
+  },
+  {
+    "rank": 242,
+    "index": 901,
+    "block": "section",
+    "field": "section.entropy_hashed[20]",
+    "hashed": true,
+    "mi_score": 0.0014777358735476032
+  },
+  {
+    "rank": 243,
+    "index": 1163,
+    "block": "imports",
+    "field": "imports.libraries_hashed[167]",
+    "hashed": true,
+    "mi_score": 0.0014833274740204683
+  },
+  {
+    "rank": 244,
+    "index": 2550,
+    "block": "pefilewarnings",
+    "field": "pewarn:The Bound Imports directory exists but can't be parsed...",
+    "hashed": false,
+    "mi_score": 0.0014845952052358058
+  },
+  {
+    "rank": 245,
+    "index": 1019,
+    "block": "imports",
+    "field": "imports.libraries_hashed[23]",
+    "hashed": true,
+    "mi_score": 0.001524929427507482
+  },
+  {
+    "rank": 246,
+    "index": 1141,
+    "block": "imports",
+    "field": "imports.libraries_hashed[145]",
+    "hashed": true,
+    "mi_score": 0.0015391871819534497
+  },
+  {
+    "rank": 247,
+    "index": 1202,
+    "block": "imports",
+    "field": "imports.libraries_hashed[206]",
+    "hashed": true,
+    "mi_score": 0.0015468385966161957
+  },
+  {
+    "rank": 248,
+    "index": 1061,
+    "block": "imports",
+    "field": "imports.libraries_hashed[65]",
+    "hashed": true,
+    "mi_score": 0.0015536297663700793
+  },
+  {
+    "rank": 249,
+    "index": 1095,
+    "block": "imports",
+    "field": "imports.libraries_hashed[99]",
+    "hashed": true,
+    "mi_score": 0.0015663490236790256
+  },
+  {
+    "rank": 250,
+    "index": 2427,
+    "block": "datadirectories",
+    "field": "datadir.BOUND_IMPORT.size",
+    "hashed": false,
+    "mi_score": 0.001592900265203978
+  },
+  {
+    "rank": 251,
+    "index": 2436,
+    "block": "datadirectories",
+    "field": "datadir.RESERVED.virtual_address",
+    "hashed": false,
+    "mi_score": 0.0015954516524652185
+  },
+  {
+    "rank": 252,
+    "index": 626,
+    "block": "strings",
+    "field": "string_count_/tmp/",
+    "hashed": false,
+    "mi_score": 0.0015981248595220432
+  },
+  {
+    "rank": 253,
+    "index": 826,
+    "block": "section",
+    "field": "section.sizes_hashed[45]",
+    "hashed": true,
+    "mi_score": 0.001613671460725774
+  },
+  {
+    "rank": 254,
+    "index": 1094,
+    "block": "imports",
+    "field": "imports.libraries_hashed[98]",
+    "hashed": true,
+    "mi_score": 0.001623101002035554
+  },
+  {
+    "rank": 255,
+    "index": 1200,
+    "block": "imports",
+    "field": "imports.libraries_hashed[204]",
+    "hashed": true,
+    "mi_score": 0.0016420488702706404
+  },
+  {
+    "rank": 256,
+    "index": 1230,
+    "block": "imports",
+    "field": "imports.libraries_hashed[234]",
+    "hashed": true,
+    "mi_score": 0.0016577896955598526
+  },
+  {
+    "rank": 257,
+    "index": 1007,
+    "block": "imports",
+    "field": "imports.libraries_hashed[11]",
+    "hashed": true,
+    "mi_score": 0.0016663465638315778
+  }
+]

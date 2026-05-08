@@ -70,9 +70,8 @@ If you OOM, lower `--shap-sample` first (it caps the SHAP cost) before touching 
 From the `EMBER2024/` folder, with the venv active:
 
 ```bash
-mkdir -p runs
 
-python custom_scripts/shap_cluster_feature_selection.py data runs/baseline_model.txt --config-file examples/lgbm_config.json --drop-fraction 0.10 --shap-sample 20000 --cluster-threshold 0.10 --feature-map Documentation/feature_index_map.json --dropped-out runs/dropped_features.csv
+python custom_scripts/shap_cluster_feature_selection.py
 ```
 
 ### Argument cheat sheet

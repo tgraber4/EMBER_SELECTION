@@ -1,0 +1,14 @@
+Drop candidates by block:
+               imports: 136
+        pefilewarnings: 63
+               section: 24
+               strings: 14
+                header: 9
+       datadirectories: 7
+               general: 3
+          authenticode: 1
+
+Saved: output\Mutual_Information\dropped_features.csv
+Saved: output\Mutual_Information\dropped_features.json
+
+Total runtime: 1133.4s (18.9 min)

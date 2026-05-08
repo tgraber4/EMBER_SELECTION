@@ -1,4 +1,4 @@
-- run run_thrember_lite.py for all 3 methods
 - rerun mutual information and get time taken(use right data)
 - rerun embedded and get time taken
+- run run_thrember_lite.py for all 3 methods
 - compile and organize notes
