@@ -8,7 +8,7 @@ Drop candidates by block:
                general: 3
           authenticode: 1
 
-Saved: output\Mutual_Information\dropped_features.csv
-Saved: output\Mutual_Information\dropped_features.json
+Saved: output/Mutual_Information/dropped_features.csv
+Saved: output/Mutual_Information/dropped_features.json
 
-Total runtime: 1133.4s (18.9 min)
+Total runtime: 1205.5s (20.1 min)
