@@ -1,0 +1,6 @@
+# LightGBM text models must be kept byte-for-byte. With core.autocrlf=true, Git
+# would check them out with CRLF line endings, which LightGBM cannot parse
+# ("Model format error, expect a tree here"). -text turns off line-ending
+# conversion for these files only; diffs still work.
+*model.txt -text
+*.model -text

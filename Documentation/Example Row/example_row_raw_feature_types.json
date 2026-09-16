@@ -1,0 +1,119 @@
+{
+  "histogram": "list[int], length 256 (count of each byte value 0x00-0xFF in the whole file)",
+  "byteentropy": "list[int], length 256 (byte counts in a 16 x 16 grid of window entropy bin by byte high nibble, flattened row by row)",
+  "strings": {
+    "numstrings": "int (number of printable ASCII strings at least 5 characters long)",
+    "avlength": "float (average length of those strings)",
+    "printabledist": "list[int], length 96 (count of each printable character 0x20-0x7F across all strings)",
+    "printables": "int (total number of printable characters across all strings)",
+    "entropy": "float (Shannon entropy in bits of the printable character distribution)",
+    "string_counts": "dict[str, int] (pattern name to the number of strings matching it; only patterns with at least one match appear, out of 76 possible names)"
+  },
+  "general": {
+    "size": "int (file size in bytes)",
+    "entropy": "float (Shannon entropy in bits per byte of the whole file, 0-8)",
+    "is_pe": "int (1 if pefile parsed the file as a PE, else 0)",
+    "start_bytes": "list[int], length 4 (first 4 byte values of the file)"
+  },
+  "header": {
+    "coff": {
+      "timestamp": "int (link time as a Unix timestamp, set by the linker)",
+      "machine": "str (target CPU type name, e.g. IMAGE_FILE_MACHINE_I386)",
+      "number_of_sections": "int (number of entries in the section table)",
+      "number_of_symbols": "int (number of entries in the COFF symbol table)",
+      "sizeof_optional_header": "int (size of the optional header in bytes)",
+      "pointer_to_symbol_table": "int (file offset of the COFF symbol table, 0 if none)",
+      "characteristics": "list[str] (file characteristic flags that are set, IMAGE_FILE_ prefix removed, e.g. EXECUTABLE_IMAGE)"
+    },
+    "optional": {
+      "magic": "int (optional header format: 267 = PE32, 523 = PE32+)",
+      "subsystem": "str (required subsystem name, e.g. IMAGE_SUBSYSTEM_WINDOWS_GUI)",
+      "major_image_version": "int (image version set by the developer, major part)",
+      "minor_image_version": "int (image version set by the developer, minor part)",
+      "major_linker_version": "int (linker version, major part)",
+      "minor_linker_version": "int (linker version, minor part)",
+      "major_operating_system_version": "int (minimum required OS version, major part)",
+      "minor_operating_system_version": "int (minimum required OS version, minor part)",
+      "major_subsystem_version": "int (minimum required subsystem version, major part)",
+      "minor_subsystem_version": "int (minimum required subsystem version, minor part)",
+      "sizeof_code": "int (total size of code sections in bytes)",
+      "sizeof_headers": "int (combined size of all headers in bytes)",
+      "sizeof_image": "int (size of the loaded image in memory in bytes)",
+      "sizeof_initialized_data": "int (total size of initialized data sections in bytes)",
+      "sizeof_uninitialized_data": "int (total size of uninitialized data sections in bytes)",
+      "sizeof_stack_reserve": "int (stack memory to reserve in bytes)",
+      "sizeof_stack_commit": "int (stack memory to commit at start in bytes)",
+      "sizeof_heap_reserve": "int (heap memory to reserve in bytes)",
+      "sizeof_heap_commit": "int (heap memory to commit at start in bytes)",
+      "address_of_entrypoint": "int (RVA of the entry point)",
+      "base_of_code": "int (RVA where the code section starts)",
+      "base_of_data": "int (always 0; the extractor never fills this field)",
+      "image_base": "int (preferred load address in memory)",
+      "section_alignment": "int (alignment of sections in memory in bytes)",
+      "checksum": "int (image checksum from the header, 0 if not set)",
+      "number_of_rvas_and_sizes": "int (number of data directory entries the header declares)",
+      "dll_characteristics": "list[str] (DLL characteristic flags that are set, IMAGE_DLLCHARACTERISTICS_ prefix removed, e.g. NX_COMPAT)"
+    },
+    "dos": {
+      "e_magic": "int (DOS signature; always 23117, the bytes MZ)",
+      "e_cblp": "int (bytes on the last page of the file)",
+      "e_cp": "int (number of pages in the file)",
+      "e_crlc": "int (number of relocations)",
+      "e_cparhdr": "int (size of the DOS header in paragraphs)",
+      "e_minalloc": "int (minimum extra paragraphs needed)",
+      "e_maxalloc": "int (maximum extra paragraphs needed)",
+      "e_ss": "int (initial relative SS register value)",
+      "e_sp": "int (initial SP register value)",
+      "e_csum": "int (DOS header checksum)",
+      "e_ip": "int (initial IP register value)",
+      "e_cs": "int (initial relative CS register value)",
+      "e_lfarlc": "int (file offset of the relocation table)",
+      "e_ovno": "int (overlay number)",
+      "e_oemid": "int (OEM identifier)",
+      "e_oeminfo": "int (OEM information)",
+      "e_lfanew": "int (file offset of the PE header)"
+    }
+  },
+  "section": {
+    "entry": "str (lowercased name of the section holding the entry point, or of the first executable section; empty string if none)",
+    "sections": "list[object] (one entry per section in the section table)",
+    "sections[]": {
+      "name": "str (section name, lowercased, trailing null bytes removed)",
+      "size": "int (size of the section on disk in bytes, SizeOfRawData)",
+      "entropy": "float (Shannon entropy in bits of the section data, 0-8)",
+      "vsize": "int (size of the section in memory in bytes, VirtualSize)",
+      "size_ratio": "float (on-disk section size divided by file size)",
+      "vsize_ratio": "float (on-disk section size divided by in-memory size)",
+      "props": "list[str] (section characteristic flags that are set, IMAGE_SCN_ prefix removed, e.g. MEM_READ)"
+    },
+    "overlay": {
+      "size": "int (bytes appended after the last section, 0 if none)",
+      "size_ratio": "float (overlay size divided by file size; written as int 0 when there is no overlay)",
+      "entropy": "float (Shannon entropy in bits of the overlay data; written as int 0 when there is no overlay)"
+    }
+  },
+  "imports": "dict[str, list[str]] (imported DLL name to the functions imported from it; functions imported by ordinal appear as DLL:ordinalN)",
+  "exports": "list[str] (exported function names; exports by ordinal appear as ordinalN)",
+  "datadirectories": "list[object] (element 0 holds relocation flags, then one entry per data directory the header declares, up to 16, in fixed order EXPORT through RESERVED)",
+  "datadirectories[0]": {
+    "has_relocs": "int (1 if the file has base relocations, else 0)",
+    "has_dynamic_relocs": "int (1 if the file has dynamic relocations, else 0)"
+  },
+  "datadirectories[1:]": {
+    "name": "str (data directory name, IMAGE_DIRECTORY_ENTRY_ prefix removed, e.g. IMPORT)",
+    "size": "int (size of the data directory in bytes)",
+    "virtual_address": "int (RVA of the data directory)"
+  },
+  "richheader": "list[int] (Rich header values in pairs: a compiler or tool ID, then its use count)",
+  "authenticode": {
+    "num_certs": "int (number of embedded signatures)",
+    "self_signed": "int (1 if any certificate before the last in a signature has the same issuer and subject, else 0)",
+    "empty_program_name": "int (1 if any signature has no program name, else 0)",
+    "no_countersigner": "int (1 if any signature has no countersigner, else 0)",
+    "parse_error": "int (1 if the signature data could not be parsed, else 0)",
+    "chain_max_depth": "int (largest number of certificates in any one signature)",
+    "latest_signing_time": "float (latest countersignature time as a Unix timestamp; written as int 0 when there is no countersignature)",
+    "signing_time_diff": "float (countersignature time minus the COFF timestamp, in seconds; written as int 0 when there is no countersignature)"
+  },
+  "pefilewarnings": "list[str] (pefile parser warnings, each normalized to a template from pefile_warnings.txt)"
+}

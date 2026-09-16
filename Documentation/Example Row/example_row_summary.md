@@ -2,7 +2,7 @@
 
 Each line in `PE_both_sampled.jsonl` is **one PE (Portable Executable) file sample** as a JSON object. The object is a single flat dict at the top level, mixing metadata with nested feature groups. This is EMBER-2024's feature schema for Windows PE binaries.
 
-An example row has been written (pretty-printed) to `example_row.json`.
+An example row has been written (pretty-printed) to `example_full_row.json`.
 
 ## Top-level sections
 
