@@ -29,7 +29,7 @@ from huggingface_hub import hf_hub_download
 PE_FILE_TYPES = ("Win32", "Win64", "Dot_Net")
 SPLITS = ("train", "test")
 SPLIT_PROBABILITIES = {
-    "train": 0.0427,
+    "train": 0.012856,  # ~30k unique train samples (0.0427 gave ~100k)
     "test": 0.0427,
 }
 SEED = 42
