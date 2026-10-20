@@ -13,12 +13,12 @@ Checks whether the vectorized, scaled EMBER2024 features cluster by malware fami
 
 ## Workflow
 
-Run from the repo root, in this order. Step 1 is the shared sampling script; the rest are in `tsne/Code/`.
+Run from the repo root (for example `python custom/tsne/Code/pca_reduce.py`), in this order. Step 1 is the shared sampling script; the rest are in `custom/tsne/Code/`. Folder names in the table (`Scaling Output/`, `PCA Output/`, `TSNE Output/`) are inside `custom/tsne/`; `ember_data/` is at the repo root.
 
 | # | Script | Input | Output |
 |---|---|---|---|
 | 1 | `custom/common/bernoulli_sample.py` | full EMBER2024 train shards (`ember_data/`) | `ember_data/PE_train_sampled.jsonl` |
-| 2 | `family_counts.py` | `ember_data/PE_train_sampled.jsonl` | `ember_data/family_counts.csv` |
+| 2 | `family_counts.py` | `ember_data/PE_train_sampled.jsonl` (see note below) | `ember_data/family_counts.csv` (see note below) |
 | 3 | `filter_families.py <input> -t 75` | `PE_train_sampled.jsonl` | `ember_data/PE_train_sampled_min75.jsonl` |
 | 4 | `vectorize_scale.py` | `PE_train_sampled_min75.jsonl` | `Scaling Output/` (`X_raw`, `X_quantile`, `X_scaled`, `y`, fitted scalers) |
 | 5 | `pca_reduce.py` | `Scaling Output/X_scaled.npy` | `PCA Output/X_pca.npy`, `pca.joblib` |
@@ -26,7 +26,7 @@ Run from the repo root, in this order. Step 1 is the shared sampling script; the
 | 7 | `run_tsne.py` | `PCA Output/X_pca.npy` | `TSNE Output/X_tsne.npy` |
 | 8 | `plot_tsne.py`, `tsne_figures/run_all.py` | `TSNE Output/X_tsne.npy` + the filtered JSONL | PNGs in `TSNE Output/` |
 
-Step 2 is run on the unfiltered file to choose the threshold. Re-point its paths at the `_min75` file to inspect the filtered set.
+Step 2 is run on the unfiltered file to choose the threshold. As committed, `family_counts.py` has `INPUT_PATH` / `OUTPUT_CSV` set to the filtered file (`PE_train_sampled_min75.jsonl` → `family_counts_min75.csv`), so set them to `PE_train_sampled.jsonl` / `family_counts.csv` to choose a threshold.
 
 ## Key values
 
@@ -44,7 +44,7 @@ Step 2 is run on the unfiltered file to choose the threshold. Re-point its paths
 
 ## Folders
 
-| Folder | Contents |
+| Folder (in `custom/tsne/`) | Contents |
 |---|---|
 | `Code/` | scripts above; `tsne_figures/` has the plotting scripts and family presets |
 | `Scaling Output/` | scaled matrices and fitted scalers (git-ignored, about 660 MB) |

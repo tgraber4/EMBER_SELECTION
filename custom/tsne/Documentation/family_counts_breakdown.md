@@ -1,6 +1,6 @@
 # Family Counts Breakdown
 
-Source: `ember_data/family_counts.csv` (from `tsne/Code/family_counts.py`, run on `ember_data/PE_train_sampled.jsonl`).
+Source: `ember_data/family_counts.csv` (from `custom/tsne/Code/family_counts.py`, run on `ember_data/PE_train_sampled.jsonl`).
 ## Summary
 
 | Metric | Value |

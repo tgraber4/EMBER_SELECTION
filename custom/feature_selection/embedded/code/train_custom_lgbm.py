@@ -8,8 +8,8 @@ Each JSONL record must contain raw thrember PE features plus an integer
 alongside the JSONLs in <data_dir>.
 
 Usage:
-    python train_custom_lgbm.py <data_dir> <model_path> \
-        --config-file ../examples/lgbm_config.json
+    python custom/feature_selection/embedded/code/train_custom_lgbm.py <data_dir> <model_path> \
+        --config-file examples/lgbm_config.json
 """
 
 import argparse

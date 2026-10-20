@@ -1,6 +1,6 @@
 # `train_custom_lgbm.py` — Design Decisions
 
-Summary of the main design choices behind `custom_scripts/train_custom_lgbm.py`. The script trains a binary LightGBM malware classifier on a custom train/test JSONL pair using thrember's `PEFeatureExtractor`.
+Summary of the main design choices behind `custom/feature_selection/embedded/code/train_custom_lgbm.py`. The script trains a binary LightGBM malware classifier on a custom train/test JSONL pair using thrember's `PEFeatureExtractor`.
 
 ## Scope
 

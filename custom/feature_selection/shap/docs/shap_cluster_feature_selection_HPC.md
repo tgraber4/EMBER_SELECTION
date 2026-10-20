@@ -12,11 +12,14 @@ EMBER2024/
 ├── setup.cfg
 ├── src/thrember/...
 ├── examples/lgbm_config.json
-├── custom_scripts/
-│   ├── train_custom_lgbm.py             # imported by the SHAP script
-│   └── shap_cluster_feature_selection.py
-├── Documentation/
-│   └── feature_index_map.json           # optional, for nicer block/field columns in the CSV
+├── custom/
+│   ├── docs/
+│   │   └── feature_index_map.json       # optional, for nicer block/field columns in the CSV
+│   └── feature_selection/
+│       ├── embedded/code/
+│       │   └── train_custom_lgbm.py     # imported by the SHAP script
+│       └── shap/code/
+│           └── shap_cluster_feature_selection.py
 └── data/
     ├── PE_train.jsonl                   # filename must contain "train"
     └── PE_test.jsonl                    # filename must contain "test"
@@ -71,7 +74,7 @@ From the `EMBER2024/` folder, with the venv active:
 
 ```bash
 
-python custom_scripts/shap_cluster_feature_selection.py
+python custom/feature_selection/shap/code/shap_cluster_feature_selection.py
 ```
 
 ### Argument cheat sheet
@@ -86,7 +89,7 @@ python custom_scripts/shap_cluster_feature_selection.py
 | `--shap-sample` | `20000` | Stratified subsample for TreeSHAP. Capped at `len(X_tr)`. |
 | `--cluster-threshold` | `0.10` | `fcluster` distance cutoff. `0.10 ≈ R ≥ 0.995`. Must be in (0, √2]. |
 | `--shap-var-eps` | `1e-12` | Variance floor; columns below this are tagged `inactive`. |
-| `--feature-map` | `../Documentation/feature_index_map.json` | Optional. Falls back to stub `block`/`field` names if missing or dim-mismatched. |
+| `--feature-map` | `custom/docs/feature_index_map.json` | Optional. Falls back to stub `block`/`field` names if missing or dim-mismatched. |
 | `--dropped-out` | `dropped_features.csv` | Output CSV path. |
 
 ---
@@ -97,10 +100,10 @@ In your data folder:
 - `X_train.dat`, `y_train.dat`, `X_test.dat`, `y_test.dat` — vectorized features (auto-created on first run; reused if re-running).
 
 Where you pointed `model_path`:
-- `runs/baseline_model.txt` — trained baseline LightGBM booster (saved at `best_iteration` if early stopping fired).
+- `custom/feature_selection/shap/output/baseline_model.txt` — trained baseline LightGBM booster (saved at `best_iteration` if early stopping fired).
 
 Where you pointed `--dropped-out`:
-- `runs/dropped_features.csv` — ranked drop list with columns:
+- `custom/feature_selection/shap/output/shap_dropped_features.csv` — ranked drop list with columns:
   `rank, index, block, field, hashed, mean_abs_shap, cluster_id, drop_reason`
   where `drop_reason ∈ {inactive, redundant, low_importance}`.
 
@@ -108,7 +111,7 @@ In stdout (redirect with `... | tee run.log` if you want a copy on disk):
 - Baseline test metrics (acc / AUC / log_loss).
 - Inactive-feature count, cluster count, and the per-tier drop summary.
 
-**Next step (separate manual run):** feed `dropped_features.csv` (or its `.json` sibling) into `thrember_lite` via `custom_scripts/run_thrember_lite.py` to slice the columns at training time and retrain.
+**Next step (separate manual run):** feed `dropped_features.csv` (or its `.json` sibling) into `thrember_lite` via `custom/run_thrember_lite.py` to slice the columns at training time and retrain.
 
 ---
 

@@ -13,7 +13,7 @@ run the embedded feature-selection plan from
             feature indices/names to a JSON sidecar next to the model.
 
 Usage:
-    python train_custom_lgbm_fs.py <data_dir> \
+    python custom/feature_selection/embedded/code/train_custom_lgbm_fs.py <data_dir> \
         [--config-file examples/lgbm_config.json] \
         [--output-dir custom/feature_selection/embedded/output] \
         [--model-name model.txt] \

@@ -1,6 +1,6 @@
 # `thrember_lite` Overview
 
-`thrember_lite` (`src/thrember_lite/`) is a small companion library to `thrember`. It lets you **train and run a LightGBM malware classifier on a subset of the 2,568 EMBER features**, without changing `thrember` itself.
+`thrember_lite` (`custom/thrember_lite/`) is a small companion library to `thrember`. It lets you **train and run a LightGBM malware classifier on a subset of the 2,568 EMBER features**, without changing `thrember` itself.
 
 You give it a list of feature columns to drop. It trains on the remaining columns and saves the model together with a record of which columns it used, so predictions later use exactly the same columns.
 
@@ -80,7 +80,7 @@ Everything in the "Main API" column is importable from the top level: `from thre
 
 | | Layer A: the drop list | Layer B: `spec.json` |
 |---|---|---|
-| Written by | Feature-selection scripts (e.g. `output/Mutual_Information/dropped_features.json`) | `thrember_lite`, saved next to the model |
+| Written by | Feature-selection scripts (e.g. `custom/feature_selection/mutual_information/output/dropped_features.json`) | `thrember_lite`, saved next to the model |
 | Contents | One entry per dropped feature: `rank`, `index`, `block`, `field`, `hashed`, score | `original_dim`, `kept_indices`, `original_categorical`, `new_categorical`, `block_ranges`, `source` |
 | Used for | Humans reading the selection results. The library only reads `index`. | Everything at train and predict time. |
 
@@ -97,7 +97,7 @@ Everything in the "Main API" column is importable from the top level: `from thre
 | `block_ranges` | Each feature block's `[start, end)` range in the full vector, so tools can label features without the index map. |
 | `source` | Where the spec came from: `drop_count`, `drop_file`, and an optional `note`. |
 
-`original_dim` and `block_ranges` come from `PEFeatureExtractor` by default, or from `Documentation/feature_index_map.json` if you pass `index_map_path` (useful where importing `thrember` is slow). The index map stores inclusive end values; the spec converts them to exclusive ends.
+`original_dim` and `block_ranges` come from `PEFeatureExtractor` by default, or from `custom/docs/feature_index_map.json` if you pass `index_map_path` (useful where importing `thrember` is slow). The index map stores inclusive end values; the spec converts them to exclusive ends.
 
 ### Categorical remapping: real examples from `runs/`
 
@@ -158,9 +158,9 @@ The LightGBM config (`examples/lgbm_config.json`) doesn't refer to column positi
 ## 7. Saving and predicting
 
 ```python
-ModelBundle.save(booster, spec, "runs/MI01/")     # writes model.txt + spec.json
+ModelBundle.save(booster, spec, "custom/feature_selection/mutual_information/runs/MI01/")     # writes model.txt + spec.json
 
-bundle = ModelBundle.load("runs/MI01/")
+bundle = ModelBundle.load("custom/feature_selection/mutual_information/runs/MI01/")
 score  = predict_file(bundle, "suspicious.exe")    # path or raw bytes → float in [0, 1]
 scores = predict_batch(bundle, [path1, path2])     # one extractor, one predict call
 ```
@@ -180,16 +180,16 @@ Dropping features does **not** make prediction faster: the extractor still compu
 ```bash
 # Build a spec from a drop list
 python -m thrember_lite.cli build-spec \
-    --drop output/Mutual_Information/dropped_features.json \
-    --out runs/MI01/spec.json \
-    [--index-map Documentation/feature_index_map.json] [--source-note "MI top-257"]
+    --drop custom/feature_selection/mutual_information/output/dropped_features.json \
+    --out custom/feature_selection/mutual_information/runs/MI01/spec.json \
+    [--index-map custom/docs/feature_index_map.json] [--source-note "MI top-257"]
 
-# Train and save model.txt + spec.json into runs/MI01/
-python -m thrember_lite.cli train ember_data runs/MI01/spec.json runs/MI01/ \
+# Train and save model.txt + spec.json into custom/feature_selection/mutual_information/runs/MI01/
+python -m thrember_lite.cli train ember_data custom/feature_selection/mutual_information/runs/MI01/spec.json custom/feature_selection/mutual_information/runs/MI01/ \
     --config examples/lgbm_config.json --seed 42
 
 # Score one file; prints "<path>\t<score>"
-python -m thrember_lite.cli predict runs/MI01/ suspicious.exe
+python -m thrember_lite.cli predict custom/feature_selection/mutual_information/runs/MI01/ suspicious.exe
 ```
 
 ### Python
@@ -198,21 +198,21 @@ python -m thrember_lite.cli predict runs/MI01/ suspicious.exe
 import json
 from thrember_lite import FeatureSpec, train_binary, ModelBundle, predict_file
 
-spec = FeatureSpec.from_drop_columns("output/Mutual_Information/dropped_features.json")
+spec = FeatureSpec.from_drop_columns("custom/feature_selection/mutual_information/output/dropped_features.json")
 params = json.load(open("examples/lgbm_config.json"))
 
 booster = train_binary("ember_data", spec, params, seed=42)
-ModelBundle.save(booster, spec, "runs/MI01/")
+ModelBundle.save(booster, spec, "custom/feature_selection/mutual_information/runs/MI01/")
 
-bundle = ModelBundle.load("runs/MI01/")
+bundle = ModelBundle.load("custom/feature_selection/mutual_information/runs/MI01/")
 print(predict_file(bundle, "suspicious.exe"))
 ```
 
 ### Scripts in this repo that use it
-- **`custom_scripts/run_thrember_lite.py`:** runs the whole flow (vectorize → build spec → train → optional predict). Paths are set at the top of `main()`.
-- **`custom_scripts/eval_thrember_lite.py`:** loads a bundle, reads the test (and optionally challenge) set through `read_vectorized_features` so the slice is applied, and reports ROC AUC, PR AUC, and TPR at 1% FPR with an ROC PDF. It's the `thrember_lite` version of `examples/eval_lgbm.py`.
-- **`custom_scripts/thrember_lite.md`:** notes for running both scripts on the HPC.
-- **`runs/MI01/`, `runs/EMBED01/`, `runs/SHAP01/`:** models trained with `thrember_lite`, each keeping 2,311 of 2,568 features. `runs/no_drop/` is the full-feature baseline.
+- **`custom/run_thrember_lite.py`:** runs the whole flow (vectorize → build spec → train → optional predict). Paths are set at the top of `main()`.
+- **`custom/eval_thrember_lite.py`:** loads a bundle, reads the test (and optionally challenge) set through `read_vectorized_features` so the slice is applied, and reports ROC AUC, PR AUC, and TPR at 1% FPR with an ROC PDF. It's the `thrember_lite` version of `examples/eval_lgbm.py`.
+- **`custom/docs/thrember_lite/thrember_lite.md`:** notes for running both scripts on the HPC.
+- **`custom/feature_selection/mutual_information/runs/MI01/`, `custom/feature_selection/embedded/runs/EMBED01/`, `custom/feature_selection/shap/runs/SHAP01/`:** models trained with `thrember_lite`, each keeping 2,311 of 2,568 features. `custom/runs/no_drop/` is the full-feature baseline.
 
 ---
 

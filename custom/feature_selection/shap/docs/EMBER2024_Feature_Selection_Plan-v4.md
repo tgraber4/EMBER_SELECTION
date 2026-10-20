@@ -38,7 +38,7 @@ the bottom 10%.
 
 ## 2. Deliverable
 
-A new Python script — `custom_scripts/shap_cluster_feature_selection.py` —
+A new Python script — `custom/feature_selection/shap/code/shap_cluster_feature_selection.py` —
 built off `train_custom_lgbm.py` (reuses `find_jsonl`, `vectorize_split`,
 `read_vectorized`, `assert_binary`, `CAT_FEATURES`, `RANDOM_STATE = 0`).
 
@@ -46,12 +46,12 @@ built off `train_custom_lgbm.py` (reuses `find_jsonl`, `vectorize_split`,
 
 ```
 python shap_cluster_feature_selection.py <data_dir> <model_path> \
-    --config-file ../examples/lgbm_config.json \
+    --config-file examples/lgbm_config.json \
     [--drop-fraction 0.10] \
     [--shap-sample 20000] \
     [--cluster-threshold 0.10] \
     [--shap-var-eps 1e-12] \
-    [--feature-map ../Documentation/feature_index_map.json] \
+    [--feature-map custom/docs/feature_index_map.json] \
     [--dropped-out dropped_features.csv]
 ```
 

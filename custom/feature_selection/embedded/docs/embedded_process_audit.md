@@ -1,7 +1,7 @@
 # Audit: `train_custom_lgbm_fs.py` Embedded Feature-Selection Process
 
 This document audits the embedded LightGBM feature-selection script
-(`custom_scripts/train_custom_lgbm_fs.py`) against
+(`custom/feature_selection/embedded/code/train_custom_lgbm_fs.py`) against
 `lightgbm_feature_selection_plan.md`, with attention to whether the
 process actually identifies "no gain" features correctly and whether the
 hyperparameters in `examples/lgbm_config.json` bias that judgement.

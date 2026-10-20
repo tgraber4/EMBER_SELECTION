@@ -73,7 +73,7 @@ EMBER2024/
     │   └── TSNE Output/               #     X_tsne.npy, plots, tsne_figures/
     ├── docs/                          #   overview, example row, feature types, feature_index_map.json
     ├── runs/                          #   baseline (no_drop) and other ad-hoc runs
-    └── archive/                       #   old drop lists, earlier ROC PDF, todo.txt
+    └── archive/                       #   old drop lists, earlier ROC PDF
 ```
 
 ### Original files
@@ -96,12 +96,14 @@ EMBER2024/
 #### `custom/common/`
 - **`bernoulli_sample.py`**: Downloads the PE shards (Win32, Win64, .NET) for train and test, then keeps each sample with a fixed probability based on a deterministic hash of its md5. Upstream stores every sample twice, so the script removes the duplicate (keeping the copy with Capa results) and writes `ember_data/PE_train_sampled.jsonl` and `PE_test_sampled.jsonl`.
 - **`vectorize_dataset.py`**: Wraps `thrember.create_vectorized_features` to turn a folder of train/test/challenge JSONL files into the `.dat` memmap files that `thrember_lite` trains and evaluates on. It includes every `.jsonl` in the folder whose name contains `train`, `test`, or `challenge`, and does nothing if the `.dat` files already exist unless `OVERWRITE` is set.
-- **`run_thrember_lite.py`**: Runs the reduced-feature pipeline end to end: vectorize, build `spec.json` from a drop list, and train a binary LightGBM model, with an optional prediction on a single file. Paths and settings are edited at the top of `main()`.
-- **`eval_thrember_lite.py`**: The `thrember_lite` version of `examples/eval_lgbm.py`. It loads a model bundle, applies the same column slice to the test and challenge sets, and reports ROC AUC, PR AUC, and TPR at 1% FPR with an ROC PDF.
-- **`thrember_lite.md`**: Short notes on running `run_thrember_lite.py` and `eval_thrember_lite.py` on the HPC cluster. Lists the requested resources and the order of steps.
+
+#### `custom/` (top-level scripts)
+These sit directly in `custom/` so that `thrember_lite` is importable when they run.
+- **`run_thrember_lite.py`**: Runs the reduced-feature pipeline end to end: vectorize, build `spec.json` from a drop list, and train a binary LightGBM model, with an optional prediction on a single file. Paths and settings are edited at the top of `main()`; by default it reads the embedded drop list and writes to `custom/feature_selection/embedded/runs/EMBED01/`.
+- **`eval_thrember_lite.py`**: The `thrember_lite` version of `examples/eval_lgbm.py`. It loads a model bundle, applies the same column slice to the test and challenge sets, and reports ROC AUC, PR AUC, and TPR at 1% FPR with an ROC PDF. `MODEL_DIR` defaults to `custom/feature_selection/embedded/runs/EMBED01/`.
 
 #### `custom/common/helper_scripts/`
-- **`build_feature_index_map.py`**: Generates `feature_index_map.json`, which maps each of the 2,568 vector positions to its block, position within the block, readable field name, and a hashed/not-hashed flag. It checks every block's size against `PEFeatureExtractor`, so the map can't drift out of sync.
+- **`build_feature_index_map.py`**: Generates `custom/docs/feature_index_map.json`, which maps each of the 2,568 vector positions to its block, position within the block, readable field name, and a hashed/not-hashed flag. It checks every block's size against `PEFeatureExtractor`, so the map can't drift out of sync.
 - **`check_labels.py`**: Reads a sampled JSONL and confirms every row has a `label`. Prints benign, malware, and unlabeled counts.
 - **`count_rows.py`**: Counts rows in one JSONL file or in every JSONL under `ember_data/`. Reads line by line, so memory use stays low on large shards.
 - **`download_challenge.py`**: Downloads the EMBER2024 challenge set into `ember_data/`. `create_vectorized_features` and the evaluation scripts both need it.
@@ -113,13 +115,10 @@ EMBER2024/
 - **`train_custom_lgbm.py`**: Trains a binary LightGBM classifier from a folder holding exactly one JSONL with `train` in its name and one with `test`. It vectorizes only those two files, writing the `.dat` files into the same folder, so it doesn't need the challenge set; the SHAP script reuses its helper functions.
 - **`train_custom_lgbm_fs.py`**: Trains the same baseline model, then ranks features by LightGBM gain and split count. It drops exactly 10%: features with zero gain first, then the lowest-gain ones. It saves a JSON report that includes the "information cost" (the share of total gain that was dropped).
 - **`convert_embedded_to_mi_format.py`**: Converts the embedded report (`embedded_dropped_features.json`) into the ranked-list format the MI script produces, saved as `updated_dropped_features.json`. This step is required, because `build-spec` can't read the raw report.
-- **`train_custom_lgbm.md`**: Design notes for `train_custom_lgbm.py`. Covers why it bypasses `examples/train_lgbm.py` and how inputs are detected.
-- **`train_custom_lgbm_fs_HPC.md`**: Copy-paste guide for running the embedded selection script on the HPC cluster. Covers which files to upload, one-time setup, and the run command.
 
 #### `custom/feature_selection/shap/code/`
 - **`shap_cluster_feature_selection.py`**: Trains a baseline LightGBM model, computes TreeSHAP values, ranks features by mean |SHAP|, and groups features whose SHAP values are highly correlated. It drops the bottom 10% in three tiers (unused → redundant → low importance) and writes `shap_dropped_features.csv` and the baseline model to `custom/feature_selection/shap/output/`.
 - **`convert_shap_to_mi_format.py`**: Converts the SHAP drop-list CSV into the JSON format the MI script produces, saved as `custom/feature_selection/shap/output/shap_dropped_features.json`. This step is required, because `build-spec` only reads JSON.
-- **`shap_cluster_feature_selection_HPC.md`**: Copy-paste guide for running the SHAP selection script on the HPC cluster. Lists the minimum files to upload and the run command.
 
 #### `custom/thrember_lite/`
 A small companion library that trains and predicts on a subset of columns without modifying `thrember`.
@@ -137,12 +136,12 @@ A small companion library that trains and predicts on a subset of columns withou
 - **`feature_vector_membership.md`**: Lists which fields in a raw JSONL row feed the feature vector and which are metadata, labels, or tags. Useful when reading a raw row.
 - **`example_row/`**: One sample row saved in several views (full row, feature fields only, non-feature fields only, top-level schema, extracted vector). `example_row_summary.md` explains each section of the row.
 - **`feature_types/`**: Notes on the data type of each feature.
-- **`thrember_lite/`**: `thrember_lite.md` (HPC run notes), `thrember_lite_overview.md`, and `finish_thrember_lite_plan.md` (what's left to finish the library, in a suggested order).
+- **`thrember_lite/`**: `thrember_lite.md` (HPC run notes for the two top-level scripts), `thrember_lite_overview.md`, and `finish_thrember_lite_plan.md` (what's left to finish the library, in a suggested order).
 
 #### `custom/feature_selection/<method>/`
 Each method (`mutual_information/`, `embedded/`, `shap/`) has the same four folders:
 - **`code/`**: the scripts described above.
-- **`docs/`**: the plan, notes and HPC guide for that method. For MI: `mi_feature_selection_plan.md` and `mutual_info.md`. For embedded: `lightgbm_feature_selection_plan.md` and `embedded_process_audit.md`. For SHAP: `EMBER2024_Feature_Selection_Plan-v4.md`, which covers SHAP ranking plus correlation clustering and the three-tier pruning rule.
+- **`docs/`**: the plan, notes and HPC guide for that method. For MI: `mi_feature_selection_plan.md` and `mutual_info.md`. For embedded: `lightgbm_feature_selection_plan.md`, `embedded_process_audit.md`, `train_custom_lgbm.md` (why it bypasses `examples/train_lgbm.py` and how inputs are detected) and `train_custom_lgbm_fs_HPC.md`. For SHAP: `EMBER2024_Feature_Selection_Plan-v4.md` (SHAP ranking plus correlation clustering and the three-tier pruning rule) and `shap_cluster_feature_selection_HPC.md`. The `*_HPC.md` files are copy-paste guides for the cluster: files to upload, one-time setup, and the run command.
 - **`output/`**: the drop list(s), run report, and baseline model where the method produces one. Embedded also holds the converted `updated_dropped_features.json`.
 - **`runs/`**: the model retrained with `thrember_lite` after removing that method's drop list (`MI01/`, `EMBED01/`, `SHAP01/`), each with `model.txt`, `spec.json` and `roc_test.pdf`.
 
@@ -150,8 +149,8 @@ Each method (`mutual_information/`, `embedded/`, `shap/`) has the same four fold
 A separate PCA + t-SNE exploration of the family-filtered sample (all 2,568 features kept). Scripts are in `Code/`, with outputs in `Scaling Output/`, `PCA Output/` and `TSNE Output/`. See [`custom/tsne/README.md`](custom/tsne/README.md) for the workflow, key values, and folder details.
 
 #### `custom/runs/` and `custom/archive/`
-- **`runs/no_drop/`**: Baseline model trained on all 2,568 features, with its ROC curve. `runs/exp02/` holds an extra experiment model.
-- **`archive/`**: Older drop lists (`old_data/`), an earlier ROC PDF, and `todo.txt`.
+- **`runs/no_drop/`**: Baseline model trained on all 2,568 features, with its ROC curve. `runs/exp02/` holds an extra experiment model (`model.txt` only).
+- **`archive/`**: Older drop lists (`old_data/`), and an earlier ROC PDF.
 
 ---
 
@@ -159,7 +158,7 @@ A separate PCA + t-SNE exploration of the family-filtered sample (all 2,568 feat
 
 ```
 HuggingFace shards
-   │  bernoulli_sample.py                      sample ~4% + dedup by md5
+   │  bernoulli_sample.py                      sample train ~1.3% / test ~4.3% + dedup by md5
    ▼
 PE_train_sampled.jsonl / PE_test_sampled.jsonl
    │  one selection script                     each vectorizes the JSONL itself

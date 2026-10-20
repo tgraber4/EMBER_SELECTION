@@ -15,7 +15,7 @@ Follow-up to the original `thrember_lite` design plan, which was deleted on 2026
 
 ## 1. Tests to implement
 
-All automatic tests go in `src/thrember_lite/tests/`.
+All automatic tests go in `custom/thrember_lite/tests/`.
 
 | # | Test | Source |
 |---|---|---|
@@ -54,7 +54,7 @@ All automatic tests go in `src/thrember_lite/tests/`.
 - **Platform note:** on Linux (the HPC), `sys.executable` is an ELF file, not a PE. Check that extraction still returns 2,568 values there; if not, skip the test on non-Windows machines.
 
 ### 1.3 Parity with `thrember` (synthetic, automatic)
-**Why:** `runs/no_drop` was most likely trained with the original `thrember` path, since its `Classifier_ROC_AUC.pdf` is what `examples/eval_lgbm.py` writes. MI01, EMBED01, and SHAP01 were trained with `thrember_lite`. This test confirms that "baseline vs. drop" comparisons measure the dropped features, not a difference in training code.
+**Why:** `custom/runs/no_drop` was most likely trained with the original `thrember` path, since its `Classifier_ROC_AUC.pdf` is what `examples/eval_lgbm.py` writes. MI01, EMBED01, and SHAP01 were trained with `thrember_lite`. This test confirms that "baseline vs. drop" comparisons measure the dropped features, not a difference in training code.
 
 **How:**
 - Write synthetic `X_train.dat` / `y_train.dat` at 2,568 columns, including some `y == -1` rows.
@@ -75,14 +75,14 @@ All automatic tests go in `src/thrember_lite/tests/`.
   - `num_certs >= 1`
   - `parse_error == 0`
   - the vector has 2,568 values
-- **Decide where it lives:** this tests `thrember`, not `thrember_lite`. Either put it in `src/thrember_lite/tests/` (the only test folder) or start a test folder for `thrember`.
+- **Decide where it lives:** this tests `thrember`, not `thrember_lite`. Either put it in `custom/thrember_lite/tests/` (the only test folder) or start a test folder for `thrember`.
 
 ### 1.5 CLI smoke test
 **Why:** `cli.py` has no tests. The plan called it "just argparse glue", but it's the documented way to build specs and train (see the README workflow).
 
 **How:**
 - Call `thrember_lite.cli.main([...])` in-process (it returns an exit code), reusing the synthetic data from 1.1/1.2:
-  - `build-spec --drop <Layer-A json> --out <spec.json> --index-map Documentation/feature_index_map.json --source-note test`
+  - `build-spec --drop <Layer-A json> --out <spec.json> --index-map custom/docs/feature_index_map.json --source-note test`
   - `train <data_dir> <spec.json> <out_dir> --config <small params json> --seed 42`
   - `predict <out_dir> <sys.executable>`
 - Assert:
@@ -95,7 +95,7 @@ All automatic tests go in `src/thrember_lite/tests/`.
 **Why:** by design, `from_drop_columns` derives `original_dim` and `block_ranges` from `PEFeatureExtractor` by default, and `run_thrember_lite.py` relies on that. But every existing test passes `index_map_path`, so `_derive_layout_from_extractor` is never tested.
 
 **How:**
-- Build one spec with no `index_map_path` and one with `index_map_path=Documentation/feature_index_map.json`.
+- Build one spec with no `index_map_path` and one with `index_map_path=custom/docs/feature_index_map.json`.
 - Assert both have the same `original_dim` (2,568) and `block_ranges`. Both are end-exclusive after loading; the index map stores end-inclusive ranges and `_read_index_map` converts them.
 - Checked by hand on 2026-09-15: the two match exactly, so this test should pass as-is.
 
@@ -103,7 +103,7 @@ All automatic tests go in `src/thrember_lite/tests/`.
 **Why:** this is the plan's full parity check. It's too slow for an automatic test and needs the dataset.
 
 **How:**
-- Suggested file: `custom_scripts/compare_thrember_lite_parity.py`, writing its results to `output/`.
+- Suggested file: `custom/compare_thrember_lite_parity.py`, writing its results to a new folder under `custom/`.
 - Train `thrember.train_model` and `thrember_lite.train_binary` (spec keeping all columns) on the same vectorized sample with `examples/lgbm_config.json`.
 - Score both on the test set.
 - Pass if:
@@ -125,7 +125,7 @@ All automatic tests go in `src/thrember_lite/tests/`.
   - `pyproject.toml`: `[project.optional-dependencies]` → `dev = ["pytest"]`
   - `setup.cfg`: `[options.extras_require]` → `dev = pytest`
   - install: `pip install -e ".[dev]"`
-  - run: `pytest src/thrember_lite/tests`
+  - run: `pytest custom/thrember_lite/tests`
 - **Keep the built-in `__main__` runners** in new test files too, so they still run without `pytest`.
 - **Shared helpers:** tests 1.1, 1.2, 1.3, and 1.5 all need 2,568-wide synthetic `.dat` files and a small trained bundle. Put the helpers in a plain module (e.g. `tests/_helpers.py`) rather than a `pytest` `conftest.py`, so the built-in runners can use them too.
 
@@ -142,9 +142,9 @@ All automatic tests go in `src/thrember_lite/tests/`.
 
 ### 3.2 SHAP converter reads the wrong file (affects `build-spec` input)
 - `convert_shap_to_mi_format.py` reads `output\SHAP\dropped_features.csv`, but `shap_cluster_feature_selection.py` now writes `shap_dropped_features.csv`.
-- An old `output/SHAP/dropped_features.csv` still exists, so the converter quietly converts old results instead of failing.
+- An old `custom/feature_selection/shap/output/dropped_features.csv` still exists, so the converter quietly converts old results instead of failing.
 - The path also uses backslashes, which only work on Windows.
-- **Fix:** point `INPUT_PATH` at `output/SHAP/shap_dropped_features.csv`.
+- **Fix:** point `INPUT_PATH` at `custom/feature_selection/shap/output/shap_dropped_features.csv`.
 
 ### 3.3 `block` / `in_memory` can't be set from `train_binary` or the CLI (low priority)
 - The plan says to lower the loader's `block` size (e.g. to 10k) when RAM is tight, but `train_binary` always calls `read_vectorized_features` with the defaults, and the CLI has no flag for it.
@@ -152,7 +152,7 @@ All automatic tests go in `src/thrember_lite/tests/`.
 
 ### Noted elsewhere (not `thrember_lite`)
 - `check_labels.py` and `count_rows.py` look for data in `custom_scripts/ember_data/` instead of the repo's `ember_data/`, because the path is built two folders up from the script file.
-- `Documentation/Overview/process_overview.md` has out-of-date names and values:
+- `custom/docs/overview/process_overview.md` has out-of-date names and values:
   - `PE_both_sampled.jsonl`
   - `p = 0.0347`
   - scripts at the repo root

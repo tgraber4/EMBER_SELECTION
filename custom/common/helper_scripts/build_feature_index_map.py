@@ -1,4 +1,4 @@
-"""Generate ember_data/feature_index_map.json describing every index 0..dim-1
+"""Generate custom/docs/feature_index_map.json describing every index 0..dim-1
 of the vector produced by thrember.PEFeatureExtractor.
 
 Each entry has:
@@ -182,7 +182,7 @@ out = {
     "entries": entries,
 }
 
-path = "ember_data/feature_index_map.json"
+path = "custom/docs/feature_index_map.json"
 with open(path, "w", encoding="utf-8") as f:
     json.dump(out, f, indent=2)
 

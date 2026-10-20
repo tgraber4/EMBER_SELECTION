@@ -23,12 +23,12 @@ Run Categorical-Continuous Mutual Information on a subsection of the EMBER2024 d
 | `N_DROP` | `257` | Features to mark for dropping (~10%) |
 | `MAX_SAMPLES` | `100_000` | Max labeled rows to stream |
 | `OUTPUT` | `"dropped_features.csv"` | Output CSV path |
-| `FEATURE_MAP` | `"Documentation/feature_index_map.json"` | Label map (already exists) |
+| `FEATURE_MAP` | `"custom/docs/feature_index_map.json"` | Label map (already exists) |
 | `SEED` | `42` | Random seed |
 
 ### Pipeline
 
-1. **Load labels** — reads `Documentation/feature_index_map.json` → `dict[index → {block, field, hashed}]`
+1. **Load labels** — reads `custom/docs/feature_index_map.json` → `dict[index → {block, field, hashed}]`
 2. **Stream .jsonl** — reads one file line-by-line, skips unlabeled rows (`label == -1`), stops at `MAX_SAMPLES`
 3. **Vectorize** — calls `PEFeatureExtractor.process_raw_features(obj)` on each row → `X[N, 2568]`
 4. **Compute MI** — `sklearn.feature_selection.mutual_info_classif` with categorical mask for indices `[2, 3, 4, 5, 6, 701, 702]`

@@ -72,7 +72,7 @@ The current strategy is **extract all 2,568 features into the canonical `.dat`, 
 
 **What works under this design:**
 - Any drop list, including dropping categorical indices, is mechanically valid — `FeatureSpec.new_categorical` remaps surviving categoricals to their post-slice positions automatically.
-- The original index map (`Documentation/feature_index_map.json`) still names every kept column.
+- The original index map (`custom/docs/feature_index_map.json`) still names every kept column.
 - Re-running with a different drop list reuses the same `.dat` files — only `spec.json` and the model change.
 - `bernoulli_sample.py`, `mi_feature_selection.py`, and the index map all work on **raw** rows; drop selection happens after them in the pipeline.
 
@@ -185,6 +185,6 @@ So evaluation under feature removal needs exactly one new piece of plumbing (app
 
 ## Resolved design decisions
 
-1. **Reduced-vector training is implemented as `thrember_lite`.** The package at `src/thrember_lite/` consumes a `dropped_features.json`, slices columns at load time off the canonical `.dat` files, trains a binary LightGBM booster, and saves a `ModelBundle` (`model.txt` + `spec.json`) for reproducible inference. See `Documentation/thrember_lite_plan.md` for the design and `Documentation/thrember_lite_usage.md` for the end-to-end commands.
+1. **Reduced-vector training is implemented as `thrember_lite`.** The package at `custom/thrember_lite/` consumes a `dropped_features.json`, slices columns at load time off the canonical `.dat` files, trains a binary LightGBM booster, and saves a `ModelBundle` (`model.txt` + `spec.json`) for reproducible inference. See `Documentation/thrember_lite_plan.md` for the design and `Documentation/thrember_lite_usage.md` for the end-to-end commands.
 2. **Feature removal stays post-extraction for now.** `PEFeatureExtractor` always emits the full 2,568-dim vector and downstream scripts slice it via `kept_indices`. No block-level skipping inside `features.py`.
 3. **Raw-bytes inference will use a forked `predict_sample`** that takes an explicit slice argument (e.g. `kept_indices` or a `FeatureSpec`) rather than a wrapper that reads a sidecar at call time. The fork extracts the full 2,568-dim vector via `PEFeatureExtractor`, applies the slice in-place, and calls `booster.predict` on the reduced array.

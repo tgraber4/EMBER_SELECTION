@@ -348,7 +348,7 @@ def parse_args():
                              f"treated as inactive (default: {SHAP_VAR_EPS}).")
     parser.add_argument("--feature-map", type=str, default=str(DEFAULT_FEATURE_MAP),
                         help="Path to feature_index_map.json (default: "
-                             "../custom/docs/feature_index_map.json).")
+                             "custom/docs/feature_index_map.json).")
     args = parser.parse_args()
 
     # Validate cluster-threshold up-front per the plan.

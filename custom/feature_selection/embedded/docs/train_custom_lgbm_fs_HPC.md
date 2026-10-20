@@ -40,7 +40,7 @@ If your cluster blocks internet on compute nodes, run those `pip` commands on a 
 
 ## 3. How to run
 
-python3 "custom_scripts/Feature Selection/Embedded/train_custom_lgbm_fs.py" ember_data/
+python3 "custom/feature_selection/embedded/code/train_custom_lgbm_fs.py" ember_data/
 
 ## 5. Common errors
 
