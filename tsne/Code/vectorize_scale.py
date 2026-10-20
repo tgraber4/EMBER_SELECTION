@@ -10,13 +10,13 @@ Steps:
 Uses `thrember` rather than `thrember_lite`: thrember_lite only slices columns of an
 already-vectorized .dat file by a drop list, and here all 2,568 features are kept.
 
-Outputs (default output/Scaling/):
+Outputs (default tsne/Scaling Output/):
   X_raw.npy, X_quantile.npy, X_scaled.npy, y.npy, quantile_transformer.joblib,
   standard_scaler.joblib
 
 Usage (from the EMBER2024 root):
-    python custom_scripts_2\\vectorize_scale.py
-    python custom_scripts_2\\vectorize_scale.py -n 20000 --seed 42
+    python tsne/Code/vectorize_scale.py
+    python tsne/Code/vectorize_scale.py -n 20000 --seed 42
 """
 
 import argparse
@@ -30,9 +30,10 @@ from sklearn.preprocessing import QuantileTransformer, StandardScaler
 
 from thrember import PEFeatureExtractor
 
-ROOT = Path(__file__).resolve().parent.parent
+TSNE_DIR = Path(__file__).resolve().parent.parent
+ROOT = TSNE_DIR.parent
 DEFAULT_INPUT = ROOT / "ember_data" / "PE_train_sampled_min75.jsonl"
-DEFAULT_OUTPUT = ROOT / "output" / "Scaling"
+DEFAULT_OUTPUT = TSNE_DIR / "Scaling Output"
 
 
 def read_lines(path: Path) -> list[str]:

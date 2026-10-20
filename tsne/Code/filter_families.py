@@ -11,8 +11,8 @@ with an empty/null family is dropped, since it belongs to no family.
 Lines are copied verbatim, so all features are preserved.
 
 Usage (from the EMBER2024 root):
-    python custom_scripts_2\\filter_families.py ember_data\\PE_train_sampled.jsonl
-    python custom_scripts_2\\filter_families.py in.jsonl -t 100 -o out.jsonl
+    python tsne/Code/filter_families.py ember_data\\PE_train_sampled.jsonl
+    python tsne/Code/filter_families.py in.jsonl -t 100 -o out.jsonl
 """
 
 import argparse

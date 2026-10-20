@@ -1,9 +1,9 @@
 """
 Shared helpers for the t-SNE figure scripts in this folder.
 
-Inputs  (default output/Scaling/):  X_tsne.npy
+Inputs  (default tsne/TSNE Output/):  X_tsne.npy
         (default ember_data/):      PE_train_sampled_min75.jsonl  (row order matches X_tsne.npy)
-Outputs (default output/Scaling/tsne_figures/<figure folder>/)
+Outputs (default tsne/TSNE Output/tsne_figures/<figure folder>/)
 
 Edit WELL_CLUSTERED / POORLY_CLUSTERED below to change the family presets
 used by figures 03 and 04.
@@ -16,8 +16,9 @@ from pathlib import Path
 
 import numpy as np
 
-ROOT = Path(__file__).resolve().parent.parent.parent
-DEFAULT_DATA_DIR = ROOT / "output" / "Scaling"
+TSNE_DIR = Path(__file__).resolve().parent.parent.parent
+ROOT = TSNE_DIR.parent
+DEFAULT_DATA_DIR = TSNE_DIR / "TSNE Output"
 DEFAULT_JSONL = ROOT / "ember_data" / "PE_train_sampled_min75.jsonl"
 DEFAULT_OUT_DIR = DEFAULT_DATA_DIR / "tsne_figures"
 BENIGN = "benign"

@@ -4,12 +4,12 @@ Compress the scaled feature matrix with PCA for t-SNE.
 Fits a full PCA on X_scaled.npy, then keeps the smallest number of components whose
 cumulative explained variance is at least --min-variance (default 0.50).
 
-Inputs  (default output/Scaling/):  X_scaled.npy
-Outputs (default output/Scaling/):  X_pca.npy, pca.joblib
+Inputs  (default tsne/Scaling Output/):  X_scaled.npy
+Outputs (default tsne/PCA Output/):  X_pca.npy, pca.joblib
 
 Usage (from the EMBER2024 root):
-    python custom_scripts_2/pca_reduce.py
-    python custom_scripts_2/pca_reduce.py --min-variance 0.6
+    python tsne/Code/pca_reduce.py
+    python tsne/Code/pca_reduce.py --min-variance 0.6
 """
 
 import argparse
@@ -19,8 +19,10 @@ import joblib
 import numpy as np
 from sklearn.decomposition import PCA
 
-ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_DIR = ROOT / "output" / "Scaling"
+TSNE_DIR = Path(__file__).resolve().parent.parent
+ROOT = TSNE_DIR.parent
+DEFAULT_DIR = TSNE_DIR / "Scaling Output"
+OUT_DIR = TSNE_DIR / "PCA Output"
 
 
 def main() -> None:
@@ -52,9 +54,9 @@ def main() -> None:
     pca.singular_values_ = pca.singular_values_[:k]
     pca.n_components_ = k
 
-    np.save(args.data_dir / "X_pca.npy", X_pca)
-    joblib.dump(pca, args.data_dir / "pca.joblib")
-    print(f"[write] X_pca {X_pca.shape} -> {args.data_dir}")
+    np.save(OUT_DIR / "X_pca.npy", X_pca)
+    joblib.dump(pca, OUT_DIR / "pca.joblib")
+    print(f"[write] X_pca {X_pca.shape} -> {OUT_DIR}")
 
 
 if __name__ == "__main__":

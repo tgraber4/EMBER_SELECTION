@@ -39,7 +39,7 @@ Only small edits have been made to these files:
 
 ### Added files
 
-**Everything else was added on top of the original repo.** That includes `custom_scripts/`, `src/thrember_lite/`, `Documentation/`, `output/`, and `runs/`.
+**Everything else was added on top of the original repo.** That includes `custom_scripts/`, `src/thrember_lite/`, `Documentation/`, `output/`, `runs/`, and `tsne/`.
 
 ---
 
@@ -72,6 +72,12 @@ EMBER2024/
 │   ├── Embedded/
 │   └── SHAP/
 ├── runs/                              # [added] retrained models + ROC curves
+├── tsne/                              # [added] PCA + t-SNE exploration of the family-filtered sample
+│   ├── Code/                          #   scripts (tsne_figures/ holds the plotting scripts)
+│   ├── Documentation/
+│   ├── Scaling Output/                #   vectorized + scaled matrices, fitted scalers (git-ignored)
+│   ├── PCA Output/                    #   X_pca.npy, pca.joblib (git-ignored) + loadings CSVs
+│   └── TSNE Output/                   #   X_tsne.npy, plots, tsne_figures/
 ├── pyproject.toml, setup.cfg          # [original] package metadata
 └── LICENSE                            # [original]
 ```
@@ -146,6 +152,9 @@ A small companion library that trains and predicts on a subset of columns withou
 - **`Embedded/`**: The raw embedded drop list and report, the converted `updated_dropped_features.json`, and the baseline `model.txt`.
 - **`SHAP/`**: The SHAP drop list (CSV and converted JSON), the report, and the baseline model.
 
+#### `tsne/`
+A separate PCA + t-SNE exploration of the family-filtered sample (all 2,568 features kept). Scripts are in `tsne/Code/`, with outputs in `Scaling Output/`, `PCA Output/` and `TSNE Output/`. See [`tsne/README.md`](tsne/README.md) for the workflow, key values, and folder details.
+
 #### `runs/`
 - **`no_drop/`**: Baseline model trained on all 2,568 features, with its ROC curve.
 - **`MI01/`, `EMBED01/`, `SHAP01/`**: Models retrained with `thrember_lite` after removing the MI, embedded, and SHAP drop lists. Each folder has `model.txt` and `roc_test.pdf`.
@@ -181,6 +190,8 @@ ROC AUC, PR AUC, TPR @ 1% FPR (test + challenge)
 Scripts pick their input files by name, so check what's in the folder before running them:
 - **`vectorize_dataset.py` / `run_thrember_lite.py`:** these include every `.jsonl` whose name contains `train`, `test`, or `challenge`. `bernoulli_sample.py` leaves the full weekly shards in `ember_data/`, so move those out first, or the whole dataset gets vectorized instead of the sample.
 - **Embedded and SHAP scripts:** these need a folder with exactly one `*train*.jsonl` and one `*test*.jsonl`, and stop with an error if the weekly shards are also there. They write `X_train.dat` / `X_test.dat` into that folder, the same names `vectorize_dataset.py` uses, so a separate folder is safest (the HPC guides use `data/`).
+
+The separate t-SNE pipeline is described in [`tsne/README.md`](tsne/README.md).
 
 ## Setup
 

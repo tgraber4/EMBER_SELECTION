@@ -8,7 +8,7 @@ Prints a table sorted by count and writes
 the same table to ember_data/family_counts.csv.
 
 Usage (from the EMBER2024 root):
-    python custom_scripts_2\\family_counts.py
+    python tsne/Code/family_counts.py
 """
 
 import csv
@@ -17,8 +17,8 @@ from collections import Counter
 from pathlib import Path
 
 DATA_DIR = Path("./ember_data")
-INPUT_PATH = DATA_DIR / "PE_train_sampled.jsonl"
-OUTPUT_CSV = DATA_DIR / "family_counts.csv"
+INPUT_PATH = DATA_DIR / "PE_train_sampled_min75.jsonl"
+OUTPUT_CSV = DATA_DIR / "family_counts_min75.csv"
 NO_FAMILY = "(none)"
 
 

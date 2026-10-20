@@ -2,7 +2,7 @@
 Run every figure script in this folder.
 
 Usage (from the EMBER2024 root):
-    python custom_scripts_2/tsne_figures/run_all.py
+    python tsne/Code/tsne_figures/run_all.py
 """
 
 import subprocess

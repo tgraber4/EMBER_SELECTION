@@ -10,11 +10,11 @@ Each preset is written twice:
 
 You can also plot any custom list with --families (written to 05_custom/).
 
-Output: output/Scaling/tsne_figures/03_well_clustered/, 04_poorly_clustered/
+Output: tsne/TSNE Output/tsne_figures/03_well_clustered/, 04_poorly_clustered/
 
 Usage (from the EMBER2024 root):
-    python custom_scripts_2/tsne_figures/fig03_04_family_subsets.py
-    python custom_scripts_2/tsne_figures/fig03_04_family_subsets.py --families wacatac njrat
+    python tsne/Code/tsne_figures/fig03_04_family_subsets.py
+    python tsne/Code/tsne_figures/fig03_04_family_subsets.py --families wacatac njrat
 """
 
 import argparse

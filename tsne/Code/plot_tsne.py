@@ -7,12 +7,12 @@ To hide groups, add their names to HIDE below (or pass --hide on the command lin
 Use "benign" for benign samples; families are matched case-insensitively.
 Example:  HIDE = ["benign", "berbew"]
 
-Inputs  (default output/Scaling/):  X_tsne.npy
-Output  (default output/Scaling/):  tsne_plot.png
+Inputs  (default tsne/TSNE Output/):  X_tsne.npy
+Output  (default tsne/TSNE Output/):  tsne_plot.png
 
 Usage (from the EMBER2024 root):
-    python custom_scripts_2/plot_tsne.py
-    python custom_scripts_2/plot_tsne.py --hide benign berbew
+    python tsne/Code/plot_tsne.py
+    python tsne/Code/plot_tsne.py --hide benign berbew
 """
 
 import argparse
@@ -30,8 +30,9 @@ import numpy as np
 HIDE: list[str] = []
 # ----------------------------------------------------------------------------
 
-ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_DIR = ROOT / "output" / "Scaling"
+TSNE_DIR = Path(__file__).resolve().parent.parent
+ROOT = TSNE_DIR.parent
+DEFAULT_DIR = TSNE_DIR / "TSNE Output"
 DEFAULT_JSONL = ROOT / "ember_data" / "PE_train_sampled_min75.jsonl"
 BENIGN = "benign"
 

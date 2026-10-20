@@ -6,12 +6,12 @@ Panels are ordered from most compact to most scattered, using the fraction of
 each point's 15 nearest t-SNE neighbors that share its family (shown in the
 panel title). Axes are identical across panels so they can be compared.
 
-Output: output/Scaling/tsne_figures/01_family_grid/family_grid.png
-        output/Scaling/tsne_figures/01_family_grid/family_order.csv
+Output: tsne/TSNE Output/tsne_figures/01_family_grid/family_grid.png
+        tsne/TSNE Output/tsne_figures/01_family_grid/family_order.csv
 
 Usage (from the EMBER2024 root):
-    python custom_scripts_2/tsne_figures/fig01_family_grid.py
-    python custom_scripts_2/tsne_figures/fig01_family_grid.py --cols 5
+    python tsne/Code/tsne_figures/fig01_family_grid.py
+    python tsne/Code/tsne_figures/fig01_family_grid.py --cols 5
 """
 
 import argparse
