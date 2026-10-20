@@ -44,6 +44,6 @@ desktop.ini
 ember_data/
 data/
 
-tsne/Scaling Output/
-tsne/PCA Output/*.npy
-tsne/PCA Output/*.joblib
+custom/tsne/Scaling Output/
+custom/tsne/PCA Output/*.npy
+custom/tsne/PCA Output/*.joblib
