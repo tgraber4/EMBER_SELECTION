@@ -12,7 +12,7 @@ The objective of this phase is to establish a high-quality baseline and measure 
 1.  **Hyperparameter Definition**: Configure the LightGBM model with a sufficient number of estimators (e.g., `n_estimators=1000`) and appropriate complexity (e.g., `num_leaves`, `learning_rate`) to ensure the model thoroughly explores the feature space.
 2.  **Quota Calculation**:
     * Determine total feature count ($T$).
-    * Calculate the target number of features to drop ($N_{drop} = T 	imes 0.10$).
+    * Calculate the target number of features to drop ($N_{drop} = T \times 0.10$).
 3.  **Timing Start**: Record the exact system timestamp immediately prior to initiating the `.fit()` method.
 4.  **Baseline Training**: Execute a single training pass. Ensure the model is trained until convergence (using early stopping if a validation set is available).
 5.  **Timing End**: Record the timestamp upon completion to calculate **Total Training Duration**.
@@ -58,7 +58,7 @@ This phase provides a post-analysis report to quantify exactly what was removed 
 1.  **Information Loss Calculation**:
     * Calculate the **Total Global Gain** (sum of Gain for all original features).
     * Calculate the **Sum of Dropped Gain** (sum of Gain for the 10% removed features).
-    * Report the ratio: $rac{	ext{Sum of Dropped Gain}}{	ext{Total Global Gain}} 	imes 100$. This represents the percentage of model "intelligence" sacrificed.
+    * Report the ratio: $\frac{\text{Sum of Dropped Gain}}{\text{Total Global Gain}} \times 100$. This represents the percentage of model "intelligence" sacrificed.
 2.  **Threshold Summary Table**:
     * **Total Features**: Count of original columns.
     * **Target Drop ($N_{drop}$)**: The calculated 10% goal.

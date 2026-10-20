@@ -1,4 +1,4 @@
-"""Check whether every sample in PE_both_sampled.jsonl has a malware/benign label."""
+"""Check whether every sample in PE_train_sampled.jsonl has a malware/benign label."""
 
 import json
 from collections import Counter

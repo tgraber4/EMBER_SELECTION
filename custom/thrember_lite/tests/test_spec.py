@@ -1,6 +1,6 @@
 """FeatureSpec unit tests.
 
-Designed to run under pytest if installed (`pytest src/thrember_lite/tests`),
+Designed to run under pytest if installed (`PYTHONPATH=custom pytest custom/thrember_lite/tests`),
 or directly via `python -m thrember_lite.tests.test_spec` for stdlib-only setups.
 """
 

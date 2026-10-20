@@ -1,4 +1,4 @@
-# `basic_layout.txt` Attribute Classification
+# Feature-vector membership: which raw-row fields are used
 
 
 ## Included in the feature vector

@@ -29,7 +29,7 @@ the bottom 10%.
 * **Dataset:** EMBER2024 (v3 feature set).
 * **Total Features:** ~2,568 dimensions (flattened vector; assert against
   `PEFeatureExtractor().dim` at runtime — never hard-code).
-* **Dataset Status:** 100,000 samples already extracted and prepared.
+* **Dataset Status:** the sampled train/test JSONL files (about 30,000 train and 23,000 test rows) from `custom/common/bernoulli_sample.py`. The plan was first written for a 100,000-sample set.
 * **Target:** Identify and remove the bottom 10% (~257 features) based on
   importance and redundancy.
 * **Model:** LightGBM (binary).
@@ -45,22 +45,27 @@ built off `train_custom_lgbm.py` (reuses `find_jsonl`, `vectorize_split`,
 **Inputs (CLI):**
 
 ```
-python shap_cluster_feature_selection.py <data_dir> <model_path> \
-    --config-file examples/lgbm_config.json \
+python custom/feature_selection/shap/code/shap_cluster_feature_selection.py \
+    [--data-dir ember_data] \
+    [--output-dir custom/feature_selection/shap/output] \
+    [--model-name model.txt] \
+    [--config-file examples/lgbm_config.json] \
+    [--early-stopping 50] \
     [--drop-fraction 0.10] \
     [--shap-sample 20000] \
     [--cluster-threshold 0.10] \
     [--shap-var-eps 1e-12] \
-    [--feature-map custom/docs/feature_index_map.json] \
-    [--dropped-out dropped_features.csv]
+    [--feature-map custom/docs/feature_index_map.json]
 ```
 
-* `<data_dir>` — folder containing exactly one `*train*.jsonl` and one
+All arguments are optional; the values shown are the defaults.
+
+* `--data-dir` — folder containing exactly one `*train*.jsonl` and one
   `*test*.jsonl` (same convention as `train_custom_lgbm.py`). Vectorized
   `X_train.dat` / `y_train.dat` / `X_test.dat` / `y_test.dat` are written
   into this folder.
-* `<model_path>` — where to save the trained LightGBM model used to derive
-  SHAP values.
+* `--output-dir` / `--model-name` — where to save the trained LightGBM model
+  used to derive SHAP values, and what to call it.
 * `--feature-map` — path to `feature_index_map.json` (see §2.1). If the
   file is missing or its `dim` does not match `PEFeatureExtractor().dim`,
   fall back to generic `block="unknown"`, `field=f"Column_{i}"`,
@@ -97,8 +102,8 @@ The script must:
    `index_map[i].get("field", f"Column_{i}")`,
    `index_map[i].get("hashed", False)` when populating the CSV.
 
-**Output:** a single CSV of dropped features at `--dropped-out` (default
-`dropped_features.csv`) with the schema:
+**Output:** a single CSV of dropped features in `--output-dir`, named
+`shap_dropped_features.csv` (set by `DROPPED_OUT_NAME` in the script), with the schema:
 
 ```
 rank,index,block,field,hashed,mean_abs_shap,cluster_id,drop_reason
@@ -126,7 +131,7 @@ entire output of this stage.
 
 1. **Data loading:** Reuse `find_jsonl()` + `vectorize_split()` +
    `read_vectorized()` from `train_custom_lgbm.py` to materialize
-   `X_train`, `y_train`, `X_test`, `y_test` from `<data_dir>`.
+   `X_train`, `y_train`, `X_test`, `y_test` from `--data-dir`.
 2. **Train/val split:** 90/10 stratified split on `y_train`, with
    `random_state=0` (matches `train_custom_lgbm.py`).
 3. **Baseline training:** Train LightGBM with
@@ -146,7 +151,7 @@ entire output of this stage.
    accuracy, ROC AUC (`sklearn.metrics.roc_auc_score`), log-loss
    (`sklearn.metrics.log_loss`). All test-set predictions use
    `num_iteration=best_iter`.
-5. Save the model to `<model_path>` with `num_iteration=best_iter`.
+5. Save the model to `--output-dir`/`--model-name` with `num_iteration=best_iter`.
 
 ### Phase 2: SHAP Importance & Correlation Clustering
 
@@ -313,7 +318,7 @@ into `thrember_lite` and re-training.
       `CAT_FEATURES`, `RANDOM_STATE`).
 - [ ] **Feature map:** Load `feature_index_map.json` per §2.1, with stub
       fallback on dim mismatch / missing file.
-- [ ] **Baseline:** Train LightGBM, save to `<model_path>` with
+- [ ] **Baseline:** Train LightGBM, save to `--output-dir`/`--model-name` with
       `num_iteration=best_iter`, record test accuracy / AUC / log-loss.
 - [ ] **SHAP:** Compute SHAP on a stratified subsample of size
       `min(--shap-sample, len(X_tr))`, gated to `best_iter`. Normalize
@@ -325,7 +330,7 @@ into `thrember_lite` and re-training.
       `fcluster(t=--cluster-threshold, criterion="distance")`.
 - [ ] **Selection:** Generate exactly `n_drop` indices via
       Rank 0 → Rank A → Rank B with the tie-break rules in Phase 3.
-- [ ] **Export CSV:** Write `dropped_features.csv` with the schema in §2
+- [ ] **Export CSV:** Write `shap_dropped_features.csv` with the schema in §2
       (must include `index` so the downstream consumer works). Do **not**
       invoke training here — that's a separate downstream step.
 

@@ -117,15 +117,15 @@ All automatic tests go in `custom/thrember_lite/tests/`.
 
 - **Current state:** `pytest` isn't installed in `.venv`. Each test file runs through its own built-in runner:
   ```bash
-  PYTHONPATH=src python -m thrember_lite.tests.test_spec
-  PYTHONPATH=src python -m thrember_lite.tests.test_data
-  PYTHONPATH=src python -m thrember_lite.tests.test_train_smoke
+  PYTHONPATH=custom python -m thrember_lite.tests.test_spec
+  PYTHONPATH=custom python -m thrember_lite.tests.test_data
+  PYTHONPATH=custom python -m thrember_lite.tests.test_train_smoke
   ```
 - **Add `pytest` as an optional dev dependency** so all tests run with one command:
   - `pyproject.toml`: `[project.optional-dependencies]` → `dev = ["pytest"]`
   - `setup.cfg`: `[options.extras_require]` → `dev = pytest`
   - install: `pip install -e ".[dev]"`
-  - run: `pytest custom/thrember_lite/tests`
+  - run: `PYTHONPATH=custom pytest custom/thrember_lite/tests` (`thrember_lite` is no longer installed by `pip install -e .`, since it moved to `custom/`)
 - **Keep the built-in `__main__` runners** in new test files too, so they still run without `pytest`.
 - **Shared helpers:** tests 1.1, 1.2, 1.3, and 1.5 all need 2,568-wide synthetic `.dat` files and a small trained bundle. Put the helpers in a plain module (e.g. `tests/_helpers.py`) rather than a `pytest` `conftest.py`, so the built-in runners can use them too.
 
@@ -138,12 +138,11 @@ All automatic tests go in `custom/thrember_lite/tests/`.
 - **Cause:** `core.autocrlf=true`. Git stores the files with plain newlines, but the working copies have Windows line endings (CRLF), which LightGBM's text model reader can't handle. Copies converted back to plain newlines load fine (e.g. MI01: 2,311 features, 500 trees).
 - **Affects on this machine:** `ModelBundle.load`, CLI `predict`, `eval_thrember_lite.py`, and `examples/eval_lgbm.py` with committed models. Linux (HPC) and newly trained models are unaffected.
 - **Fixed on 2026-09-15:** added a `.gitattributes` with `*model.txt -text` and `*.model -text`, then re-checked out the 7 model files. All of them load again, and CLI `predict` works on the real `runs/MI01`.
-- **Still to do:** commit `.gitattributes`. After pulling it, any other Windows clone has to re-checkout its model files once (delete them, then `git checkout -- <files>`).
+- `.gitattributes` is committed. After pulling it, any other Windows clone has to re-checkout its model files once (delete them, then `git checkout -- <files>`).
 
 ### 3.2 SHAP converter reads the wrong file (affects `build-spec` input)
-- `convert_shap_to_mi_format.py` reads `output\SHAP\dropped_features.csv`, but `shap_cluster_feature_selection.py` now writes `shap_dropped_features.csv`.
+- `convert_shap_to_mi_format.py` reads `custom/feature_selection/shap/output/dropped_features.csv`, but `shap_cluster_feature_selection.py` now writes `shap_dropped_features.csv`.
 - An old `custom/feature_selection/shap/output/dropped_features.csv` still exists, so the converter quietly converts old results instead of failing.
-- The path also uses backslashes, which only work on Windows.
 - **Fix:** point `INPUT_PATH` at `custom/feature_selection/shap/output/shap_dropped_features.csv`.
 
 ### 3.3 `block` / `in_memory` can't be set from `train_binary` or the CLI (low priority)
@@ -151,18 +150,14 @@ All automatic tests go in `custom/thrember_lite/tests/`.
 - **Fix:** add `block` / `in_memory` keyword arguments to `train_binary` that pass straight through, and a `--block` flag to `cli.py train`. This only matters for much larger datasets than the current sample.
 
 ### Noted elsewhere (not `thrember_lite`)
-- `check_labels.py` and `count_rows.py` look for data in `custom_scripts/ember_data/` instead of the repo's `ember_data/`, because the path is built two folders up from the script file.
-- `custom/docs/overview/process_overview.md` has out-of-date names and values:
-  - `PE_both_sampled.jsonl`
-  - `p = 0.0347`
-  - scripts at the repo root
-  - a link to a `thrember_lite_usage.md` that doesn't exist
+- Fixed on 2026-10-20: `check_labels.py` and `count_rows.py` used to look for `ember_data/` next to the scripts. They now resolve it from the repo root.
+- Fixed on 2026-10-20: `custom/docs/overview/process_overview.md` now matches the current sampling script (separate train/test files, per-split probabilities) and no longer links to missing files.
 
 ---
 
 ## 4. Suggested order
 
-1. ~~**§3.1 model files**~~: done. Only committing `.gitattributes` is left.
+1. ~~**§3.1 model files**~~: done.
 2. **§2 test environment:** `pytest` dev dependency and shared helpers.
 3. **1.1 → 1.2 → 1.5:** these share the same synthetic data and bundle.
 4. **1.3 and 1.6:** quick, no training needed.

@@ -31,13 +31,12 @@ hyperparameters in `examples/lgbm_config.json` bias that judgement.
 | `min_data_in_leaf` | 100 | 20–50 | Lets rare-but-real signals split. Biggest single source of false zero-gain flags. |
 | `feature_fraction` | 0.9 | 1.0 | Removes per-tree feature subsampling so every feature is offered every tree. |
 | `feature_fraction_bynode` | 0.9 | 1.0 | Same reason at the node level. Stack with above gives ~0.81 effective exposure. |
-| seeds | single (`0`) | 3–5 seeds | Run the audit multiple times and **intersect** the absolute-zero sets. Only features that are zero across all runs are confidently useless. |
+| seeds | single (`42`) | 3–5 seeds | Run the audit multiple times and **intersect** the absolute-zero sets. Only features that are zero across all runs are confidently useless. |
 
 ### Script changes (`train_custom_lgbm_fs.py`)
 
-1. **Add a total wall-clock timer.** Currently only `train_seconds` and
-   `proc_seconds` are tracked; vectorization, test scoring, and JSON
-   write are untimed.
+1. ~~**Add a total wall-clock timer.**~~ Done: the script now records
+   `total_script_seconds` in the report and prints it at the end.
 2. **Skip vectorization when `.dat` files already exist** (or add a
    `--force-vectorize` flag). Right now `vectorize_split` always
    overwrites.
@@ -143,7 +142,7 @@ candidate.
 
 ### Concept 7 — A single seed gives a single realization
 
-The 1,034 absolute-zero features reported on this run are one draw.
+The 1,031 absolute-zero features reported on this run are one draw.
 With different `seed`, `bagging_seed`, or `feature_fraction_seed`
 values, that count typically moves by a few dozen in either direction.
 Features that are absolute-zero **across multiple seeded runs** are
@@ -158,16 +157,16 @@ For the specific report:
 
 ```
 Total features                : 2568
-Absolute zeros (Gain & Split) : 1034
+Absolute zeros (Gain & Split) : 1031
 Target drop (N_drop)          : 257
 Signal features dropped       : 0
 Information cost              : 0.0000%
 ```
 
-- The 257 features actually dropped are drawn from a pool of 1,034
+- The 257 features actually dropped are drawn from a pool of 1,031
   unused-by-this-model features, so the prune is comfortably inside a
   4× safety margin even before any of the caveats above.
-- The 1,034 figure overstates "true noise" by some unknown amount
+- The 1,031 figure overstates "true noise" by some unknown amount
   because of Concepts 2, 3, 4, and 7. The *real* count of genuinely
   dispensable features is probably smaller — but still very likely
   larger than 257.

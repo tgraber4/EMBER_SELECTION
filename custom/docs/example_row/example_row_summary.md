@@ -1,6 +1,6 @@
-# PE_both_sampled.jsonl — Row Layout Summary
+# Sampled JSONL — Row Layout Summary
 
-Each line in `PE_both_sampled.jsonl` is **one PE (Portable Executable) file sample** as a JSON object. The object is a single flat dict at the top level, mixing metadata with nested feature groups. This is EMBER-2024's feature schema for Windows PE binaries.
+Each line in the sampled files (`ember_data/PE_train_sampled.jsonl`, `PE_test_sampled.jsonl`) is **one PE (Portable Executable) file sample** as a JSON object. The object is a single flat dict at the top level, mixing metadata with nested feature groups. This is EMBER-2024's feature schema for Windows PE binaries.
 
 An example row has been written (pretty-printed) to `example_full_row.json`.
 
@@ -52,7 +52,7 @@ Rich header values — undocumented Microsoft toolchain fingerprint, useful for 
 Code-signing metadata: `num_certs`, `self_signed`, chain depth, signing time. All zero → unsigned.
 
 ### 11. `pefilewarnings`
-Parser warnings from `lief` (malformed headers, suspicious fields).
+Parser warnings from `pefile` (malformed headers, suspicious fields).
 
 ### 12. `caps` — CAPA capabilities
 High-level behaviors detected by [Mandiant CAPA](https://github.com/mandiant/capa). Each entry has:

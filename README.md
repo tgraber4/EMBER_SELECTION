@@ -113,7 +113,7 @@ These sit directly in `custom/` so that `thrember_lite` is importable when they 
 
 #### `custom/feature_selection/embedded/code/`
 - **`train_custom_lgbm.py`**: Trains a binary LightGBM classifier from a folder holding exactly one JSONL with `train` in its name and one with `test`. It vectorizes only those two files, writing the `.dat` files into the same folder, so it doesn't need the challenge set; the SHAP script reuses its helper functions.
-- **`train_custom_lgbm_fs.py`**: Trains the same baseline model, then ranks features by LightGBM gain and split count. It drops exactly 10%: features with zero gain first, then the lowest-gain ones. It saves a JSON report that includes the "information cost" (the share of total gain that was dropped).
+- **`train_custom_lgbm_fs.py`**: Trains the same baseline model, then ranks features by LightGBM gain and split count. It drops exactly 10% (257): features with zero gain and zero splits first, then the lowest-gain ones. It saves a JSON report that includes the "information cost" (the share of total gain that was dropped).
 - **`convert_embedded_to_mi_format.py`**: Converts the embedded report (`embedded_dropped_features.json`) into the ranked-list format the MI script produces, saved as `updated_dropped_features.json`. This step is required, because `build-spec` can't read the raw report.
 
 #### `custom/feature_selection/shap/code/`
@@ -131,7 +131,7 @@ A small companion library that trains and predicts on a subset of columns withou
 - **`tests/`**: Unit tests for `FeatureSpec` and the chunked loader, plus a training smoke test on synthetic data. The smoke test also checks save/load round-trips and that runs are reproducible.
 
 #### `custom/docs/`
-- **`overview/process_overview.md`**: Walks through the pipeline from HuggingFace download → sampling → vectorization → training → evaluation. At each step it compares upstream `thrember` with the feature-dropping path; some file names in it are older than the current layout (for example, scripts at the repo root and a single `PE_both_sampled.jsonl`).
+- **`overview/process_overview.md`**: Walks through the pipeline from HuggingFace download → sampling → vectorization → training → evaluation. At each step it compares upstream `thrember` with the feature-dropping path.
 - **`feature_index_map.json`**: Maps every vector index (0–2567) to its block, field name, and hashed flag, plus the index range of each block. The selection scripts use it to attach readable names to column numbers.
 - **`feature_vector_membership.md`**: Lists which fields in a raw JSONL row feed the feature vector and which are metadata, labels, or tags. Useful when reading a raw row.
 - **`example_row/`**: One sample row saved in several views (full row, feature fields only, non-feature fields only, top-level schema, extracted vector). `example_row_summary.md` explains each section of the row.

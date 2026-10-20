@@ -29,7 +29,7 @@ A drop list refers to **positions in the output vector**, not keys in the raw JS
 - **Computed counters:** `pewarn:...` values are counts built while scanning `pefilewarnings`.
 - **Fixed-size blocks:** every feature block has a hardcoded width. Removing a key from the raw JSON doesn't shrink the vector.
 
-So the approach is: **vectorize once at full width, then pick columns at load time.** Every experiment reuses the same `X_*.dat` / `y_*.dat` files; only `spec.json` and the model change. See `Overview/process_overview.md` §3 for the longer explanation.
+So the approach is: **vectorize once at full width, then pick columns at load time.** Every experiment reuses the same `X_*.dat` / `y_*.dat` files; only `spec.json` and the model change. See `custom/docs/overview/process_overview.md` §3 for the longer explanation.
 
 ### Design goals
 - Don't modify anything in `src/thrember/`. Reuse `PEFeatureExtractor` and the `.dat` files as they are.
@@ -230,14 +230,14 @@ print(predict_file(bundle, "suspicious.exe"))
 
 ## 10. Tests and further reading
 
-Run the tests (each file has its own runner, so `pytest` isn't required):
+Run the tests from the repo root (`thrember_lite` lives in `custom/`, so put that on the path; each test file has its own runner, so `pytest` is not required):
 
 ```bash
-PYTHONPATH=src python -m thrember_lite.tests.test_spec
-PYTHONPATH=src python -m thrember_lite.tests.test_data
-PYTHONPATH=src python -m thrember_lite.tests.test_train_smoke
+PYTHONPATH=custom python -m thrember_lite.tests.test_spec
+PYTHONPATH=custom python -m thrember_lite.tests.test_data
+PYTHONPATH=custom python -m thrember_lite.tests.test_train_smoke
 ```
 
 - **`finish_thrember_lite_plan.md`:** remaining tests to write (real `ModelBundle.load`, `predict_file` on a real file, parity with `thrember`, the CLI) and related fixes.
-- **`Overview/process_overview.md`:** the full pipeline from download to evaluation, comparing `thrember` and `thrember_lite` at each stage.
+- **`custom/docs/overview/process_overview.md`:** the full pipeline from download to evaluation, comparing `thrember` and `thrember_lite` at each stage.
 - **Original design plan:** deleted from the working tree; recover it with `git show 0d5ec8d:Documentation/thrember_lite_plan.md`. It has the full reasoning behind all 12 design decisions and memory-sizing estimates.

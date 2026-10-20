@@ -13,15 +13,15 @@ End-to-end walkthrough of how a sample moves from a HuggingFace shard to a score
 
 That is it. No filtering, no dedup, no sub-sampling, no awareness that the upstream dataset stores each PE sample twice.
 
-### Why the custom path (`bernoulli_sample.py`) exists
+### Why the custom path (`custom/common/bernoulli_sample.py`) exists
 The upstream PE shards contain **two rows per md5**: one with an empty `caps` field and one with Capa analysis populated. `thrember.download_dataset` happily writes both to disk, but downstream code that streams the file naively will see duplicate samples, and a random row pick can land on the caps-empty version even when the caps-rich version exists.
 
 `bernoulli_sample.py` solves three problems at once:
 1. **PE-only convenience** — downloads `Win32`, `Win64`, `Dot_Net` for both `train` and `test` in one call (thrember would need six calls or `file_type="PE"`).
-2. **Bernoulli sub-sampling** — keeps each md5 with probability `p = 0.0347` using a deterministic BLAKE2 hash of `seed:md5`, so both duplicate rows of a sample agree on whether to keep it. Result: ~100k rows instead of ~3M.
+2. **Bernoulli sub-sampling, per split** — keeps each md5 with probability `p = 0.012856` for train (about 30k unique samples) and `p = 0.0427` for test, using a deterministic BLAKE2 hash of `seed:split:md5` (seed 42), so both duplicate rows of a sample agree on whether to keep it. The two splits are sampled and written separately, so the official temporal train/test boundary is preserved.
 3. **Dedup with caps preference** — when both copies of an md5 are sampled, the caps-populated row replaces the caps-empty row.
 
-Output: `ember_data/PE_both_sampled.jsonl` (~2 GB).
+Output: `ember_data/PE_train_sampled.jsonl` (~600 MB) and `ember_data/PE_test_sampled.jsonl` (~415 MB).
 
 The thrember downloader is still used **inside** `bernoulli_sample.py` (it calls `hf_hub_download` directly), so the custom script is a layer on top, not a replacement.
 
@@ -31,14 +31,14 @@ The thrember downloader is still used **inside** `bernoulli_sample.py` (it calls
 
 `bernoulli_sample.py` is the one-stop command. It:
 1. Calls `download_pe_dataset` to fetch any missing `<file_type>_<split>.zip` and extract weekly shards into `ember_data/`.
-2. Calls `iter_pe_files` to enumerate every `*_<file_type>_<split>.jsonl` shard.
-3. Streams each shard line-by-line (so memory stays bounded) and applies `_sample_decision(md5, p, seed)` to decide keep/drop deterministically.
+2. Calls `iter_pe_files_by_split` to enumerate every `*_<file_type>_<split>.jsonl` shard, grouped by split.
+3. Streams each shard line-by-line (so memory stays bounded) and applies `_sample_decision(md5, split, p, seed)` to decide keep/drop deterministically.
 4. Maintains a `dict[md5 → (has_caps, raw_line)]`. If a duplicate md5 arrives with `has_caps=True` and the kept copy has `has_caps=False`, the row is replaced.
-5. Writes everything in `kept` to `ember_data/PE_both_sampled.jsonl`.
+5. Writes everything in `kept` to `ember_data/PE_train_sampled.jsonl` or `PE_test_sampled.jsonl`, one file per split.
 
 Two helper scripts validate the result:
-- `count_rows.py` — line-counts every JSONL under `ember_data/` (and the sampled file separately).
-- `check_labels.py` — confirms every sampled row has a `label` and tallies benign/malware/unlabeled.
+- `custom/common/helper_scripts/count_rows.py` — line-counts every JSONL under `ember_data/` (or a single file).
+- `custom/common/helper_scripts/check_labels.py` — confirms every row in `PE_train_sampled.jsonl` has a `label` and tallies benign/malware/unlabeled.
 
 Important: the sampled file keeps **every original field verbatim** — all 2,568 feature inputs and the nested label dict. No vectorization happens here.
 
@@ -66,7 +66,7 @@ This path is fixed-width: it always emits 2,568 columns, hard-codes the categori
 
 The current strategy is **extract all 2,568 features into the canonical `.dat`, then slice columns at training time**, never "skip during extraction." Concretely:
 
-1. `mi_feature_selection.py` (or `shap_cluster_feature_selection.py`) ranks features and writes `dropped_features.{csv,json}` containing the indices to drop (default ~10%).
+1. A selection script (`mi_feature_selection.py`, `train_custom_lgbm_fs.py` + `convert_embedded_to_mi_format.py`, or `shap_cluster_feature_selection.py` + `convert_shap_to_mi_format.py`) ranks features and writes a drop list as JSON with the indices to drop (default 10%, 257 features).
 2. `thrember_lite.FeatureSpec.from_drop_columns` reads the drop list and produces a `spec.json` holding `kept_indices`, `original_dim`, and the remapped `new_categorical` positions.
 3. `thrember_lite.read_vectorized_features` opens the canonical `X_<subset>.dat`, slices columns to `kept_indices` during a chunked load (so the full-width matrix is never materialized in RAM), and hands `(X, y)` to `train_binary`.
 
@@ -74,7 +74,7 @@ The current strategy is **extract all 2,568 features into the canonical `.dat`, 
 - Any drop list, including dropping categorical indices, is mechanically valid — `FeatureSpec.new_categorical` remaps surviving categoricals to their post-slice positions automatically.
 - The original index map (`custom/docs/feature_index_map.json`) still names every kept column.
 - Re-running with a different drop list reuses the same `.dat` files — only `spec.json` and the model change.
-- `bernoulli_sample.py`, `mi_feature_selection.py`, and the index map all work on **raw** rows; drop selection happens after them in the pipeline.
+- `bernoulli_sample.py` and the index map work on **raw** rows, and the selection scripts vectorize the sampled JSONL themselves; the actual column dropping happens afterwards, in `thrember_lite`.
 
 **What breaks (and why) for the upstream `thrember` training path:**
 - `thrember.train_model` / `train_ovr_model` set `categorical_feature=[2, 3, 4, 5, 6, 701, 702]` literally. After dropping any column ≤ 702, those indices point at the wrong feature.
@@ -150,9 +150,9 @@ You don't gain new training logic from feature removal — you lose work, becaus
 A bare `.model` file is enough for the full-width thrember flow because the column count is implicit (2,568) and the categorical indices are baked into training. With feature removal, the model alone is **not enough**:
 - `kept_indices: list[int]` — sorted indices into the original 2,568-dim vector.
 - `original_dim: int` — defensively, in case the upstream vector grows.
-- `categorical_remapped: list[int]` — already-translated indices into the reduced vector.
+- `new_categorical: list[int]` — already-translated indices into the reduced vector (the spec also keeps `original_categorical` and `block_ranges`).
 
-The `thrember_lite_plan.md` design captures this as a `ModelBundle` (`{model.txt, spec.json}`) saved together. Without that sidecar you cannot reproduce predictions because you don't know which 2,311 of the 2,568 features the booster actually trained on.
+`thrember_lite` captures this as a `ModelBundle` (`{model.txt, spec.json}`) saved together; see `custom/docs/thrember_lite/thrember_lite_overview.md`. Without that sidecar you cannot reproduce predictions because you don't know which 2,311 of the 2,568 features the booster actually trained on.
 
 ---
 
@@ -175,7 +175,7 @@ The headline metrics for EMBER-style work are usually ROC AUC and TPR @ very-low
 ### Testing with features removed
 The test path mirrors training and inherits the same constraints:
 - The test vectors must be in the **same reduced shape** as training. Either pre-write a reduced test memmap with the same `kept_indices`, or load the full memmap and slice columns at evaluation time.
-- `read_vectorized_features` cannot be used for the reduced data unless you wrote the memmap yourself with the new `dim_kept` width — the function reshapes by `extractor.dim`.
+- Upstream `read_vectorized_features` cannot be used for the reduced data unless you wrote the memmap yourself with the new `dim_kept` width — it reshapes by `extractor.dim`. `thrember_lite.read_vectorized_features(data_dir, subset, spec)` avoids this by slicing while it loads, and `custom/eval_thrember_lite.py` uses it.
 - For raw-bytes inference (`predict_sample` analogue), the path is: `extractor.feature_vector(file_bytes)` → 2,568-dim vector → `vec[kept_indices]` → `booster.predict([vec])`. Skipping the slice silently produces a shape mismatch (LightGBM will error).
 - All of the metric calls (`roc_auc_score`, `precision_recall_curve`, `roc_curve`) are column-count-agnostic — they only see `y_pred` and `y_test`.
 
@@ -185,6 +185,6 @@ So evaluation under feature removal needs exactly one new piece of plumbing (app
 
 ## Resolved design decisions
 
-1. **Reduced-vector training is implemented as `thrember_lite`.** The package at `custom/thrember_lite/` consumes a `dropped_features.json`, slices columns at load time off the canonical `.dat` files, trains a binary LightGBM booster, and saves a `ModelBundle` (`model.txt` + `spec.json`) for reproducible inference. See `Documentation/thrember_lite_plan.md` for the design and `Documentation/thrember_lite_usage.md` for the end-to-end commands.
+1. **Reduced-vector training is implemented as `thrember_lite`.** The package at `custom/thrember_lite/` consumes a `dropped_features.json`, slices columns at load time off the canonical `.dat` files, trains a binary LightGBM booster, and saves a `ModelBundle` (`model.txt` + `spec.json`) for reproducible inference. See `custom/docs/thrember_lite/thrember_lite_overview.md` for the design and the end-to-end commands.
 2. **Feature removal stays post-extraction for now.** `PEFeatureExtractor` always emits the full 2,568-dim vector and downstream scripts slice it via `kept_indices`. No block-level skipping inside `features.py`.
-3. **Raw-bytes inference will use a forked `predict_sample`** that takes an explicit slice argument (e.g. `kept_indices` or a `FeatureSpec`) rather than a wrapper that reads a sidecar at call time. The fork extracts the full 2,568-dim vector via `PEFeatureExtractor`, applies the slice in-place, and calls `booster.predict` on the reduced array.
+3. **Raw-bytes inference is `thrember_lite.predict_file` / `predict_batch`**, which take a `ModelBundle` (model plus `FeatureSpec`) rather than reading a sidecar at call time. They extract the full 2,568-dim vector via `PEFeatureExtractor`, apply the slice, and call `booster.predict` on the reduced array.

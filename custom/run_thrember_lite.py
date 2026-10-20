@@ -7,7 +7,7 @@ Run the full thrember_lite pipeline end-to-end:
   4. (optional) Predict one file  (thrember_lite.predict_file)
 
 Setup is assumed done: `thrember` and `thrember_lite` must be importable
-(either `pip install -e .` from the repo root, or run with `PYTHONPATH=src`).
+(`thrember` via `pip install -e .` from the repo root; `thrember_lite` is found because this script sits in `custom/`).
 
 Edit the variables at the top of `main()` to point at your data, drop list,
 and output directory, then run:

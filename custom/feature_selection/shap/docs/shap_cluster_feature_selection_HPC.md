@@ -52,19 +52,19 @@ If your cluster blocks internet on compute nodes, run the `pip` commands on a lo
 
 **CPU-only.** LightGBM is configured with `"device_type": "cpu"` and TreeSHAP runs on CPU — no GPU needed.
 
-### Recommended resources (100k train + 25k test)
+### Recommended resources (about 30k train + 23k test)
 
 | Resource | Recommended | Notes |
 |---|---|---|
 | Hours | **2** | ~10–30 min `lgb.train`, ~15–45 min TreeSHAP at `--shap-sample 20000`, plus vectorization on first run. 2 h leaves comfortable headroom. |
 | Nodes | **1** | Single-node, multi-threaded job. The script doesn't do any cross-node work. |
 | CPUs | **16** | LightGBM + TreeSHAP scale well with threads. 8 also works (slower); >16 sees diminishing returns at this dataset size. |
-| RAM (GB) | **32** | Peak is dominated by the two feature matrices (~1.2 GB combined for 100k+25k × 2,381 float32) and a 20k×2,381 SHAP matrix (~190 MB). 32 GB is generous; 16 GB would also work. |
+| RAM (GB) | **32** | Peak is dominated by the two feature matrices (~0.5 GB combined for 30k+23k × 2,568 float32) and a 20k×2,568 SHAP matrix (~205 MB). 32 GB is generous; 16 GB would also work. |
 
 Memory drivers, in order of size:
 1. Full train + test feature matrices in RAM (`n_rows × dim × 4` bytes each).
 2. The `(n_shap_sample, dim)` SHAP matrix as float32.
-3. The `dim × dim` correlation/distance matrix as float32 (~22 MB for dim ≈ 2.4k — negligible).
+3. The `dim × dim` correlation/distance matrix as float32 (~26 MB for dim = 2,568 — negligible).
 
 If you OOM, lower `--shap-sample` first (it caps the SHAP cost) before touching the data sizes.
 
@@ -81,16 +81,16 @@ python custom/feature_selection/shap/code/shap_cluster_feature_selection.py
 
 | Flag | Default | Notes |
 |---|---|---|
-| `data_dir` | — | Folder holding `*train*.jsonl` and `*test*.jsonl`. `.dat` files are written here. |
-| `model_path` | — | Where to save the trained baseline LightGBM booster. |
-| `--config-file` | — | Required. Must have `"objective": "binary"`. |
+| `--data-dir` | `ember_data` | Folder holding exactly one `*train*.jsonl` and one `*test*.jsonl`. `.dat` files are written here. |
+| `--output-dir` | `custom/feature_selection/shap/output` | Where the baseline model and the drop-list CSV are written. |
+| `--model-name` | `model.txt` | Filename for the saved baseline LightGBM booster. |
+| `--config-file` | `examples/lgbm_config.json` | Must have `"objective": "binary"`. |
 | `--early-stopping` | `50` | Rounds on the val fold. `0` disables. |
 | `--drop-fraction` | `0.10` | Fraction of `dim` to drop. Must be in (0, 1). |
 | `--shap-sample` | `20000` | Stratified subsample for TreeSHAP. Capped at `len(X_tr)`. |
 | `--cluster-threshold` | `0.10` | `fcluster` distance cutoff. `0.10 ≈ R ≥ 0.995`. Must be in (0, √2]. |
 | `--shap-var-eps` | `1e-12` | Variance floor; columns below this are tagged `inactive`. |
 | `--feature-map` | `custom/docs/feature_index_map.json` | Optional. Falls back to stub `block`/`field` names if missing or dim-mismatched. |
-| `--dropped-out` | `dropped_features.csv` | Output CSV path. |
 
 ---
 
@@ -99,11 +99,10 @@ python custom/feature_selection/shap/code/shap_cluster_feature_selection.py
 In your data folder:
 - `X_train.dat`, `y_train.dat`, `X_test.dat`, `y_test.dat` — vectorized features (auto-created on first run; reused if re-running).
 
-Where you pointed `model_path`:
+In `--output-dir`:
 - `custom/feature_selection/shap/output/baseline_model.txt` — trained baseline LightGBM booster (saved at `best_iteration` if early stopping fired).
 
-Where you pointed `--dropped-out`:
-- `custom/feature_selection/shap/output/shap_dropped_features.csv` — ranked drop list with columns:
+- `shap_dropped_features.csv` — ranked drop list with columns:
   `rank, index, block, field, hashed, mean_abs_shap, cluster_id, drop_reason`
   where `drop_reason ∈ {inactive, redundant, low_importance}`.
 
@@ -111,7 +110,7 @@ In stdout (redirect with `... | tee run.log` if you want a copy on disk):
 - Baseline test metrics (acc / AUC / log_loss).
 - Inactive-feature count, cluster count, and the per-tier drop summary.
 
-**Next step (separate manual run):** feed `dropped_features.csv` (or its `.json` sibling) into `thrember_lite` via `custom/run_thrember_lite.py` to slice the columns at training time and retrain.
+**Next step (separate manual run):** convert `shap_dropped_features.csv` to JSON with `custom/feature_selection/shap/code/convert_shap_to_mi_format.py`, then feed the JSON into `thrember_lite` via `custom/run_thrember_lite.py` to slice the columns at training time and retrain.
 
 ---
 

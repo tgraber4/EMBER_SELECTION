@@ -13,16 +13,16 @@ Run Categorical-Continuous Mutual Information on a subsection of the EMBER2024 d
 
 ## Script
 
-**File**: `mi_feature_selection.py` (repo root)
+**File**: `custom/feature_selection/mutual_information/code/mi_feature_selection.py` (run from the repo root)
 
 ### Parameters (edit inside `main()`)
 
 | Variable | Default | Description |
 |---|---|---|
-| `JSONL_FILE` | `"ember_data/train_week1.jsonl"` | Path to one `.jsonl` file |
+| `JSONL_FILE` | `"ember_data/PE_train_sampled.jsonl"` | Path to one `.jsonl` file |
 | `N_DROP` | `257` | Features to mark for dropping (~10%) |
 | `MAX_SAMPLES` | `100_000` | Max labeled rows to stream |
-| `OUTPUT` | `"dropped_features.csv"` | Output CSV path |
+| `OUT_DIR` / `OUTPUT` | `custom/feature_selection/mutual_information/output/` / `OUT_DIR/dropped_features.csv` | Output folder and CSV path (the JSON goes next to the CSV) |
 | `FEATURE_MAP` | `"custom/docs/feature_index_map.json"` | Label map (already exists) |
 | `SEED` | `42` | Random seed |
 
@@ -39,9 +39,10 @@ Run Categorical-Continuous Mutual Information on a subsection of the EMBER2024 d
 
 | Index | Block | Field |
 |---|---|---|
-| 2–5 | general | start_bytes[0–3] (first 4 file bytes) |
-| 6 | general | is_pe flag |
-| 701–702 | header | machine_type, subsystem_type |
+| 2 | general | is_pe flag |
+| 3–6 | general | start_bytes[0–3] (first 4 file bytes) |
+| 701 | header | coff.machine |
+| 702 | header | optional.subsystem |
 
 All other features are treated as continuous.
 
@@ -49,14 +50,14 @@ All other features are treated as continuous.
 
 ## Key Considerations
 
-**Runtime**: ~6–15 minutes at 100k samples × 2568 features. Reduce `MAX_SAMPLES` if slow — MI quality degrades gracefully with fewer samples (10k–20k is still informative).
+**Runtime**: about 20 minutes at 100k samples × 2568 features (the committed run took 1,205 s). Reduce `MAX_SAMPLES` if slow — MI quality degrades gracefully with fewer samples (10k–20k is still informative).
 
 **Timing**: Total elapsed time is tracked with `time.perf_counter()` from the start to the end of `main()` and printed to the terminal at the very end:
 ```
 Total runtime: 487.3s (8.1 min)
 ```
 
-**Hashed features**: About 1,600 of 2,568 features are hash bucket encodings (ImportsInfo, SectionInfo, ExportsInfo, RichHeader). Their field names in the output will be generic (e.g. `imports_lib_hash[143]`). This is expected — hash features don't have meaningful individual names.
+**Hashed features**: About 1,650 of 2,568 features are hash bucket encodings (ImportsInfo, SectionInfo, ExportsInfo, RichHeader). Their field names in the output will be generic (e.g. `imports_lib_hash[143]`). This is expected — hash features don't have meaningful individual names.
 
 **What low MI means here**: A feature near-zero MI against the binary malware/benign label is individually uninformative. However, due to the Cons noted in `mutual_info.md`, combined features (e.g. keylogging + network access) may be valuable even if each scores low alone. Treat the drop list as a starting point, not a final answer.
 
